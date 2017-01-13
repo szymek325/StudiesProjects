@@ -1,0 +1,68 @@
+#view{
+    margin-right: 20%;
+    margin-left: 20%;
+    background-color: #e6e6e6;
+     border: solid 1px grey;
+}
+
+#content{
+        padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: #f2f2f2;
+}
+
+#slajder{
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+#suwak{
+    width:100%;
+    padding-right=10%;
+    padding-left=10%;
+}
+#minLewa{
+    
+}
+
+#maxPrawa{
+    padding-left=10%;
+    padding-right=10%;
+}
+
+.miejsce{
+        width:100px;
+}
+
+
+input[type=range]{
+    -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: goldenrod;
+    margin-top: -4px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}

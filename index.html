@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<title>Serwis pomiarowy</title>
+
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+	<script src="js/angular.js"></script>
+	<script src="js/Chart.min.js"></script>
+	<script src="js/angular-chart.min.js"></script>
+	<script src="js/angular-animate.js"></script>
+	<script src="js/angular-sanitize.js"></script>
+	<script src="js/ui-bootstrap-tpls-2.4.0.js"></script>
+
+	<script src="js/app.js"></script>
+
+</head>
+<body ng-app="myApp" ng-controller="myCtrl" style="text-align:center" id="view">
+	<div id="content">
+
+		<div class="page-header">
+			<h1>Serwis pomiarowy <small>Projekt z Aplikacji Mobilnych</small></h1>
+		</div>
+
+		<table class="table" >
+			<tr class="success"> 
+				<td>Nazwa</td>
+				<td>Wartość</td>
+			</tr>
+			<tr> 
+				<td>Odebrana Piła</td>
+				<td>{{ampPila}}</td>
+			</tr>
+			<tr> 
+				<td>Wartość suwaka</td>
+				<td>{{data1.amplituda}}</td>
+			</tr>
+		</table>
+
+		<button class="btn btn-default" ng-click="chartOnOff()">
+			Control Panel
+		</button>
+
+		<div>
+			<table class="input-group">
+				<tr> 
+					<td> </td>
+					<td id="minLewa" style="text-align:center"><span >50</span></td>
+					<td id="suwak"><input  type="range" name="amplituda" min="0" max="500" step="10" ng-model="data1.amplituda"></td>
+					<td id="maxPrawa" class="miejsce"><span>500</span></td>
+					<td> </td>
+				</tr>
+			</table>
+		</div>
+
+
+		<button class="btn btn-default" ng-click="chartOnOff()">
+			{{chartStartStop}} updating charts
+		</button>
+		<div class="{{showHideChart}}">
+			<div class="card">
+				<div class="item item-divider">
+					Temperature Chart
+				</div>
+				<div class="item item-text-wrap">
+					<canvas id="line1" class="chart chart-line" chart-data="data1" chart-labels="labels1" chart-legend="true" chart-series="series1" chart-options="options1"></canvas>
+				</div>
+			</div>
+			<button class='btn btn-primary btn-block' ng-click="resetChart()">
+				Reset chart
+			</button>
+		</div>
+
+
+
+
+
+
+	</div>
+</body>
+</html>
