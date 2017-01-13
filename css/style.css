@@ -36,6 +36,14 @@
         width:100px;
 }
 
+#panel{
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#but50{
+    width:50%;
+}
 
 input[type=range]{
     -webkit-appearance: none;

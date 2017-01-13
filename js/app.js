@@ -2,27 +2,51 @@ var app=angular.module('myApp',['ngAnimate', 'ngSanitize', 'ui.bootstrap','chart
 
 
 app.controller('myCtrl', function($scope, $interval) {
-
+	//data
 	$scope.data1={'amplituda':50};
-	$scope.chartStartStop='Start';
-	chartPermission=0;
 	$scope.ampPila=0;
-	$scope.showHideChart="hidden"
-
-	var oneTimeOnly=0;
+	// chart view
+	$scope.chartVisibility="hidden";
+	var chartState=false;
+	$scope.chartText="Show";
+	//panel view
+	$scope.controlPanelVisibility="hidden";
+	var controlPanelState=false;
+	$scope.controlPanelText="Show";
+	//chart data
 	var timeX=new Date().toTimeString().split(" ")[0];
-	var interval2;
-
 	$scope.labels1 = [timeX];
 	$scope.series1 = ['Actual Temperature'];
 	$scope.data1=[$scope.ampPila];
 	$scope.colors = ['#ff6384'];
+	var oneTimeOnly=0;
+	//intervals
+	var interval1;
 
-	function updateCharts(){
-		timeX=new Date().toTimeString().split(" ")[0];
-		$scope.ampPila=$scope.ampPila+1;
-		$scope.labels1.push(timeX);
-		$scope.data1.push($scope.ampPila);
+	$scope.panelToggle=function(){
+		if(controlPanelState){
+			$scope.controlPanelVisibility="hidden";
+			controlPanelState=!controlPanelState;
+			$scope.controlPanelText="Show";
+		}
+		else{
+			$scope.controlPanelVisibility="show";
+			controlPanelState=!controlPanelState;
+			$scope.controlPanelText="Hide";
+		}
+	}
+
+	$scope.chartToggle=function(){
+		if(chartState){
+			$scope.chartVisibility="hidden";
+			chartState=!chartState;
+			$scope.chartText="Show";
+		}
+		else{
+			$scope.chartVisibility="show";
+			chartState=!chartState;
+			$scope.chartText="Hide";
+		}
 	}
 
 	$scope.resetChart= function(){
@@ -31,26 +55,36 @@ app.controller('myCtrl', function($scope, $interval) {
 		$scope.labels1=[timeX];
 	}
 
-	$scope.chartOnOff= function(){
-		if(chartPermission){
-			chartPermission=0;
-			$scope.chartStartStop='Start';
-			$scope.chartButtonStyle='button button-block button-positive';
-			$interval.cancel(interval2);
-			$scope.showHideChart="hidden"
-		}
-		else{
-			if(oneTimeOnly==0){
-				$scope.resetChart();
-				oneTimeOnly=1;
-			}
-			chartPermission=1;
-			$scope.chartStartStop='Stop';
-			$scope.chartButtonStyle='button button-block button-assertive';
-			interval2=$interval(updateCharts, 1000);
-			$scope.showHideChart="show"
-		}
+	function updateChart(){
+		timeX=new Date().toTimeString().split(" ")[0];
+		$scope.ampPila=$scope.ampPila+1;
+		$scope.labels1.push(timeX);
+		$scope.data1.push($scope.ampPila);
 	}
+
+
+
+	// $scope.chartOnOff= function(){
+	// 	if(chartPermission){
+	// 		chartPermission=0;
+	// 		$scope.chartStartStop='Start';
+	// 		$scope.chartButtonStyle='button button-block button-positive';
+	// 		$interval.cancel(interval2);
+	// 		$scope.showHideChart="hidden"
+	// 	}
+	// 	else{
+	// 		if(oneTimeOnly==0){
+	// 			$scope.resetChart();
+	// 			oneTimeOnly=1;
+	// 		}
+	// 		chartPermission=1;
+	// 		$scope.chartStartStop='Stop';
+	// 		$scope.chartButtonStyle='button button-block button-assertive';
+	// 		interval2=$interval(updateCharts, 1000);
+	// 		$scope.showHideChart="show"
+	// 	}
+	// }
+
 
 	$scope.options1 = {
 		animation:false,
@@ -63,8 +97,8 @@ app.controller('myCtrl', function($scope, $interval) {
 				display: true,
 				position: 'left',
 				ticks: {
-					min:0,
-					max:500,
+					//min:0,
+					//max:500,
 				}	
 			}],
 			xAxes: [{
