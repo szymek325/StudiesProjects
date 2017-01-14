@@ -46,15 +46,15 @@
 
 
 		<!-- menu pobierania -->
-		<div id="wyswietlaneDane">
-			<button id="but30" class="btn btn-primary" ng-click="">
+		<div id="menuPobierania">
+
+			<button ng-show="singleDownloadState" id="but30" class="btn btn-success ng-hide" ng-click="downloadSingleData()">
 				Get single Data
 			</button>
+
 			<button id="but30" class={{downloadButtonStyle}} ng-click="downloadToggle()">
 				Continuous download {{downloadButtonText}}
 			</button>
-
-
 		</div>
 
 		<!-- MENU -->
@@ -126,7 +126,7 @@
 		<div id="dataLogs">
 			<div class={{dataLogVisibility}}>
 
-				<table class="table" >
+				<table class="table" id="dataLog">
 					<tr class="success"> 
 						<td>Czas otrzymania danych</td>
 						<td>Wartość pomiaru</td>

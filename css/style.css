@@ -1,6 +1,8 @@
 #view{
     margin-right: 20%;
     margin-left: 20%;
+    margin-top:1%;
+    margin-bottom:1%;
     background-color: #e6e6e6;
     border: solid 1px grey;
 }
@@ -51,7 +53,11 @@
 #menu{
     padding-top: 2%;
     padding-bottom: 2%;
-    background-color: #e6e6e6;
+    /*background-color: #e6e6e6;*/
+}
+#menuPobierania{
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
 input[type=range]{

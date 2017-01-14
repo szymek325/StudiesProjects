@@ -1,7 +1,7 @@
 var app=angular.module('myApp',['ngAnimate', 'ngSanitize', 'ui.bootstrap','chart.js'])
 
 
-app.controller('myCtrl', function($scope, $interval) {
+app.controller('myCtrl', function($scope, $interval, receiveData) {
 	//data
 	$scope.data1={'amplituda':50};
 	$scope.ampPila=0;
@@ -24,6 +24,7 @@ app.controller('myCtrl', function($scope, $interval) {
 	$scope.downloadButtonText="OFF";
 	$scope.downloadButtonStyle="btn btn-primary";
 	var downloadButtonState=false;
+	$scope.singleDownloadState=1;
 	//chart data
 	var timeX=new Date().toTimeString().split(" ")[0];
 	$scope.labels1 = [timeX];
@@ -33,19 +34,59 @@ app.controller('myCtrl', function($scope, $interval) {
 	var oneTimeOnly=0;
 	//intervals
 	var interval1;
+	var interval2;
+	///
+	var table = document.getElementById("dataLog");
+	////
 
-	////////////////////////////		pobieranie 	/	////////////////////////////////////
+	////////////////////////////	FUNKCJA POBIERANIA DANYCH 	////////////////////////////////////
+	function downloadData(){
+		$scope.ampPila=receiveData.getData();
+		timeX=new Date().toTimeString().split(" ")[0];
+		updateDataLog();
+	}
+	////////////////////////////	PRZYCISKi	pobieranie 	/	////////////////////////////////////
 	$scope.downloadToggle=function(){
 		if(downloadButtonState){
 			$scope.downloadButtonText="OFF";
 			$scope.downloadButtonStyle="btn btn-primary";
 			downloadButtonState=!downloadButtonState;
+			$interval.cancel(interval1);
+			$interval.cancel(interval2);
+			$scope.singleDownloadState=1;
 		}
 		else{
 			$scope.downloadButtonText="ON";
 			$scope.downloadButtonStyle="btn btn-danger";
 			downloadButtonState=!downloadButtonState;
+			interval1=$interval(downloadData, 10);
+			interval2=$interval(updateChart,2000);
+			$scope.singleDownloadState=0;
 		}
+	}
+
+	$scope.downloadSingleData=function(){
+		$scope.ampPila=receiveData.getData();
+		updateChart();
+		updateDataLog();
+	}
+	////////////////////////////		INNE do wykresu	i data logu/////////////////////////////////////
+	$scope.resetChart= function(){
+		timeX=new Date().toTimeString().split(" ")[0];
+		$scope.data1=[$scope.ampPila];
+		$scope.labels1=[timeX];
+	}
+	function updateChart(){
+		//timeX=new Date().toTimeString().split(" ")[0];
+		$scope.labels1.push(timeX);
+		$scope.data1.push($scope.ampPila);
+	}
+	function updateDataLog(){
+		var row = table.insertRow(1);
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		cell1.innerHTML = timeX;
+		cell2.innerHTML = $scope.ampPila;
 	}
 	////////////////////////////		FUNKCJE PANEL 	/	////////////////////////////////////
 	$scope.controlPanelToggle=function(){
@@ -131,19 +172,6 @@ $scope.dataLogShow=function(){
 	$scope.dataLogStyle="btn btn-danger";
 }
 ////////////////////////////			/////////////////////////////////////
-$scope.resetChart= function(){
-	timeX=new Date().toTimeString().split(" ")[0];
-	$scope.data1=[$scope.ampPila];
-	$scope.labels1=[timeX];
-}
-
-function updateChart(){
-	timeX=new Date().toTimeString().split(" ")[0];
-	$scope.ampPila=$scope.ampPila+1;
-	$scope.labels1.push(timeX);
-	$scope.data1.push($scope.ampPila);
-}
-////////////////////////////			/////////////////////////////////////
 $scope.options1 = {
 	animation:false,
 	legend: {display: true},
@@ -174,12 +202,13 @@ $scope.options1 = {
 
 app.service('receiveData', function() {
 
-	var receivedData;
+	var receivedData=5;
 
 	return{
 		getData: function(){
 
-			receivedData=$http.get("//localhost/funkcja.php?z=A&p=50");
+			//receivedData=$http.get("//localhost/funkcja.php?z=A&p=50");
+			receivedData=receivedData+1;
 			return receivedData;
 		},
 		sendData: function(){
