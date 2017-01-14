@@ -28,7 +28,6 @@
 
 
 
-		
 		<table class="table" >
 			<tr class="success"> 
 				<td>Nazwa</td>
@@ -39,23 +38,39 @@
 				<td>{{ampPila}}</td>
 			</tr>
 			<tr> 
-				<td>Wartość suwaka</td>
+				<td>Ostatnia wysłana wartość zadana</td>
 				<td>{{data1.amplituda}}</td>
 			</tr>
 		</table>
 		<br>
 
-
-
-
-
-
-		<div id="panel">
-			<button class="btn btn-block btn-primary" ng-click="panelToggle()">
+		<!-- MENU -->
+		<div id="menu">
+			<button id="but30" class={{controlPanelStyle}} ng-click="controlPanelToggle()">
 				{{controlPanelText}} Control Panel
 			</button>
+			<button id="but30" class={{chartStyle}} ng-click="chartToggle()">
+				{{chartText}} Chart
+			</button>
+			<button id="but30" class={{dataLogStyle}} ng-click="dataLogToggle()">
+				{{dataLogText}} Data Log
+			</button>
+		</div>
+
+
+		<!-- STEROWANIE -->
+		<div id="panel">
 
 			<div class="{{controlPanelVisibility}}">
+
+
+				<table class="table" >
+
+					<tr> 
+						<td>Wartość suwaka</td>
+						<td>{{data1.amplituda}}</td>
+					</tr>
+				</table>
 
 				<table class="">
 					<tr> 
@@ -76,13 +91,8 @@
 
 
 
-
-
+		<!-- WYKRES -->
 		<div id="wykresy">
-			<button class="btn btn-block btn-primary" ng-click="chartToggle()">
-				{{chartText}} chart
-			</button>
-
 			<div class="{{chartVisibility}}">
 				<div class="card">
 					<div class="item item-divider">
@@ -99,8 +109,24 @@
 		</div>
 
 
+		<!-- DATA LOG-->
+		<div id="dataLogs">
+			<div class={{dataLogVisibility}}>
 
+				<table class="table" >
+					<tr class="success"> 
+					<td>Czas otrzymania danych</td>
+						<td>Wartość pomiaru</td>
+					</tr>
+					<tr> 
+						<td>Odebrana Piła</td>
+						<td>{{ampPila}}</td>
+					</tr>
+				</table>
+				<br>
+			</div>
 
+		</div>
 
 
 	</div>

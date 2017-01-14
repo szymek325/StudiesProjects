@@ -8,11 +8,18 @@ app.controller('myCtrl', function($scope, $interval) {
 	// chart view
 	$scope.chartVisibility="hidden";
 	var chartState=false;
-	$scope.chartText="Show";
+	$scope.chartText="";
+	$scope.chartStyle="btn btn-primary";
 	//panel view
 	$scope.controlPanelVisibility="hidden";
 	var controlPanelState=false;
-	$scope.controlPanelText="Show";
+	$scope.controlPanelText="";
+	$scope.controlPanelStyle="btn btn-primary";
+	//all data view
+	$scope.dataLogVisibility="hidden";
+	var dataLogState=false;
+	$scope.dataLogText="";
+	$scope.dataLogStyle="btn btn-primary";
 	//chart data
 	var timeX=new Date().toTimeString().split(" ")[0];
 	$scope.labels1 = [timeX];
@@ -23,32 +30,84 @@ app.controller('myCtrl', function($scope, $interval) {
 	//intervals
 	var interval1;
 
-	$scope.panelToggle=function(){
+
+	////////////////////////////		FUNKCJE PANEL 	/	////////////////////////////////////
+	$scope.controlPanelToggle=function(){
 		if(controlPanelState){
-			$scope.controlPanelVisibility="hidden";
-			controlPanelState=!controlPanelState;
-			$scope.controlPanelText="Show";
+			$scope.controlPanelHide();
 		}
 		else{
-			$scope.controlPanelVisibility="show";
-			controlPanelState=!controlPanelState;
-			$scope.controlPanelText="Hide";
+			$scope.controlPanelShow();
 		}
 	}
-
+	$scope.controlPanelHide=function(){
+		$scope.controlPanelVisibility="hidden";
+		if(controlPanelState){
+			controlPanelState=!controlPanelState;
+		}
+		$scope.controlPanelText="";
+		$scope.controlPanelStyle="btn btn-primary";
+	}
+	$scope.controlPanelShow=function(){
+		$scope.controlPanelVisibility="show";
+		if(!controlPanelState){
+			controlPanelState=!controlPanelState;
+		}
+		$scope.controlPanelText="Hide";
+		$scope.controlPanelStyle="btn btn-danger";
+	}
+	////////////////////////////		FUNKCJE WYKRESY		/////////////////////////////////////
 	$scope.chartToggle=function(){
 		if(chartState){
-			$scope.chartVisibility="hidden";
-			chartState=!chartState;
-			$scope.chartText="Show";
+			$scope.chartHide();
 		}
 		else{
-			$scope.chartVisibility="show";
-			chartState=!chartState;
-			$scope.chartText="Hide";
+			$scope.chartShow();
 		}
 	}
+	$scope.chartHide=function(){
+		$scope.chartVisibility="hidden";
+		if(chartState){
+			chartState=!chartState;
+		}
+		$scope.chartText="";
+		$scope.chartStyle="btn btn-primary";
+	}
+	$scope.chartShow=function(){
+		$scope.chartVisibility="show";
+		if(!chartState){
+			chartState=!chartState;
+		}
+		$scope.chartText="Hide";
+		$scope.chartStyle="btn btn-danger";
+	}
 
+////////////////////////////		FUNKCJE DATA LOG		/////////////////////////////////////
+	$scope.dataLogToggle=function(){
+		if(dataLogState){
+			$scope.dataLogHide();
+		}
+		else{
+			$scope.dataLogShow();
+		}
+	}
+	$scope.dataLogHide=function(){
+		$scope.dataLogVisibility="hidden";
+		if(dataLogState){
+			dataLogState=!dataLogState;
+		}
+		$scope.dataLogText="";
+		$scope.dataLogStyle="btn btn-primary";
+	}
+	$scope.dataLogShow=function(){
+		$scope.dataLogVisibility="show";
+		if(!dataLogState){
+			dataLogState=!dataLogState;
+		}
+		$scope.dataLogText="Hide";
+		$scope.dataLogStyle="btn btn-danger";
+	}
+////////////////////////////			/////////////////////////////////////
 	$scope.resetChart= function(){
 		timeX=new Date().toTimeString().split(" ")[0];
 		$scope.data1=[$scope.ampPila];
@@ -61,30 +120,6 @@ app.controller('myCtrl', function($scope, $interval) {
 		$scope.labels1.push(timeX);
 		$scope.data1.push($scope.ampPila);
 	}
-
-
-
-	// $scope.chartOnOff= function(){
-	// 	if(chartPermission){
-	// 		chartPermission=0;
-	// 		$scope.chartStartStop='Start';
-	// 		$scope.chartButtonStyle='button button-block button-positive';
-	// 		$interval.cancel(interval2);
-	// 		$scope.showHideChart="hidden"
-	// 	}
-	// 	else{
-	// 		if(oneTimeOnly==0){
-	// 			$scope.resetChart();
-	// 			oneTimeOnly=1;
-	// 		}
-	// 		chartPermission=1;
-	// 		$scope.chartStartStop='Stop';
-	// 		$scope.chartButtonStyle='button button-block button-assertive';
-	// 		interval2=$interval(updateCharts, 1000);
-	// 		$scope.showHideChart="show"
-	// 	}
-	// }
-
 
 	$scope.options1 = {
 		animation:false,
@@ -112,3 +147,29 @@ app.controller('myCtrl', function($scope, $interval) {
 	}
 
 })
+
+
+
+
+
+
+	// $scope.chartOnOff= function(){
+	// 	if(chartPermission){
+	// 		chartPermission=0;
+	// 		$scope.chartStartStop='Start';
+	// 		$scope.chartButtonStyle='button button-block button-positive';
+	// 		$interval.cancel(interval2);
+	// 		$scope.showHideChart="hidden"
+	// 	}
+	// 	else{
+	// 		if(oneTimeOnly==0){
+	// 			$scope.resetChart();
+	// 			oneTimeOnly=1;
+	// 		}
+	// 		chartPermission=1;
+	// 		$scope.chartStartStop='Stop';
+	// 		$scope.chartButtonStyle='button button-block button-assertive';
+	// 		interval2=$interval(updateCharts, 1000);
+	// 		$scope.showHideChart="show"
+	// 	}
+	// }
