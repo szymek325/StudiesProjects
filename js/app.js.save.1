@@ -215,12 +215,10 @@ app.service('receiveData', function($http) {
 	return{
 		getData: function(){
 
-			$http.get("AMprzesyl.php?z=A&p=50").then(function(response){
+			$http.get("AMprzesyl.php").then(function(response){
 				receivedDataJSON=response.data;
-			
-
+				return receivedDataJSON;
 			})
-			return receivedDataJSON;
 		},
 		sendData: function(data){
 			$http.get("AMprzesyl.php?z=B&p="+data);
