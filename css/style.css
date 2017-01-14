@@ -68,6 +68,8 @@
     margin-right:10%;
     margin-left:10%;
 }
+
+
 input[type=range]{
     -webkit-appearance: none;
 }
