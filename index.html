@@ -15,34 +15,47 @@
 	<script src="js/angular-animate.js"></script>
 	<script src="js/angular-sanitize.js"></script>
 	<script src="js/ui-bootstrap-tpls-2.4.0.js"></script>
-
 	<script src="js/app.js"></script>
+
 
 </head>
 <body ng-app="myApp" ng-controller="myCtrl" style="text-align:center" id="view">
 	<div id="content">
 
 		<div class="page-header">
-			<h1>Serwis pomiarowy <small>Projekt z Aplikacji Mobilnych</small></h1>
+			<h1>Serwis pomiarowy <br><small>Aplikacje mobilne i wbudowane dla Internetu przedmiotów</small></h1>
+		</div>
+
+		<!-- początkowa tabelka -->
+		<div id="wyswietlaneDane">
+			<table class="table" >
+				<tr class="success"> 
+					<td>Nazwa</td>
+					<td>Wartość</td>
+				</tr>
+				<tr> 
+					<td>Aktualna próbka sygnału</td>
+					<td>{{ampPila}}</td>
+				</tr>
+				<tr> 
+					<td>Ostatnia wysłana wartość zadana</td>
+					<td>{{data1.amplituda}}</td>
+				</tr>
+			</table>
 		</div>
 
 
+		<!-- menu pobierania -->
+		<div id="wyswietlaneDane">
+			<button id="but30" class="btn btn-primary" ng-click="">
+				Get single Data
+			</button>
+			<button id="but30" class={{downloadButtonStyle}} ng-click="downloadToggle()">
+				Continuous download {{downloadButtonText}}
+			</button>
 
-		<table class="table" >
-			<tr class="success"> 
-				<td>Nazwa</td>
-				<td>Wartość</td>
-			</tr>
-			<tr> 
-				<td>Odebrana Piła</td>
-				<td>{{ampPila}}</td>
-			</tr>
-			<tr> 
-				<td>Ostatnia wysłana wartość zadana</td>
-				<td>{{data1.amplituda}}</td>
-			</tr>
-		</table>
-		<br>
+
+		</div>
 
 		<!-- MENU -->
 		<div id="menu">
@@ -52,7 +65,7 @@
 			<button id="but30" class={{chartStyle}} ng-click="chartToggle()">
 				{{chartText}} Chart
 			</button>
-			<button id="but30" class={{dataLogStyle}} ng-click="dataLogToggle()">
+			<button id="but30" class={{dataLogStyle}} ng-model="myVar" ng-click="dataLogToggle()">
 				{{dataLogText}} Data Log
 			</button>
 		</div>
@@ -115,7 +128,7 @@
 
 				<table class="table" >
 					<tr class="success"> 
-					<td>Czas otrzymania danych</td>
+						<td>Czas otrzymania danych</td>
 						<td>Wartość pomiaru</td>
 					</tr>
 					<tr> 

@@ -20,6 +20,10 @@ app.controller('myCtrl', function($scope, $interval) {
 	var dataLogState=false;
 	$scope.dataLogText="";
 	$scope.dataLogStyle="btn btn-primary";
+	//download button
+	$scope.downloadButtonText="OFF";
+	$scope.downloadButtonStyle="btn btn-primary";
+	var downloadButtonState=false;
 	//chart data
 	var timeX=new Date().toTimeString().split(" ")[0];
 	$scope.labels1 = [timeX];
@@ -30,9 +34,23 @@ app.controller('myCtrl', function($scope, $interval) {
 	//intervals
 	var interval1;
 
-
+	////////////////////////////		pobieranie 	/	////////////////////////////////////
+	$scope.downloadToggle=function(){
+		if(downloadButtonState){
+			$scope.downloadButtonText="OFF";
+			$scope.downloadButtonStyle="btn btn-primary";
+			downloadButtonState=!downloadButtonState;
+		}
+		else{
+			$scope.downloadButtonText="ON";
+			$scope.downloadButtonStyle="btn btn-danger";
+			downloadButtonState=!downloadButtonState;
+		}
+	}
 	////////////////////////////		FUNKCJE PANEL 	/	////////////////////////////////////
 	$scope.controlPanelToggle=function(){
+		$scope.chartHide();
+		$scope.dataLogHide();
 		if(controlPanelState){
 			$scope.controlPanelHide();
 		}
@@ -58,12 +76,15 @@ app.controller('myCtrl', function($scope, $interval) {
 	}
 	////////////////////////////		FUNKCJE WYKRESY		/////////////////////////////////////
 	$scope.chartToggle=function(){
+		$scope.controlPanelHide();
+		$scope.dataLogHide();
 		if(chartState){
 			$scope.chartHide();
 		}
 		else{
 			$scope.chartShow();
 		}
+
 	}
 	$scope.chartHide=function(){
 		$scope.chartVisibility="hidden";
@@ -83,55 +104,57 @@ app.controller('myCtrl', function($scope, $interval) {
 	}
 
 ////////////////////////////		FUNKCJE DATA LOG		/////////////////////////////////////
-	$scope.dataLogToggle=function(){
-		if(dataLogState){
-			$scope.dataLogHide();
-		}
-		else{
-			$scope.dataLogShow();
-		}
+$scope.dataLogToggle=function(){
+	$scope.chartHide();
+	$scope.controlPanelHide();
+	if(dataLogState){
+		$scope.dataLogHide();
 	}
-	$scope.dataLogHide=function(){
-		$scope.dataLogVisibility="hidden";
-		if(dataLogState){
-			dataLogState=!dataLogState;
-		}
-		$scope.dataLogText="";
-		$scope.dataLogStyle="btn btn-primary";
+	else{
+		$scope.dataLogShow();
 	}
-	$scope.dataLogShow=function(){
-		$scope.dataLogVisibility="show";
-		if(!dataLogState){
-			dataLogState=!dataLogState;
-		}
-		$scope.dataLogText="Hide";
-		$scope.dataLogStyle="btn btn-danger";
+}
+$scope.dataLogHide=function(){
+	$scope.dataLogVisibility="hidden";
+	if(dataLogState){
+		dataLogState=!dataLogState;
 	}
+	$scope.dataLogText="";
+	$scope.dataLogStyle="btn btn-primary";
+}
+$scope.dataLogShow=function(){
+	$scope.dataLogVisibility="show";
+	if(!dataLogState){
+		dataLogState=!dataLogState;
+	}
+	$scope.dataLogText="Hide";
+	$scope.dataLogStyle="btn btn-danger";
+}
 ////////////////////////////			/////////////////////////////////////
-	$scope.resetChart= function(){
-		timeX=new Date().toTimeString().split(" ")[0];
-		$scope.data1=[$scope.ampPila];
-		$scope.labels1=[timeX];
-	}
+$scope.resetChart= function(){
+	timeX=new Date().toTimeString().split(" ")[0];
+	$scope.data1=[$scope.ampPila];
+	$scope.labels1=[timeX];
+}
 
-	function updateChart(){
-		timeX=new Date().toTimeString().split(" ")[0];
-		$scope.ampPila=$scope.ampPila+1;
-		$scope.labels1.push(timeX);
-		$scope.data1.push($scope.ampPila);
-	}
-
-	$scope.options1 = {
-		animation:false,
-		legend: {display: true},
-		scales: {
-			yAxes: [
-			{
-				id: 'y-axis-1',
-				type: 'linear',
-				display: true,
-				position: 'left',
-				ticks: {
+function updateChart(){
+	timeX=new Date().toTimeString().split(" ")[0];
+	$scope.ampPila=$scope.ampPila+1;
+	$scope.labels1.push(timeX);
+	$scope.data1.push($scope.ampPila);
+}
+////////////////////////////			/////////////////////////////////////
+$scope.options1 = {
+	animation:false,
+	legend: {display: true},
+	scales: {
+		yAxes: [
+		{
+			id: 'y-axis-1',
+			type: 'linear',
+			display: true,
+			position: 'left',
+			ticks: {
 					//min:0,
 					//max:500,
 				}	
@@ -149,7 +172,26 @@ app.controller('myCtrl', function($scope, $interval) {
 })
 
 
+app.service('receiveData', function() {
 
+	var receivedData;
+
+	return{
+		getData: function(){
+
+			receivedData=$http.get("//localhost/funkcja.php?z=A&p=50");
+			return receivedData;
+		},
+		sendData: function(){
+			$http.get("//localhost/funkcja.php?z=B&p="+value);
+			
+		}
+
+
+	}
+
+
+})
 
 
 
