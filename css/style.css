@@ -22,16 +22,16 @@
 
 #suwak{
     width:100%;
-    padding-right=10%;
-    padding-left=10%;
+    padding-right:10%;
+    padding-left:10%;
 }
 #minLewa{
 
 }
 
 #maxPrawa{
-    padding-left=10%;
-    padding-right=10%;
+    padding-left:10%;
+    padding-right:10%;
 }
 
 .miejsce{
@@ -59,7 +59,15 @@
     padding-top: 2%;
     padding-bottom: 2%;
 }
+.padding{
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
 
+.suwak80{
+    margin-right:10%;
+    margin-left:10%;
+}
 input[type=range]{
     -webkit-appearance: none;
 }

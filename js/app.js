@@ -3,7 +3,7 @@ var app=angular.module('myApp',['ngAnimate', 'ngSanitize', 'ui.bootstrap','chart
 
 app.controller('myCtrl', function($scope, $interval, receiveData) {
 	//data
-	$scope.data1={'amplituda':50};
+	$scope.suwak={'amplituda':250};
 	$scope.ampPila=0;
 	// chart view
 	$scope.chartVisibility="hidden";
@@ -38,14 +38,27 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	///
 	var table = document.getElementById("dataLog");
 	////
-
+	$scope.dataSent="value"
+	///////
 	////////////////////////////	FUNKCJA POBIERANIA DANYCH 	////////////////////////////////////
 	function downloadData(){
 		$scope.ampPila=receiveData.getData();
 		timeX=new Date().toTimeString().split(" ")[0];
 		updateDataLog();
 	}
-	////////////////////////////	PRZYCISKi	pobieranie 	/	////////////////////////////////////
+	function updateChart(){
+		//timeX=new Date().toTimeString().split(" ")[0];
+		$scope.labels1.push(timeX);
+		$scope.data1.push($scope.ampPila);
+	}
+	function updateDataLog(){
+		var row = table.insertRow(1);
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		cell1.innerHTML = timeX;
+		cell2.innerHTML = $scope.ampPila;
+	}
+	////////////////////////////	PRZYCISKi	pobieranie i wysyłanie 	/	////////////////////////////////////
 	$scope.downloadToggle=function(){
 		if(downloadButtonState){
 			$scope.downloadButtonText="OFF";
@@ -70,23 +83,16 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		updateChart();
 		updateDataLog();
 	}
+
+	$scope.sendAmp=function(){
+
+		$scope.dataSent=receiveData.sendData($scope.suwak.amplituda);
+	}
 	////////////////////////////		INNE do wykresu	i data logu/////////////////////////////////////
 	$scope.resetChart= function(){
 		timeX=new Date().toTimeString().split(" ")[0];
 		$scope.data1=[$scope.ampPila];
 		$scope.labels1=[timeX];
-	}
-	function updateChart(){
-		//timeX=new Date().toTimeString().split(" ")[0];
-		$scope.labels1.push(timeX);
-		$scope.data1.push($scope.ampPila);
-	}
-	function updateDataLog(){
-		var row = table.insertRow(1);
-		var cell1 = row.insertCell(0);
-		var cell2 = row.insertCell(1);
-		cell1.innerHTML = timeX;
-		cell2.innerHTML = $scope.ampPila;
 	}
 	////////////////////////////		FUNKCJE PANEL 	/	////////////////////////////////////
 	$scope.controlPanelToggle=function(){
@@ -211,9 +217,10 @@ app.service('receiveData', function() {
 			receivedData=receivedData+1;
 			return receivedData;
 		},
-		sendData: function(){
-			$http.get("//localhost/funkcja.php?z=B&p="+value);
-			
+		sendData: function(data){
+			//$http.get("//localhost/funkcja.php?z=B&p="+data);
+			console.log(data);
+			return data;
 		}
 
 

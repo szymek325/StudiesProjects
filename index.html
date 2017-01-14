@@ -39,7 +39,7 @@
 				</tr>
 				<tr> 
 					<td>Ostatnia wysłana wartość zadana</td>
-					<td>{{data1.amplituda}}</td>
+					<td>{{dataSent}}</td>
 				</tr>
 			</table>
 		</div>
@@ -51,10 +51,21 @@
 			<button ng-show="singleDownloadState" id="but30" class="btn btn-success ng-hide" ng-click="downloadSingleData()">
 				Get single Data
 			</button>
-
 			<button id="but30" class={{downloadButtonStyle}} ng-click="downloadToggle()">
 				Continuous download {{downloadButtonText}}
 			</button>
+			<br><br>
+			Czas próbkowania	{{suwak1.czas}}
+			<br><br>
+			<table ng-show="singleDownloadState" class="suwak80 ng-hide">
+				<tr> 
+					<td> </td>
+					<td id="minLewa"><span style="text-align:right">10</span></td>
+					<td id="suwak"><input  type="range" name="amplituda" min="10" max="1000" step="10" ng-model="suwak1.czas"></td>
+					<td id="maxPrawa" class="miejsce"><span style="text-align:left">1000</span></td>
+					<td> </td>
+				</tr>
+			</table>
 		</div>
 
 		<!-- MENU -->
@@ -76,26 +87,21 @@
 
 			<div class="{{controlPanelVisibility}}">
 
+			<br>
+				Zadana amplituda	{{suwak.amplituda}}
+				<br><br>
 
-				<table class="table" >
-
-					<tr> 
-						<td>Wartość suwaka</td>
-						<td>{{data1.amplituda}}</td>
-					</tr>
-				</table>
-
-				<table class="">
+				<table class="suwak80">
 					<tr> 
 						<td> </td>
 						<td id="minLewa" style="text-align:center"><span >50</span></td>
-						<td id="suwak"><input  type="range" name="amplituda" min="0" max="500" step="10" ng-model="data1.amplituda"></td>
+						<td id="suwak"><input  type="range" name="amplituda" min="50" max="500" step="10" ng-model="suwak.amplituda"></td>
 						<td id="maxPrawa" class="miejsce"><span>500</span></td>
 						<td> </td>
 					</tr>
 				</table>
-
-				<button id="but50" class="btn btn-success" ng-click="">
+				<br><br>
+				<button id="but50" class="btn btn-success" ng-click="sendAmp()">
 					Send Data
 				</button>
 
@@ -128,12 +134,8 @@
 
 				<table class="table" id="dataLog">
 					<tr class="success"> 
-						<td>Czas otrzymania danych</td>
+						<td>Czas</td>
 						<td>Wartość pomiaru</td>
-					</tr>
-					<tr> 
-						<td>Odebrana Piła</td>
-						<td>{{ampPila}}</td>
 					</tr>
 				</table>
 				<br>
