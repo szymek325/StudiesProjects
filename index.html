@@ -54,9 +54,9 @@
 			<button id="but30" class={{downloadButtonStyle}} ng-click="downloadToggle()">
 				Continuous download {{downloadButtonText}}
 			</button>
-			<br><br>
-			Czas próbkowania	{{suwak1.czas}}
-			<br><br>
+			
+			<span ng-show="singleDownloadState" class="ng-hide"><br><br>Czas próbkowania	{{suwak1.czas}}<br><br></span>
+			
 			<table ng-show="singleDownloadState" class="suwak80 ng-hide">
 				<tr> 
 					<td> </td>

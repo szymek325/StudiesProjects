@@ -4,6 +4,7 @@ var app=angular.module('myApp',['ngAnimate', 'ngSanitize', 'ui.bootstrap','chart
 app.controller('myCtrl', function($scope, $interval, receiveData) {
 	//data
 	$scope.suwak={'amplituda':250};
+	$scope.suwak1={'czas':100};
 	$scope.ampPila=0;
 	// chart view
 	$scope.chartVisibility="hidden";
@@ -72,7 +73,7 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 			$scope.downloadButtonText="ON";
 			$scope.downloadButtonStyle="btn btn-danger";
 			downloadButtonState=!downloadButtonState;
-			interval1=$interval(downloadData, 10);
+			interval1=$interval(downloadData, $scope.suwak1.czas);
 			interval2=$interval(updateChart,2000);
 			$scope.singleDownloadState=0;
 		}
