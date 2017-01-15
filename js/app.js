@@ -36,7 +36,6 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	$scope.labels1 = [timeX];
 	$scope.series1 = ['Actual Temperature'];
 	$scope.data1=[$scope.ampPila];
-	$scope.colors = ['#ff6384'];
 	var oneTimeOnly=0;
 	//intervals
 	var interval1;
@@ -44,7 +43,7 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	var table = document.getElementById("dataLog");
 	var pila=0;
 	var ampReceived;
-	var counter;
+	var counter=0;
 	////
 	$scope.dataSent="value"
 
@@ -54,20 +53,27 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		ampReceived=receiveData.getData();
 		$scope.ampPila=ampReceived;
 		timeX=new Date().toTimeString().split(" ")[0];
-		if(!(counter%1)){
-			updateChart();
-		}
-		if(!(counter%200)){
+		if(counter!==1){
+			console.log(counter);
 			updateDataLog();
+			updateChart();
 		}
 	}
 
 	function updateChart(){
+		if($scope.labels1.length>=60){
+			console.log($scope.labels1.length);
+			$scope.labels1=$scope.labels1.slice(1,60);
+			$scope.data1=$scope.data1.slice(1,60);
+		}
 		$scope.labels1.push(timeX);
 		$scope.data1.push(ampReceived);
 	}
 
 	function updateDataLog(){
+		if(table.rows.length>=61){
+			table.deleteRow(60);
+		}
 		var row = table.insertRow(1);
 		var cell1 = row.insertCell(0);
 		var cell2 = row.insertCell(1);
@@ -87,7 +93,7 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 			$scope.downloadButtonText="Wyłącz";
 			$scope.downloadButtonStyle="btn btn-danger";
 			downloadButtonState=!downloadButtonState;
-			interval1=$interval(downloadData, 10);
+			interval1=$interval(downloadData, 1000);
 			$scope.singleDownloadState=0;
 		}
 	}
