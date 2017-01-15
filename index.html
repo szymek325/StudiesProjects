@@ -22,125 +22,74 @@
 <body ng-app="myApp" ng-controller="myCtrl" style="text-align:center" id="view">
 	<div id="content">
 
-		<div class="page-header">
+		<div class="header">
 			<h1>Serwis pomiarowy <br><small>Aplikacje mobilne i wbudowane dla Internetu przedmiotów</small></h1>
 		</div>
 
-		<!-- początkowa tabelka -->
-		<div id="wyswietlaneDane">
-			<table class="table" >
-				<tr class="success"> 
-					<td>Nazwa</td>
-					<td>Wartość</td>
-				</tr>
-				<tr> 
-					<td>Aktualna próbka sygnału</td>
-					<td>{{ampPila}}</td>
-				</tr>
-				<tr> 
-					<td>Ostatnia wysłana wartość zadana</td>
-					<td>{{dataSent}}</td>
-				</tr>
-			</table>
-		</div>
-
-
-		<!-- menu pobierania -->
-		<div id="menuPobierania">
-
-			<button ng-show="singleDownloadState" id="but30" class="btn btn-success ng-hide" ng-click="downloadSingleData()">
-				Get single Data
-			</button>
-			<button id="but30" class={{downloadButtonStyle}} ng-click="downloadToggle()">
-				Continuous download {{downloadButtonText}}
-			</button>
-			
-			<span ng-show="singleDownloadState" class="ng-hide"><br><br>Czas próbkowania	{{suwak1.czas}}<br><br></span>
-			
-			<table ng-show="singleDownloadState" class="suwak80 ng-hide" >
-				<tr> 
-					<td> </td>
-					<td id="minLewa"><span style="text-align:right">10</span></td>
-					<td id="suwak"><input  type="range" name="amplituda" min="10" max="1000" step="10" ng-model="suwak1.czas"></td>
-					<td id="maxPrawa" class="miejsce"><span style="text-align:left">1000</span></td>
-					<td> </td>
-				</tr>
-			</table>
-		</div>
 
 		<!-- MENU -->
-		<div id="menu">
-			<button id="but30" class={{controlPanelStyle}} ng-click="controlPanelToggle()">
-				{{controlPanelText}} Control Panel
-			</button>
-			<button id="but30" class={{chartStyle}} ng-click="chartToggle()">
-				{{chartText}} Chart
-			</button>
-			<button id="but30" class={{dataLogStyle}} ng-model="myVar" ng-click="dataLogToggle()">
-				{{dataLogText}} Data Log
-			</button>
-		</div>
-
-
-		<!-- STEROWANIE -->
-		<div id="panel">
-
-			<div class="{{controlPanelVisibility}}">
-
-			<br>
-				Zadana amplituda	{{suwak.amplituda}}
-				<br><br>
-
-				<table class="suwak80">
-					<tr> 
-						<td> </td>
-						<td id="minLewa" style="text-align:center"><span >50</span></td>
-						<td id="suwak"><input  type="range" name="amplituda" min="50" max="500" step="10" ng-model="suwak.amplituda"></td>
-						<td id="maxPrawa" class="miejsce"><span>500</span></td>
-						<td> </td>
-					</tr>
-				</table>
-				<br><br>
-				<button id="but50" class="btn btn-success" ng-click="sendAmp()">
-					Send Data
-				</button>
-
+		<div id="tresc">
+			<div class="row" id="menu">
+				<div class="row">
+					<button id="but40" class={{chartStyle}} ng-click="chartToggle()">
+						{{chartText}} Wykres
+					</button>
+					<button id="but40" class={{dataLogStyle}} ng-model="myVar" ng-click="dataLogToggle()">
+						{{dataLogText}} Rejestr pomiarów
+					</button>
+				</div>
+				<div class="row">
+					<button id="but40" class={{controlPanelStyle}} ng-click="controlPanelToggle()">
+						{{controlPanelText}} Zadaj amplitudę
+					</button>
+					<button id="but40" class={{menuPobieranieStyle}} ng-click="menuPobieranieToggle()">
+						{{menuPobieranieText}} Menu danych
+					</button>
+				</div>
+				<div class="row {{controlPanelVisibility}}">
+					<br>
+					Amplituda	{{suwak.amplituda}}
+					<br><br>
+					<input  type="range" name="amplituda" min="50" max="500" step="10" ng-model="suwak.amplituda">
+					<br><br>
+					<button id="but50" class="btn btn-success" ng-click="sendAmp()">
+						Wyślij amplitudę
+					</button>
+				</div>
 			</div>
-		</div>
-
-
-
-		<!-- WYKRES -->
-		<div id="wykresy">
-			<div class="{{chartVisibility}}">
+			<div class="row {{chartVisibility}}">
 				<div class="card">
 					<div class="item item-divider">
-						Temperature Chart
+						Wykres piły
 					</div>
 					<div class="item item-text-wrap">
 						<canvas id="line1" class="chart chart-line" chart-data="data1" chart-labels="labels1" chart-legend="true" chart-series="series1" chart-options="options1"></canvas>
 					</div>
 				</div>
-				<button id="but50" class='btn btn-danger' ng-click="resetChart()">
-					Reset chart
-				</button>
 			</div>
-		</div>
-
-
-		<!-- DATA LOG-->
-		<div id="dataLogs">
-			<div class={{dataLogVisibility}}>
-
+			<div class="row  {{menuPobieranieVisibility}}">
+				<div class="row">
+					<button id="but50" class='btn btn-danger' ng-click="resetChart()">
+						Usuń dane
+					</button>
+				</div>
+				<div class="row">
+					<button ng-show="singleDownloadState" id="but30" class="btn btn-success ng-hide" ng-click="downloadSingleData()">
+						Pobierz jedną próbkę
+					</button>
+					<button id="but30" class={{downloadButtonStyle}} ng-click="downloadToggle()">
+						{{downloadButtonText}} Menu pobieranie danych
+					</button>
+				</div>
+			</div>
+			<div class="row {{dataLogVisibility}}">
 				<table class="table" id="dataLog">
 					<tr class="success"> 
 						<td>Czas</td>
 						<td>Wartość pomiaru</td>
 					</tr>
 				</table>
-				<br>
 			</div>
-
 		</div>
 
 

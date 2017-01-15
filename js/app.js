@@ -11,21 +11,26 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	var chartState=false;
 	$scope.chartText="";
 	$scope.chartStyle="btn btn-primary";
-	//panel view
-	$scope.controlPanelVisibility="hidden";
-	var controlPanelState=false;
-	$scope.controlPanelText="";
-	$scope.controlPanelStyle="btn btn-primary";
 	//all data view
 	$scope.dataLogVisibility="hidden";
 	var dataLogState=false;
 	$scope.dataLogText="";
 	$scope.dataLogStyle="btn btn-primary";
 	//download button
-	$scope.downloadButtonText="OFF";
+	$scope.downloadButtonText="Włącz";
 	$scope.downloadButtonStyle="btn btn-primary";
 	var downloadButtonState=false;
 	$scope.singleDownloadState=1;
+	//panel view
+	$scope.controlPanelVisibility="hidden";
+	var controlPanelState=false;
+	$scope.controlPanelText="";
+	$scope.controlPanelStyle="btn btn-primary";
+		//MENU pobieranie
+	$scope.menuPobieranieVisibility="hidden";
+	var menuPobieranieState=false;
+	$scope.menuPobieranieText="";
+	$scope.menuPobieranieStyle="btn btn-primary";
 	//chart data
 	var timeX=new Date().toTimeString().split(" ")[0];
 	$scope.labels1 = [timeX];
@@ -35,23 +40,33 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	var oneTimeOnly=0;
 	//intervals
 	var interval1;
-	var interval2;
 	///
 	var table = document.getElementById("dataLog");
+	var pila=0;
+	var ampReceived;
+	var counter;
 	////
 	$scope.dataSent="value"
-	///////
+
 	////////////////////////////	FUNKCJA POBIERANIA DANYCH 	////////////////////////////////////
 	function downloadData(){
-		$scope.ampPila=receiveData.getData();
+		counter=counter+1;
+		ampReceived=receiveData.getData();
+		$scope.ampPila=ampReceived;
 		timeX=new Date().toTimeString().split(" ")[0];
-		updateDataLog();
+		if(!(counter%1)){
+			updateChart();
+		}
+		if(!(counter%200)){
+			updateDataLog();
+		}
 	}
+
 	function updateChart(){
-		//timeX=new Date().toTimeString().split(" ")[0];
 		$scope.labels1.push(timeX);
-		$scope.data1.push($scope.ampPila);
+		$scope.data1.push(ampReceived);
 	}
+
 	function updateDataLog(){
 		var row = table.insertRow(1);
 		var cell1 = row.insertCell(0);
@@ -62,31 +77,30 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	////////////////////////////	PRZYCISKi	pobieranie i wysyłanie 	/	////////////////////////////////////
 	$scope.downloadToggle=function(){
 		if(downloadButtonState){
-			$scope.downloadButtonText="OFF";
+			$scope.downloadButtonText="Włącz";
 			$scope.downloadButtonStyle="btn btn-primary";
 			downloadButtonState=!downloadButtonState;
 			$interval.cancel(interval1);
-			$interval.cancel(interval2);
 			$scope.singleDownloadState=1;
 		}
 		else{
-			$scope.downloadButtonText="ON";
+			$scope.downloadButtonText="Wyłącz";
 			$scope.downloadButtonStyle="btn btn-danger";
 			downloadButtonState=!downloadButtonState;
-			interval1=$interval(downloadData, $scope.suwak1.czas);
-			interval2=$interval(updateChart,2000);
+			interval1=$interval(downloadData, 10);
 			$scope.singleDownloadState=0;
 		}
 	}
 
 	$scope.downloadSingleData=function(){
-		$scope.ampPila=receiveData.getData();
+		ampReceived=receiveData.getData();
+		$scope.ampPila=ampReceived;
+		timeX=new Date().toTimeString().split(" ")[0];
 		updateChart();
 		updateDataLog();
 	}
 
 	$scope.sendAmp=function(){
-
 		$scope.dataSent=receiveData.sendData($scope.suwak.amplituda);
 	}
 	////////////////////////////		INNE do wykresu	i data logu/////////////////////////////////////
@@ -94,11 +108,44 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		timeX=new Date().toTimeString().split(" ")[0];
 		$scope.data1=[$scope.ampPila];
 		$scope.labels1=[timeX];
+		var tableHeaderRowCount = 1;
+		var table = document.getElementById('dataLog');
+		var rowCount = table.rows.length;
+		for (var i = tableHeaderRowCount; i < rowCount; i++) {
+			table.deleteRow(tableHeaderRowCount);
+		}
 	}
-	////////////////////////////		FUNKCJE PANEL 	/	////////////////////////////////////
+	////////////////////////////		FUNKCJE menu pboierania 	/	////////////////////////////////////
+	$scope.menuPobieranieToggle=function(){
+		//$scope.chartHide();
+		//$scope.dataLogHide();
+		if(menuPobieranieState){
+			$scope.menuPobieranieHide();
+		}
+		else{
+			$scope.menuPobieranieShow();
+		}
+	}
+	$scope.menuPobieranieHide=function(){
+		$scope.menuPobieranieVisibility="hidden";
+		if(menuPobieranieState){
+			menuPobieranieState=!menuPobieranieState;
+		}
+		$scope.menuPobieranieText="";
+		$scope.menuPobieranieStyle="btn btn-primary";
+	}
+	$scope.menuPobieranieShow=function(){
+		$scope.menuPobieranieVisibility="show";
+		if(!menuPobieranieState){
+			menuPobieranieState=!menuPobieranieState;
+		}
+		$scope.menuPobieranieText="Ukryj";
+		$scope.menuPobieranieStyle="btn btn-danger";
+	}
+	////////////////////////////		FUNKCJE menu pboierania 	/	////////////////////////////////////
 	$scope.controlPanelToggle=function(){
-		$scope.chartHide();
-		$scope.dataLogHide();
+		//$scope.chartHide();
+		//$scope.dataLogHide();
 		if(controlPanelState){
 			$scope.controlPanelHide();
 		}
@@ -119,20 +166,19 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		if(!controlPanelState){
 			controlPanelState=!controlPanelState;
 		}
-		$scope.controlPanelText="Hide";
+		$scope.controlPanelText="Ukryj";
 		$scope.controlPanelStyle="btn btn-danger";
 	}
+
 	////////////////////////////		FUNKCJE WYKRESY		/////////////////////////////////////
 	$scope.chartToggle=function(){
-		$scope.controlPanelHide();
-		$scope.dataLogHide();
+		//$scope.dataLogHide();
 		if(chartState){
 			$scope.chartHide();
 		}
 		else{
 			$scope.chartShow();
 		}
-
 	}
 	$scope.chartHide=function(){
 		$scope.chartVisibility="hidden";
@@ -147,14 +193,13 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		if(!chartState){
 			chartState=!chartState;
 		}
-		$scope.chartText="Hide";
+		$scope.chartText="Ukryj";
 		$scope.chartStyle="btn btn-danger";
 	}
 
 ////////////////////////////		FUNKCJE DATA LOG		/////////////////////////////////////
 $scope.dataLogToggle=function(){
-	$scope.chartHide();
-	$scope.controlPanelHide();
+	//$scope.chartHide();
 	if(dataLogState){
 		$scope.dataLogHide();
 	}
@@ -175,7 +220,7 @@ $scope.dataLogShow=function(){
 	if(!dataLogState){
 		dataLogState=!dataLogState;
 	}
-	$scope.dataLogText="Hide";
+	$scope.dataLogText="Ukryj";
 	$scope.dataLogStyle="btn btn-danger";
 }
 ////////////////////////////			/////////////////////////////////////
@@ -190,35 +235,30 @@ $scope.options1 = {
 			display: true,
 			position: 'left',
 			ticks: {
-					//min:0,
-					//max:500,
-				}	
-			}],
-			xAxes: [{
+				min:0,
+				max:500,
+			}	
+		}],
+		xAxes: [{
 				//type: 'time',
 				ticks: {
 					autoSkip:true,
-					maxTicksLimit:6,
+					maxTicksLimit:5,
 				} 
 			}],	
 		},
 	}
-
 })
 
 
 app.service('receiveData', function($http) {
-
 	var receivedDataJSON;
 	var receivedData;
-
 	return{
 		getData: function(){
 
 			$http.get("AMprzesyl.php?z=A&p=50").then(function(response){
 				receivedDataJSON=response.data;
-			
-
 			})
 			return receivedDataJSON;
 		},
@@ -226,32 +266,5 @@ app.service('receiveData', function($http) {
 			$http.get("AMprzesyl.php?z=B&p="+data);
 			console.log(data);
 		}
-
-
 	}
-
-
 })
-
-
-
-	// $scope.chartOnOff= function(){
-	// 	if(chartPermission){
-	// 		chartPermission=0;
-	// 		$scope.chartStartStop='Start';
-	// 		$scope.chartButtonStyle='button button-block button-positive';
-	// 		$interval.cancel(interval2);
-	// 		$scope.showHideChart="hidden"
-	// 	}
-	// 	else{
-	// 		if(oneTimeOnly==0){
-	// 			$scope.resetChart();
-	// 			oneTimeOnly=1;
-	// 		}
-	// 		chartPermission=1;
-	// 		$scope.chartStartStop='Stop';
-	// 		$scope.chartButtonStyle='button button-block button-assertive';
-	// 		interval2=$interval(updateCharts, 1000);
-	// 		$scope.showHideChart="show"
-	// 	}
-	// }
