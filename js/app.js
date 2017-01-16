@@ -53,9 +53,7 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		receiveData.downloadData();
 		receiveData.downloadDioda();
 		receiveData.downloadAmp();
-		$scope.ampPila=receiveData.getData();
 		console.log($scope.ampPila);
-		timeX=new Date().toTimeString().split(" ")[0];
 		updateChart();
 	}
 
@@ -66,14 +64,15 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 			$scope.data1=$scope.data1.slice(1,60);
 		}
 		console.log($scope.data1[59]);
-		
-		if($scope.data1[$scope.data1.length-1]-$scope.ampPila>2){
+		if($scope.data1[$scope.data1.length-1]-receiveData.getData()>2){
 			
 		}
-		else if($scope.data1[$scope.data1.length-1]<-2){
+		else if($scope.data1[$scope.data1.length-1]-receiveData.getData()<-2){
 			
 		}
 		else{
+			$scope.ampPila=receiveData.getData();
+			timeX=new Date().toTimeString().split(" ")[0];
 			$scope.labels1.push(timeX);
 			$scope.data1.push($scope.ampPila);
 			updateDataLog();
