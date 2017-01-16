@@ -66,8 +66,18 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 			$scope.labels1=$scope.labels1.slice(1,60);
 			$scope.data1=$scope.data1.slice(1,60);
 		}
-		$scope.labels1.push(timeX);
-		$scope.data1.push($scope.ampPila);
+		console.log($scope.data1[59]);
+		if($scope.data1[59]-$scope.ampPila>2){
+			
+		}
+		else if($scope.data1[59]-$scope.ampPila<-2){
+			
+		}
+		else{
+			$scope.labels1.push(timeX);
+			$scope.data1.push($scope.ampPila);
+		}
+		
 	}
 
 	function updateDataLog(){
@@ -288,25 +298,25 @@ app.service('receiveData', function($http) {
 		downloadData: function(){	
 			$http.get("AMprzesyl.php?z=A&p=50").then(function(response){
 				receivedDataJSON=response.data;
-				console.log("Data JSON "+receivedDataJSON);
+				//console.log("Data JSON "+receivedDataJSON);
 				receivedDataString=JSON.parse(receivedDataJSON);
-				console.log("Data String "+receivedDataString);
+				//console.log("Data String "+receivedDataString);
 			})
 		},
 		downloadDioda: function(){
 			$http.get("AMprzesyl.php?z=D&p=50").then(function(response){
 				diodaJSON=response.data;
-				console.log("Dioda JSON "+diodaJSON);
+				//console.log("Dioda JSON "+diodaJSON);
 				diodaString=JSON.parse(diodaJSON);
-				console.log("Dioda String "+diodaString);
+				//console.log("Dioda String "+diodaString);
 			})
 		},
 		downloadAmp: function(){
 			$http.get("AMprzesyl.php?z=E&p=50").then(function(response){
 				ampJSON=response.data;
-				console.log("Amp JSON "+ampJSON);
+				//console.log("Amp JSON "+ampJSON);
 				ampString=JSON.parse(ampJSON);
-				console.log("Amp String "+ampString);
+				//console.log("Amp String "+ampString);
 			})
 		},
 		getData: function(){
