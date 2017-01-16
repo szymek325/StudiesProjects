@@ -1,10 +1,10 @@
-var app=angular.module('myApp',['ngAnimate', 'ngSanitize', 'ui.bootstrap','chart.js'])
+﻿var app=angular.module('myApp',['ngAnimate', 'ngSanitize', 'ui.bootstrap','chart.js'])
 
 
 app.controller('myCtrl', function($scope, $interval, receiveData) {
 	//data
-	$scope.suwak={'amplituda':250};
-	$scope.suwak1={'czas':100};
+	$scope.suwak={'amplituda':10};
+	//$scope.suwak1={'czas':100};
 	$scope.ampPila=0;
 	// chart view
 	$scope.chartVisibility="hidden";
@@ -50,14 +50,14 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	////////////////////////////	FUNKCJA POBIERANIA DANYCH 	////////////////////////////////////
 	function downloadData(){
 		counter=counter+1;
-		ampReceived=receiveData.getData();
-		$scope.ampPila=ampReceived;
+		receiveData.downloadData();
+		receiveData.downloadDioda();
+		receiveData.downloadAmp();
+		$scope.ampPila=receiveData.getData();
+		console.log($scope.ampPila);
 		timeX=new Date().toTimeString().split(" ")[0];
-		if(counter!==1){
-			console.log(counter);
-			updateDataLog();
-			updateChart();
-		}
+		updateDataLog();
+		updateChart();
 	}
 
 	function updateChart(){
@@ -67,7 +67,7 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 			$scope.data1=$scope.data1.slice(1,60);
 		}
 		$scope.labels1.push(timeX);
-		$scope.data1.push(ampReceived);
+		$scope.data1.push($scope.ampPila);
 	}
 
 	function updateDataLog(){
@@ -77,8 +77,12 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		var row = table.insertRow(1);
 		var cell1 = row.insertCell(0);
 		var cell2 = row.insertCell(1);
+		var cell3 = row.insertCell(2);
+		var cell4 = row.insertCell(3);
 		cell1.innerHTML = timeX;
 		cell2.innerHTML = $scope.ampPila;
+		cell3.innerHTML = receiveData.getDiodaState();
+		cell4.innerHTML = receiveData.getAmpValue();
 	}
 	////////////////////////////	PRZYCISKi	pobieranie i wysyłanie 	/	////////////////////////////////////
 	$scope.downloadToggle=function(){
@@ -93,7 +97,7 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 			$scope.downloadButtonText="Wyłącz";
 			$scope.downloadButtonStyle="btn btn-danger";
 			downloadButtonState=!downloadButtonState;
-			interval1=$interval(downloadData, 1000);
+			interval1=$interval(downloadData, 500);
 			$scope.singleDownloadState=0;
 		}
 	}
@@ -108,6 +112,10 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 
 	$scope.sendAmp=function(){
 		$scope.dataSent=receiveData.sendData($scope.suwak.amplituda);
+	}
+	
+	$scope.sendDioda=function(){
+		$scope.dataSent=receiveData.changeDiodeState();
 	}
 	////////////////////////////		INNE do wykresu	i data logu/////////////////////////////////////
 	$scope.resetChart= function(){
@@ -242,7 +250,7 @@ $scope.options1 = {
 			position: 'left',
 			ticks: {
 				min:0,
-				max:500,
+				max:20,
 			}	
 		}],
 		xAxes: [{
@@ -256,21 +264,73 @@ $scope.options1 = {
 	}
 })
 
-
+//dioda C
+//dioda D stan diody
+//E amplituda
 app.service('receiveData', function($http) {
 	var receivedDataJSON;
-	var receivedData;
-	return{
-		getData: function(){
+	var receivedDataString
+	
+	var dataJSON;
+	var dataString
 
+	var ampJSON;
+	var ampString;
+	
+	var diodaJSON;
+	var	diodaString;
+	
+	
+	var address="AMprzesyl.php?z=B&p=";
+	var dataString;
+	var dataToSend;
+	return{
+		downloadData: function(){	
 			$http.get("AMprzesyl.php?z=A&p=50").then(function(response){
 				receivedDataJSON=response.data;
+				console.log("Data JSON "+receivedDataJSON);
+				receivedDataString=JSON.parse(receivedDataJSON);
+				console.log("Data String "+receivedDataString);
 			})
-			return receivedDataJSON;
+		},
+		downloadDioda: function(){
+			$http.get("AMprzesyl.php?z=D&p=50").then(function(response){
+				diodaJSON=response.data;
+				console.log("Dioda JSON "+diodaJSON);
+				diodaString=JSON.parse(diodaJSON);
+				console.log("Dioda String "+diodaString);
+			})
+		},
+		downloadAmp: function(){
+			$http.get("AMprzesyl.php?z=E&p=50").then(function(response){
+				ampJSON=response.data;
+				console.log("Amp JSON "+ampJSON);
+				ampString=JSON.parse(ampJSON);
+				console.log("Amp String "+ampString);
+			})
+		},
+		getData: function(){
+			//console.log("JSON "+receivedDataJSON);
+			//receivedDataString=JSON.parse(receivedDataJSON);
+			//console.log("String "+receivedDataString);
+			//receivedDataInt=parseInt(receivedDataString);
+			//console.log("Int "+receivedDataInt);
+			return receivedDataString;
+		},
+		getDiodaState: function(){
+			return diodaString;
+		},
+		getAmpValue: function(){
+			return ampString;
 		},
 		sendData: function(data){
-			$http.get("AMprzesyl.php?z=B&p="+data);
-			console.log(data);
+			dataString= data.toString();
+			dataToSend=address.concat(dataString);
+			$http.get(dataToSend);
+			console.log(dataToSend);
+		},
+		changeDiodeState: function(){
+			$http.get("AMprzesyl.php?z=C&p=50")
 		}
 	}
 })

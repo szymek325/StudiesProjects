@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -40,17 +40,20 @@
 				</div>
 				<div class="row">
 					<button id="but40" class={{controlPanelStyle}} ng-click="controlPanelToggle()">
-						{{controlPanelText}} Zadaj amplitudę
+						{{controlPanelText}} Sterowanie
 					</button>
 					<button id="but40" class={{menuPobieranieStyle}} ng-click="menuPobieranieToggle()">
 						{{menuPobieranieText}} Menu pobierania danych
 					</button>
 				</div>
 				<div class="row {{controlPanelVisibility}}">
+					<button id="but50" class="btn btn-success" ng-click="sendDioda()">
+						Zmień stan diody
+					</button>
 					<br>
 					Amplituda	{{suwak.amplituda}}
 					<br><br>
-					<input  type="range" name="amplituda" min="50" max="500" step="10" ng-model="suwak.amplituda">
+					<input  type="range" name="amplituda" min="5" max="20" step="1" ng-model="suwak.amplituda">
 					<br><br>
 					<button id="but50" class="btn btn-success" ng-click="sendAmp()">
 						Wyślij amplitudę
@@ -87,6 +90,8 @@
 					<tr class="success"> 
 						<td>Czas</td>
 						<td>Wartość pomiaru</td>
+						<td>Stan diody</td>
+						<td>Aktualna amplituda</td>
 					</tr>
 				</table>
 			</div>
