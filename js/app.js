@@ -22,9 +22,9 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	var downloadButtonState=false;
 	$scope.singleDownloadState=1;
 	//panel view
-	$scope.controlPanelVisibility="hidden";
-	var controlPanelState=false;
+	$scope.controlPanelVisibility="hidden"
 	$scope.controlPanelText="";
+	var controlPanelState=false;
 	$scope.controlPanelStyle="btn btn-primary";
 		//MENU pobieranie
 	$scope.menuPobieranieVisibility="hidden";
@@ -56,7 +56,6 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		$scope.ampPila=receiveData.getData();
 		console.log($scope.ampPila);
 		timeX=new Date().toTimeString().split(" ")[0];
-		updateDataLog();
 		updateChart();
 	}
 
@@ -67,15 +66,17 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 			$scope.data1=$scope.data1.slice(1,60);
 		}
 		console.log($scope.data1[59]);
-		if($scope.data1[59]-$scope.ampPila>2){
+		
+		if($scope.data1[$scope.data1.length-1]-$scope.ampPila>2){
 			
 		}
-		else if($scope.data1[59]-$scope.ampPila<-2){
+		else if($scope.data1[$scope.data1.length-1]<-2){
 			
 		}
 		else{
 			$scope.labels1.push(timeX);
 			$scope.data1.push($scope.ampPila);
+			updateDataLog();
 		}
 		
 	}

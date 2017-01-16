@@ -41,7 +41,10 @@
     padding-top: 2%;
     padding-bottom: 2%;
 }
-
+.orange{
+	background-color:#ff9900;
+	color: white;
+}
 #but50{
     width:50%;
 }

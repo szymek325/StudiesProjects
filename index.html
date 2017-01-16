@@ -47,17 +47,22 @@
 					</button>
 				</div>
 				<div class="row {{controlPanelVisibility}}">
-					<button id="but50" class="btn btn-success" ng-click="sendDioda()">
-						Zmień stan diody
-					</button>
 					<br>
 					Amplituda	{{suwak.amplituda}}
 					<br><br>
 					<input  type="range" name="amplituda" min="5" max="20" step="1" ng-model="suwak.amplituda">
 					<br><br>
-					<button id="but50" class="btn btn-success" ng-click="sendAmp()">
-						Wyślij amplitudę
-					</button>
+					<div class="row">
+						<button id="but50" class="btn btn-success" ng-click="sendAmp()">
+							Wyślij amplitudę
+						</button>
+					</div>
+					<div class="row">
+						<button id="but50" class="btn orange" ng-click="sendDioda()">
+							Zmień stan diody
+						</button>
+					</div>
+
 				</div>
 			</div>
 			<div class="row {{chartVisibility}}">
@@ -72,16 +77,16 @@
 			</div>
 			<div class="row  {{menuPobieranieVisibility}}">
 				<div class="row">
-					<button id="but50" class='btn btn-danger' ng-click="resetChart()">
-						Usuń dane
-					</button>
-				</div>
-				<div class="row">
 					<button ng-show="singleDownloadState" id="but30" class="btn btn-success ng-hide" ng-click="downloadSingleData()">
 						Pobierz jedną próbkę
 					</button>
 					<button id="but30" class={{downloadButtonStyle}} ng-click="downloadToggle()">
 						{{downloadButtonText}} pobieranie ciągłe
+					</button>
+				</div>
+				<div class="row">
+					<button id="but50" class='btn btn-danger' ng-click="resetChart()">
+						Usuń dane
 					</button>
 				</div>
 			</div>
