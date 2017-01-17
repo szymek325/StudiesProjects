@@ -44,6 +44,7 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 	var pila=0;
 	var ampReceived;
 	var counter=0;
+	var statusDiody;
 	////
 	$scope.dataSent="value"
 
@@ -64,18 +65,44 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 			$scope.data1=$scope.data1.slice(1,60);
 		}
 		console.log($scope.data1[59]);
-		if($scope.data1[$scope.data1.length-1]-receiveData.getData()>2){
+		if(receiveData.getData()>20){
 			
 		}
-		else if($scope.data1[$scope.data1.length-1]-receiveData.getData()<-2){
+		else if(receiveData.getData().length>2){
 			
 		}
+		else if(receiveData.getData().length==0){
+			
+		}
+		// else if($scope.ampPila-receiveData.getData()>2){
+			// if(receiveData.getData()==0){
+				// $scope.ampPila=receiveData.getData();
+				// timeX=new Date().toTimeString().split(" ")[0];
+				// $scope.labels1.push(timeX);
+				// $scope.data1.push($scope.ampPila);
+				// updateDataLog()
+			// }
+		// }
+		// else if($scope.ampPila-receiveData.getData()<-2){
+			// if(receiveData.getData()==0){
+				// $scope.ampPila=receiveData.getData();
+				// timeX=new Date().toTimeString().split(" ")[0];
+				// $scope.labels1.push(timeX);
+				// $scope.data1.push($scope.ampPila);
+				// updateDataLog()
+			// }
+		// }
 		else{
-			$scope.ampPila=receiveData.getData();
-			timeX=new Date().toTimeString().split(" ")[0];
-			$scope.labels1.push(timeX);
-			$scope.data1.push($scope.ampPila);
-			updateDataLog();
+			if(receiveData.getAmpValue().length>2){
+				
+			}
+			else{
+				$scope.ampPila=receiveData.getData();
+				timeX=new Date().toTimeString().split(" ")[0];
+				$scope.labels1.push(timeX);
+				$scope.data1.push($scope.ampPila);
+				updateDataLog();
+			}
 		}
 		
 	}
@@ -84,6 +111,12 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		if(table.rows.length>=61){
 			table.deleteRow(60);
 		}
+		if(receiveData.getDiodaState()==1){
+			statusDiody="Włączona"
+		}
+		else{
+			statusDiody="Wyłączona"
+		}
 		var row = table.insertRow(1);
 		var cell1 = row.insertCell(0);
 		var cell2 = row.insertCell(1);
@@ -91,7 +124,7 @@ app.controller('myCtrl', function($scope, $interval, receiveData) {
 		var cell4 = row.insertCell(3);
 		cell1.innerHTML = timeX;
 		cell2.innerHTML = $scope.ampPila;
-		cell3.innerHTML = receiveData.getDiodaState();
+		cell3.innerHTML = statusDiody;
 		cell4.innerHTML = receiveData.getAmpValue();
 	}
 	////////////////////////////	PRZYCISKi	pobieranie i wysyłanie 	/	////////////////////////////////////
@@ -250,7 +283,7 @@ $scope.dataLogShow=function(){
 ////////////////////////////			/////////////////////////////////////
 $scope.options1 = {
 	animation:false,
-	legend: {display: true},
+	//legend: {display: true},
 	scales: {
 		yAxes: [
 		{
