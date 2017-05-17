@@ -62,4 +62,6 @@ export class SqlStorage {
         return this.query('insert into EMP(key, value) values (?, ?)', [key, value]);
     }
 
+
+
 }

@@ -4,6 +4,7 @@ import {SqlStorage} from '../../providers/sql-storage';
 import { HistoryPage } from '../history/history';
 import { Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {AlertController} from 'ionic-angular';
 
 @Component({
   selector: 'page-generator',
@@ -15,7 +16,7 @@ generatedPassword:string
 passwordList: Array<{time: String, data: string}>;
 myDate: String=new Date().toTimeString().split(" ")[0]
   constructor(public navCtrl: NavController, public sqlStorage: SqlStorage, private http:Http) {
-     //this.sqlStorage.set('baza','dupa');
+     this.sqlStorage.set('baza','dupa');
      //this.sqlStorage.set('nazwa','godzina')
      this.generatedPassword="jeszcze nie uzyskano",
      this.passwordList=[]
@@ -42,5 +43,11 @@ myDate: String=new Date().toTimeString().split(" ")[0]
    //this.sqlStorage.get('baza').then(data => {console.log(data);})
    this.navCtrl.push(HistoryPage,{list:this.passwordList})
  }
+
+ //countData(event){
+   //this.sqlStorage.get('baza').then(data => {console.log(data);})
+  // var ilosc=this.sqlStorage.count()
+   //alert(ilosc)
+ //}
 
 }
