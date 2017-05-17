@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {SqlStorage} from '../../providers/sql-storage';
 import { GeneratorPage } from '../generator/generator';
+import {AlertController} from 'ionic-angular';
+import { Clipboard } from '@ionic-native/clipboard';
+
 
 @Component({
   selector: 'page-history',
@@ -10,17 +13,26 @@ import { GeneratorPage } from '../generator/generator';
 export class HistoryPage {
 selectedItem:any
 allData:any
-  constructor(public navCtrl: NavController, public sqlStorage: SqlStorage, public navParams: NavParams) {
+  constructor(private clipboard: Clipboard,private alertController: AlertController,public navCtrl: NavController, public sqlStorage: SqlStorage, public navParams: NavParams) {
      //this.sqlStorage.set('nazwa','godzina')
      this.selectedItem = navParams.get('list')
      console.log(this.selectedItem)
      this.allData=this.selectedItem
      console.log(this.allData)
  }
- showData(event){
-   //this.sqlStorage.get(1+"").then(data => {console.log(data);})
 
- }
+  copyToClipboard(password:string){
+  this.clipboard.copy(password)
+  console.log(password)
+  this.clipboard.paste().then(
+     (resolve: string) => {
+        alert("Hasło zostało skopiowane");
+      },
+      (reject: string) => {
+        alert('Error: ' + reject);
+      }
+    );
+  }
 
 
 }

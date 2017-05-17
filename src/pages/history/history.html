@@ -1,40 +1,30 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Historia
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <h2>
   <ion-row>
     <ion-col width-50>
       Data
-    </ion-col width-50>
+    </ion-col>
     <ion-col width-50>
       Hasło
-    </ion-col width-50>
+    </ion-col>
   </ion-row>
+</h2>
+<h3>
   <ion-row *ngFor="let data of allData">
     <ion-col width-50>
       {{data.time}}
-    </ion-col width-50>
-    <ion-col width-50>
+    </ion-col>
+    <ion-col width-50 (click)="copyToClipboard(data.data)">
       {{data.data}}
-    </ion-col width-50>
+    </ion-col>
   </ion-row>
+</h3>
 </ion-content>
-
-
-
-<ion-row>
-  <ion-col width-50>
-    Data
-  </ion-col width-50>
-  <ion-col width-50>
-    Hasło
-  </ion-col width-50>
-</ion-row>
-
-
-<button ion-button primary *ngFor="let c of allData" (click)="showData()">{{allData}}</button>

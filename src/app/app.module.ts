@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { HttpModule} from '@angular/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -11,6 +12,7 @@ import { GeneratorPage } from '../pages/generator/generator';
 
 import { SQLite } from '@ionic-native/sqlite';
 import { SqlStorage } from '../providers/sql-storage';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { SqlStorage } from '../providers/sql-storage';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -31,6 +34,7 @@ import { SqlStorage } from '../providers/sql-storage';
     GeneratorPage
   ],
   providers: [
+  Clipboard,
     SQLite,
     SqlStorage,
     StatusBar,

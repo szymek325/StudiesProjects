@@ -1,22 +1,25 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Generowanie haseł
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding id="main">
 
-
+<div id="hist">
       <ion-icon id="history" name="ios-clipboard" large (click)="goHistory()">
+        <div id="histText">Historia</div>
       </ion-icon>
+</div>
 
-
-
-Twoje nowe hasło to:
-<p>{{generatedPassword}}
-
-  <button ion-button primary (click)="setData()">Generate Password</button>
-
+<div id="haslo">
+<h2>Twoje nowe hasło to:</h2>
+<p>
+<h4>{{generatedPassword}}</h4>
+</div>
+<div id="get">
+  <button ion-button primary full large (click)="setData()">Wygeneruj</button>
+</div>
 </ion-content>
