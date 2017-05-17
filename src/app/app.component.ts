@@ -6,6 +6,7 @@ import {SqlStorage} from '../providers/sql-storage';
 
 import { HomePage } from '../pages/home/home';
 import { HistoryPage } from '../pages/history/history';
+import { GeneratorPage } from '../pages/generator/generator';
 
 @Component({
   templateUrl: 'app.html'

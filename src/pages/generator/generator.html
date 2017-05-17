@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+
+      <ion-icon id="history" name="ios-clipboard" large (click)="goHistory()">
+      </ion-icon>
+
+
+
+Twoje nowe hasło to:
+<p>{{generatedPassword}}
+
+  <button ion-button primary (click)="setData()">Generate Password</button>
+
+</ion-content>

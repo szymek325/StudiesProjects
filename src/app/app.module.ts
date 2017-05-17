@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { HistoryPage } from '../pages/history/history';
+import { GeneratorPage } from '../pages/generator/generator';
 
 import { SQLite } from '@ionic-native/sqlite';
 import { SqlStorage } from '../providers/sql-storage';
@@ -15,7 +16,8 @@ import { SqlStorage } from '../providers/sql-storage';
   declarations: [
     MyApp,
     HomePage,
-    HistoryPage
+    HistoryPage,
+    GeneratorPage
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ import { SqlStorage } from '../providers/sql-storage';
   entryComponents: [
     MyApp,
     HomePage,
-    HistoryPage
+    HistoryPage,
+    GeneratorPage
   ],
   providers: [
     SQLite,

@@ -7,10 +7,34 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
-  <button ion-button primary (click)="goHome()">Home</button>
-  <button ion-button primary (click)="showData()">Show</button>
+  <ion-row>
+    <ion-col width-50>
+      Data
+    </ion-col width-50>
+    <ion-col width-50>
+      Hasło
+    </ion-col width-50>
+  </ion-row>
+  <ion-row *ngFor="let data of allData">
+    <ion-col width-50>
+      {{data.time}}
+    </ion-col width-50>
+    <ion-col width-50>
+      {{data.data}}
+    </ion-col width-50>
+  </ion-row>
 </ion-content>
+
+
+
+<ion-row>
+  <ion-col width-50>
+    Data
+  </ion-col width-50>
+  <ion-col width-50>
+    Hasło
+  </ion-col width-50>
+</ion-row>
+
+
+<button ion-button primary *ngFor="let c of allData" (click)="showData()">{{allData}}</button>
