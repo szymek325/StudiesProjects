@@ -25,9 +25,10 @@ int main (void)
   wiringPiSetup () ;
   pinMode (0, INPUT) ; //clock
   pinMode (7, INPUT) ; //data
-  //for (;;)
-  //{
-		//j=0;
+  for (;;)
+  {
+		j=0;
+		printf ("Pobieranie danych\n") ;
 		for(j=0;j<12;)
 		{
 			i=0;
@@ -45,7 +46,7 @@ int main (void)
 					//printf("Odebrano %s \n",znak);
 					if(i==7){
 						singleCharinInt=fromBinary(znak);
-						printf("Wyliczona liczba %d \n",singleCharinInt);
+						//printf("Wyliczona liczba %d \n",singleCharinInt);
 					}
 					i++;
 				}
@@ -54,13 +55,13 @@ int main (void)
 			if(0<=singleCharinInt&&singleCharinInt<79){
 				singleChar=singleCharinInt+'0';
 				sprintf(singleCharArray,"%c",singleChar);
-				printf("Odebrany znak w CHAR %c \n",singleChar);
-				printf("Odebrany znak w tablicy %s \n",singleCharArray);
+				//printf("Odebrany znak w CHAR %c \n",singleChar);
+				//printf("Odebrany znak w tablicy %s \n",singleCharArray);
 				//singleChar=
 				//const char *strFrom2=singleChar;
 				strcat(password,singleCharArray);
 				j++;
-				printf("wartosc J %d \n",j);
+				//printf("wartosc J %d \n",j);
 			}
 			if(j==12){
 				printf("Utworzone haslo %s \n",password);
@@ -68,7 +69,7 @@ int main (void)
 				return 0 ;
 			}
 		}//end of password FOR
-	//}
+	}
 }
 
 int fromBinary(char *s)

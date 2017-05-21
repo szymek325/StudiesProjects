@@ -1,3 +1,4 @@
 <?php
-	echo(rand(1000000000,9999999999999));	
+	$wynik=exec("./Uruchom.sh");
+	echo "$wynik"
 ?>
