@@ -14,9 +14,9 @@ int main (void)
 	digitalWrite(2,randomBit);
 	printf("wyslano %d \n",randomBit);
 	digitalWrite(3,LOW);
-	delay (500) ;
+	delay (5) ;
 	digitalWrite(3,HIGH);
-	delay (2) ;
+	delay (5) ;
   }
   return 0 ;
 }
