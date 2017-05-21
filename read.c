@@ -62,7 +62,7 @@ int main (void)
 				j++;
 				printf("wartosc J %d \n",j);
 			}
-			if(j==11){
+			if(j==12){
 				printf("Utworzone haslo %s \n",password);
 				//printf("DOLICZONO DO 12!!!!!!!!! \n");
 				return 0 ;
