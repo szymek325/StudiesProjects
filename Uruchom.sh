@@ -1,2 +1,1 @@
-cd /var/www/html
-sudo ./odczyt
+sudo ./read

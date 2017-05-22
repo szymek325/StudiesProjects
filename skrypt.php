@@ -1,4 +1,4 @@
 <?php
-	$wynik=exec("./Uruchom.sh");
-	echo "$wynik"
+	$wynik=exec("sudo ./read");
+	echo "$wynik";
 ?>

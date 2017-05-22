@@ -25,10 +25,9 @@ int main (void)
   wiringPiSetup () ;
   pinMode (0, INPUT) ; //clock
   pinMode (7, INPUT) ; //data
-  for (;;)
-  {
-		j=0;
-		printf ("Pobieranie danych\n") ;
+  //for (;;)
+  //{
+		//j=0;
 		for(j=0;j<12;)
 		{
 			i=0;
@@ -40,36 +39,35 @@ int main (void)
 				if(clocks==1&&previousState!=clocks){
 					reading=digitalRead(7);
 					sprintf(singleBit,"%d",reading);
-					//printf("%s ",singleBit );
+					printf("%s ",singleBit );
 					const char *strFrom1=singleBit;
 					strcat(znak,strFrom1);
-					//printf("Odebrano %s \n",znak);
+					printf("Odebrano %s \n",znak);
 					if(i==7){
 						singleCharinInt=fromBinary(znak);
-						//printf("Wyliczona liczba %d \n",singleCharinInt);
 					}
 					i++;
 				}
 				previousState=clocks;
   		}//end of bits FOR
+			singleCharinInt=singleCharinInt%78;
 			if(0<=singleCharinInt&&singleCharinInt<79){
 				singleChar=singleCharinInt+'0';
 				sprintf(singleCharArray,"%c",singleChar);
-				//printf("Odebrany znak w CHAR %c \n",singleChar);
-				//printf("Odebrany znak w tablicy %s \n",singleCharArray);
-				//singleChar=
-				//const char *strFrom2=singleChar;
+				printf("Odebrany znak w CHAR %c \n",singleChar);
+				printf("Odebrany znak w tablicy %s \n",singleCharArray);
 				strcat(password,singleCharArray);
 				j++;
-				//printf("wartosc J %d \n",j);
 			}
 			if(j==12){
 				printf("Utworzone haslo %s \n",password);
-				//printf("DOLICZONO DO 12!!!!!!!!! \n");
-				return 0 ;
+				printf("DOLICZONO DO 12!!!!!!!!! \n");
 			}
 		}//end of password FOR
-	}
+		printf("%s\n",password);
+		//printf("dupa \n");
+		return 1;
+	//}
 }
 
 int fromBinary(char *s)
