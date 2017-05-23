@@ -10,14 +10,7 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col">
-          <font size="4">Odleglosc</font>
-        </div>
-        <div class="col">
-          <font size="4">{{currentDistance}}</font>
-        </div>
-      </div>
+
 
       <div class="row">
         <div class="col">
@@ -30,14 +23,60 @@
 
       <div class="row">
         <div class="col">
+          <font size="4">Humidity</font>
+        </div>
+        <div class="col">
+          <font size="4">{{currentHumidity}}</font>
+        </div>
+      </div>
+
+            <div class="row">
+              <div class="col">
+                <font size="4">Fish Sensor</font>
+              </div>
+              <div class="col">
+                <font size="4">{{currentFish}}</font>
+              </div>
+            </div>
+
+
+      <div class="row">
+        <div class="col">
+          <font size="4">Distance</font>
+        </div>
+        <div class="col">
+          <font size="4">{{currentDistance}}</font>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
           <font size="4">Fotorezystor</font>
         </div>
         <div class="col">
           <font size="4">{{currentFoto}}</font>
         </div>
       </div>
-    </ion-item>
 
+            <div class="row">
+              <div class="col">
+                <font size="4">Movement</font>
+              </div>
+              <div class="col">
+                <font size="4">{{currentMovement}}</font>
+              </div>
+            </div>
+
+
+    </ion-item>
+    <table class="table" id="dataLog">
+    					<tr class="success">
+    						<td>Czas</td>
+    						<td>Foto</td>
+    						<td>Dystans</td>
+    						<td>Temp</td>
+    					</tr>
+    				</table>
 
   <!-- <div class="card">
     <div class="item item-divider">

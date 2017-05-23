@@ -5,6 +5,9 @@ angular.module('starter.controllers', [])
 	$scope.currentFoto="wartosc";
 	$scope.currentTemperature="stopnie";
 	$scope.currentDistance="value";
+	$scope.currentMovement="value";
+	$scope.currentHumidity="value";
+	$scope.currentFish="value";
 
 	var interval1=$interval(receiveData, 2000);
 	 var timeX=new Date().toTimeString().split(" ")[0];
@@ -29,14 +32,31 @@ angular.module('starter.controllers', [])
 			$scope.currentTemperature = receivedData.getTemperature();
 			$scope.currentFoto = receivedData.getFoto();
 			$scope.currentDistance=receivedData.getDistance();
-
+			$scope.currentFish=receivedData.getFish();
+			$scope.currentMovement=receivedData.getMovement();
+			$scope.currentHumidity=receivedData.getHumidity();
 			// if(counter>=3){
 			// 	updateCharts();
 			// 	counter=0;
 			// }
+			// updateDataLog();
 		}
 	}
 
+	// function updateDataLog(){
+	// 		if(table.rows.length>=61){
+	// 			table.deleteRow(60);
+	// 		}
+	// 		var row = table.insertRow(1);
+	// 		var cell1 = row.insertCell(0);
+	// 		var cell2 = row.insertCell(1);
+	// 		var cell3 = row.insertCell(2);
+	// 		var cell4 = row.insertCell(3);
+	// 		cell1.innerHTML = timeX;
+	// 		cell2.innerHTML = $scope.currentFoto;
+	// 		cell3.innerHTML = $scope.currentTemperature
+	// 		cell4.innerHTML = $scope.currentDistance;
+	// 	}
 	// function updateCharts(){
 	// 	timeX=new Date().toTimeString().split(" ")[0];
 	// 	if($scope.labels1.length>=150){

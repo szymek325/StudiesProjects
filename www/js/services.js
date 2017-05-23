@@ -6,7 +6,10 @@ angular.module('starter.services', [])
   // INITIAL VALUES
   var temperatureReceived;
   var fotoReceived;
-  var distanceReceived
+  var distanceReceived;
+  var fishReceived;
+  var movementReceived;
+  var humidityReceived;
   var isThereData;
 
   return {
@@ -18,6 +21,15 @@ angular.module('starter.services', [])
     },
     getDistance: function () {
       return distanceReceived;
+    },
+    getHumidity: function () {
+      return humidityReceived;
+    },
+    getFish: function () {
+      return fishReceived;
+    },
+    getMovement: function () {
+      return movementReceived;
     },
     getIsThereData: function () {
       return isThereData;
@@ -31,10 +43,13 @@ angular.module('starter.services', [])
           {
             isThereData=1;
 
-            temperatureReceived=data.substring(data.indexOf('t')+1, data.indexOf('s'));
-            fotoReceived=data.substring(data.indexOf('s')+1, data.indexOf('p'));
-            distanceReceived=data.substring(data.indexOf('p')+1, data.indexOf('/'));
-
+            fotoReceived=data.substring(data.indexOf('r')+1, data.indexOf('f'));
+            fishReceived=data.substring(data.indexOf('f')+1, data.indexOf('c'));
+            movementReceived=data.substring(data.indexOf('c')+1, data.indexOf('o'));
+            distanceReceived=data.substring(data.indexOf('o')+1, data.indexOf('t'));
+            temperatureReceived=data.substring(data.indexOf('t')+1, data.indexOf('h'));
+            humidityReceived=data.substring(data.indexOf('h')+1, data.indexOf('/'));
+            console.log()
             bluetoothSerial.clear(console.log(),console.log());
           }
           else{
