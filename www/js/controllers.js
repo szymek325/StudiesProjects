@@ -2,126 +2,110 @@ angular.module('starter.controllers', [])
 
 .controller('TempCtrl', function($scope, $interval, $ionicModal, receivedData, bluetoothInformation, $ionicLoading) {
 	// INITIAL VALUES
-	$scope.currentSetpoint="value";
-	$scope.currentTemperature="value";
-	$scope.pwmSignal="value";
-	$scope.kpValue="value";
-	$scope.kiValue="value";
-	$scope.kdValue="value";
-	$scope.regulatorType="value";
-	$scope.hysteresisValue="value";
-	$scope.powerValue="Value";
+	$scope.currentFoto="wartosc";
+	$scope.currentTemperature="stopnie";
+	$scope.currentDistance="value";
 
-	var interval1=$interval(receiveData, 1000);
-	var timeX=new Date().toTimeString().split(" ")[0];
-	var counter=0;
+	var interval1=$interval(receiveData, 2000);
+	 var timeX=new Date().toTimeString().split(" ")[0];
+	// var counter=0;
 
-	$scope.labels1 = [timeX];
-	$scope.series1 = [['Actual Temperature'],['Setpoint']];
-	$scope.data1=[[22],[22]];
-	$scope.colors = ['#ff6384','#ff6384'];
-
-	$scope.labels2 = [timeX];
-	$scope.series2 = ['PWM'];
-	$scope.data2=[0];
-	$scope.color2 = ['#ff6384'];
+	// $scope.labels1 = [timeX];
+	// $scope.series1 = [['Actual Temperature'],['Setpoint']];
+	// $scope.data1=[[22],[22]];
+	// $scope.colors = ['#ff6384','#ff6384'];
+	//
+	// $scope.labels2 = [timeX];
+	// $scope.series2 = ['PWM'];
+	// $scope.data2=[0];
+	// $scope.color2 = ['#ff6384'];
 
 	function receiveData(){
-		counter=counter+1;
+		//counter=counter+1;
+		var timeX=new Date().toTimeString().split(" ")[0];
 		receivedData.getData();
 		if(receivedData.getIsThereData())
 		{
 			$scope.currentTemperature = receivedData.getTemperature();
-			$scope.currentSetpoint = receivedData.getSetpoint();
-			$scope.pwmSignal=receivedData.getPwm();
-			$scope.kpValue=receivedData.getKp();
-			$scope.kiValue=receivedData.getKi();
-			$scope.kdValue=receivedData.getKd();
-			$scope.hysteresisValue=receivedData.getHysteresis();
-			$scope.powerValue=receivedData.getPower()
-			if(receivedData.getRegulator()=='1'){
-				$scope.regulatorType='Hysteresis';
-			}
-			else{
-				$scope.regulatorType='PID';
-			}
+			$scope.currentFoto = receivedData.getFoto();
+			$scope.currentDistance=receivedData.getDistance();
 
-			if(counter>=3){
-				updateCharts();
-				counter=0;
-			}
+			// if(counter>=3){
+			// 	updateCharts();
+			// 	counter=0;
+			// }
 		}
 	}
 
-	function updateCharts(){
-		timeX=new Date().toTimeString().split(" ")[0];
-		if($scope.labels1.length>=150){
-			console.log($scope.labels1.length);
-			$scope.labels1=$scope.labels1.slice(1,150);
-			$scope.data1[0]=$scope.data1[0].slice(1,150);
-			$scope.data1[1]=$scope.data1[1].slice(1,150);
+	// function updateCharts(){
+	// 	timeX=new Date().toTimeString().split(" ")[0];
+	// 	if($scope.labels1.length>=150){
+	// 		console.log($scope.labels1.length);
+	// 		$scope.labels1=$scope.labels1.slice(1,150);
+	// 		$scope.data1[0]=$scope.data1[0].slice(1,150);
+	// 		$scope.data1[1]=$scope.data1[1].slice(1,150);
+	//
+	// 		$scope.labels2=$scope.labels2.slice(1,150);
+	// 		$scope.data2=$scope.data2.slice(1,150);
+	// 	}
+	//
+	// 	$scope.labels1.push(timeX);
+	// 	$scope.data1[0].push($scope.currentTemperature);
+	// 	$scope.data1[1].push($scope.currentSetpoint);
+	//
+	// 	$scope.labels2.push(timeX);
+	// 	$scope.data2.push($scope.pwmSignal);
+	// }
 
-			$scope.labels2=$scope.labels2.slice(1,150);
-			$scope.data2=$scope.data2.slice(1,150);
-		}
-
-		$scope.labels1.push(timeX);
-		$scope.data1[0].push($scope.currentTemperature);
-		$scope.data1[1].push($scope.currentSetpoint);
-
-		$scope.labels2.push(timeX);
-		$scope.data2.push($scope.pwmSignal);
-	}
-
-	$scope.resetChart= function(){
-		$scope.data1=[[receivedData.getTemperature()],[receivedData.getSetpoint()]];
-		$scope.labels1=[timeX];
-		$scope.data2=[receivedData.getPwm()];
-		$scope.labels2=[timeX];
-	}
-
-
-
-	$scope.options1 = {
-		animation:false,
-		scales: {
-			yAxes: [
-			{
-				id: 'y-axis-1',
-				type: 'linear',
-				display: true,
-				position: 'left',
-			}],
-			xAxes: [{
-				ticks: {
-					autoSkip:true,
-					maxTicksLimit:4,
-				}
-			}],
-		},
-	}
-
-	$scope.options2 = {
-		animation:false,
-		scales: {
-			yAxes: [
-			{
-				id: 'y-axis-1',
-				type: 'linear',
-				display: true,
-				position: 'left',
-			}],
-			xAxes: [{
-				ticks: {
-					autoSkip:true,
-					maxTicksLimit:4,
-				}
-			}],
-		},
-	}
+	// $scope.resetChart= function(){
+	// 	$scope.data1=[[receivedData.getTemperature()],[receivedData.getSetpoint()]];
+	// 	$scope.labels1=[timeX];
+	// 	$scope.data2=[receivedData.getPwm()];
+	// 	$scope.labels2=[timeX];
+	// }
 
 
-})
+//
+// 	$scope.options1 = {
+// 		animation:false,
+// 		scales: {
+// 			yAxes: [
+// 			{
+// 				id: 'y-axis-1',
+// 				type: 'linear',
+// 				display: true,
+// 				position: 'left',
+// 			}],
+// 			xAxes: [{
+// 				ticks: {
+// 					autoSkip:true,
+// 					maxTicksLimit:4,
+// 				}
+// 			}],
+// 		},
+// 	}
+//
+// 	$scope.options2 = {
+// 		animation:false,
+// 		scales: {
+// 			yAxes: [
+// 			{
+// 				id: 'y-axis-1',
+// 				type: 'linear',
+// 				display: true,
+// 				position: 'left',
+// 			}],
+// 			xAxes: [{
+// 				ticks: {
+// 					autoSkip:true,
+// 					maxTicksLimit:4,
+// 				}
+// 			}],
+// 		},
+// 	}
+//
+//
+ })
 
 .controller('ControlCtrl', function($scope, $ionicModal, bluetoothInformation) {
 	// INITIAL VALUES

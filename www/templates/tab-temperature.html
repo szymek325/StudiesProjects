@@ -3,19 +3,19 @@
     <ion-item>
       <div class="row">
         <div class="col">
-          <font size="4"><b>Regulator</font>
+          <font size="4"><b>Sensor</font>
         </div>
         <div class="col">
-          <font size="4">{{regulatorType}}</b></font>
+          <font size="4">Value</b></font>
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <font size="4">Setpoint</font>
+          <font size="4">Odleglosc</font>
         </div>
         <div class="col">
-          <font size="4">{{currentSetpoint}}</font>
+          <font size="4">{{currentDistance}}</font>
         </div>
       </div>
 
@@ -30,68 +30,16 @@
 
       <div class="row">
         <div class="col">
-          <font size="4">PWM</font>
+          <font size="4">Fotorezystor</font>
         </div>
         <div class="col">
-          <font size="4">{{pwmSignal}}</font>
+          <font size="4">{{currentFoto}}</font>
         </div>
       </div>
     </ion-item>
 
-    <ion-item>
-      <div class="row">
-        <div class="col col-50">
-          <font size="4"><b>PID Settings</font>
-        </div>
-        <div class="col col-50">
-          <font size="4">Hysteresis Settings</b></font>
-        </div>
-      </div>
 
-
-      <div class="row">
-        <div class="col col-25">
-          <font size="4">Kp</font>
-        </div>
-        <div class="col col-25">
-          <font size="4">{{kpValue}}</font>
-        </div>
-
-        <div class="col col-25">
-          <font size="4">Hysteresis</font>
-        </div>
-        <div class="col col-25">
-          <font size="4">{{hysteresisValue}}</font>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col col-25">
-          <font size="4">Ki</font>
-        </div>
-        <div class="col col-25">
-          <font size="4">{{kiValue}}</font>
-        </div>
-
-        <div class="col col-25">
-          <font size="4">Power</font>
-        </div>
-        <div class="col col-25">
-          <font size="4">{{powerValue}}</font>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col col-25">
-          <font size="4">Kd</font>
-        </div>
-        <div class="col col-25">
-          <font size="4">{{kdValue}}</font>
-        </div>
-      </div>
-    </ion-item>
-  </ion-item>
-  <div class="card">
+  <!-- <div class="card">
     <div class="item item-divider">
       Temperature Chart
     </div>
@@ -107,6 +55,6 @@
   </div>
   <button class='button button-block button-assertive' ng-click="resetChart()">
     Reset charts
-  </button>
+  </button> -->
 </ion-content>
 </ion-view>
