@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('TempCtrl', function($scope, $interval, $ionicModal, receivedData, bluetoothInformation, $ionicLoading) {
+.controller('TempCtrl', function($scope, $interval, $ionicModal, receivedData, bluetoothInformation, $ionicLoading, $state) {
 	// INITIAL VALUES
 	$scope.currentFoto="value";
 	$scope.currentTemperature="value";
@@ -17,10 +17,12 @@ angular.module('starter.controllers', [])
 	$scope.humidity=[{time:"time",value:"humidity"}]
 	$scope.fish=[{time:"time",value:"fish sensor"}]
 	//$scope.time=["start"];
-	var i=0;
+	var letitGo=1;
 
 	var interval1=$interval(receiveData, 2000);
-	 var timeX=new Date().toTimeString().split(" ")[0];
+	var timeX=new Date().toTimeString().split(" ")[0];
+
+	$state.go('tab.bluetooth');
 
 	function receiveData(){
 		//counter=counter+1;
@@ -53,6 +55,15 @@ angular.module('starter.controllers', [])
 	$scope.distance.push({time:$scope.currentTime,value:$scope.currentDistance});
 	$scope.movement.push({time:$scope.currentTime,value:$scope.currentMovement});
 	$scope.fish.push({time:$scope.currentTime,value:$scope.currentFish});
+	if(letitGo){
+		letitGo=0;
+		$scope.temperature=$scope.temperature.slice(1,2);
+		$scope.humidity=$scope.humidity.slice(1,2);
+		$scope.foto=$scope.foto.slice(1,2);
+		$scope.distance=$scope.distance.slice(1,2);
+		$scope.movement=$scope.movement.slice(1,2);
+		$scope.fish=$scope.fish.slice(1,2);
+	}
 }
 
 
@@ -104,7 +115,7 @@ angular.module('starter.controllers', [])
 		$scope.oModal5 = modal;
 	})
 
-	$ionicModal.fromTemplateUrl('templates/light.html', {
+	$ionicModal.fromTemplateUrl('templates/foto.html', {
 	id: '6',
 	scope: $scope}).then(function(modal) {
 		$scope.oModal6 = modal;
