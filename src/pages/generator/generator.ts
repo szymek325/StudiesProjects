@@ -26,7 +26,7 @@ myDate: String=new Date().toTimeString().split(" ")[0]
 
  setData(event){
    this.myDate=new Date().toTimeString().split(" ")[0]
-   var url='http://192.168.0.29/skrypt.php';
+   var url='http://172.24.1.1';
     this.http.get(url).map(res => res.json()).subscribe(received=>{
       this.passwordList.push({time:this.myDate,data:received})
       this.generatedPassword=received;
