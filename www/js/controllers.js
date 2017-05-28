@@ -8,24 +8,14 @@ angular.module('starter.controllers', [])
 	$scope.currentMovement="value";
 	$scope.currentHumidity="value";
 	$scope.currentFish="value";
+	$scope.currentTime="value"
 
 	var interval1=$interval(receiveData, 2000);
 	 var timeX=new Date().toTimeString().split(" ")[0];
-	// var counter=0;
-
-	// $scope.labels1 = [timeX];
-	// $scope.series1 = [['Actual Temperature'],['Setpoint']];
-	// $scope.data1=[[22],[22]];
-	// $scope.colors = ['#ff6384','#ff6384'];
-	//
-	// $scope.labels2 = [timeX];
-	// $scope.series2 = ['PWM'];
-	// $scope.data2=[0];
-	// $scope.color2 = ['#ff6384'];
 
 	function receiveData(){
 		//counter=counter+1;
-		var timeX=new Date().toTimeString().split(" ")[0];
+		$scope.currentTime=new Date().toTimeString().split(" ")[0];
 		receivedData.getData();
 		if(receivedData.getIsThereData())
 		{
@@ -35,101 +25,13 @@ angular.module('starter.controllers', [])
 			$scope.currentFish=receivedData.getFish();
 			$scope.currentMovement=receivedData.getMovement();
 			$scope.currentHumidity=receivedData.getHumidity();
-			// if(counter>=3){
-			// 	updateCharts();
-			// 	counter=0;
-			// }
-			// updateDataLog();
 		}
 	}
 
-	// function updateDataLog(){
-	// 		if(table.rows.length>=61){
-	// 			table.deleteRow(60);
-	// 		}
-	// 		var row = table.insertRow(1);
-	// 		var cell1 = row.insertCell(0);
-	// 		var cell2 = row.insertCell(1);
-	// 		var cell3 = row.insertCell(2);
-	// 		var cell4 = row.insertCell(3);
-	// 		cell1.innerHTML = timeX;
-	// 		cell2.innerHTML = $scope.currentFoto;
-	// 		cell3.innerHTML = $scope.currentTemperature
-	// 		cell4.innerHTML = $scope.currentDistance;
-	// 	}
-	// function updateCharts(){
-	// 	timeX=new Date().toTimeString().split(" ")[0];
-	// 	if($scope.labels1.length>=150){
-	// 		console.log($scope.labels1.length);
-	// 		$scope.labels1=$scope.labels1.slice(1,150);
-	// 		$scope.data1[0]=$scope.data1[0].slice(1,150);
-	// 		$scope.data1[1]=$scope.data1[1].slice(1,150);
-	//
-	// 		$scope.labels2=$scope.labels2.slice(1,150);
-	// 		$scope.data2=$scope.data2.slice(1,150);
-	// 	}
-	//
-	// 	$scope.labels1.push(timeX);
-	// 	$scope.data1[0].push($scope.currentTemperature);
-	// 	$scope.data1[1].push($scope.currentSetpoint);
-	//
-	// 	$scope.labels2.push(timeX);
-	// 	$scope.data2.push($scope.pwmSignal);
-	// }
-
-	// $scope.resetChart= function(){
-	// 	$scope.data1=[[receivedData.getTemperature()],[receivedData.getSetpoint()]];
-	// 	$scope.labels1=[timeX];
-	// 	$scope.data2=[receivedData.getPwm()];
-	// 	$scope.labels2=[timeX];
-	// }
-
-
-//
-// 	$scope.options1 = {
-// 		animation:false,
-// 		scales: {
-// 			yAxes: [
-// 			{
-// 				id: 'y-axis-1',
-// 				type: 'linear',
-// 				display: true,
-// 				position: 'left',
-// 			}],
-// 			xAxes: [{
-// 				ticks: {
-// 					autoSkip:true,
-// 					maxTicksLimit:4,
-// 				}
-// 			}],
-// 		},
-// 	}
-//
-// 	$scope.options2 = {
-// 		animation:false,
-// 		scales: {
-// 			yAxes: [
-// 			{
-// 				id: 'y-axis-1',
-// 				type: 'linear',
-// 				display: true,
-// 				position: 'left',
-// 			}],
-// 			xAxes: [{
-// 				ticks: {
-// 					autoSkip:true,
-// 					maxTicksLimit:4,
-// 				}
-// 			}],
-// 		},
-// 	}
-//
-//
  })
 
 .controller('ControlCtrl', function($scope, $ionicModal, bluetoothInformation) {
 	// INITIAL VALUES
-
 
 	$scope.sendSetpoint= function(argument){
 		if(bluetoothInformation.getConnectionState()){
