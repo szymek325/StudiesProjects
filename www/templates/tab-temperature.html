@@ -1,91 +1,65 @@
 <ion-view view-title="Readings">
   <ion-content class="padding" style="text-align:center">
-    <ion-item>
-      <div class="row">
-        <div class="col">
-          <font size="4"><b>Time</font>
-        </div>
-        <div class="col">
-          <font size="4">{{currentTime}}</b></font>
-        </div>
+
+    <div class="row">
+      <div class="col">
+        <font size="4"><b>Time</font>
       </div>
-
-
-
-      <div class="row">
-        <div class="col">
-          <font size="4">Temperature</font>
-        </div>
-        <div class="col">
-          <font size="4">{{currentTemperature}}</font>
-        </div>
+      <div class="col">
+        <font size="4">{{currentTime}}</b></font>
       </div>
-
-      <div class="row">
-        <div class="col">
-          <font size="4">Humidity</font>
-        </div>
-        <div class="col">
-          <font size="4">{{currentHumidity}}</font>
-        </div>
-      </div>
-
-            <div class="row">
-              <div class="col">
-                <font size="4">Fish Sensor</font>
-              </div>
-              <div class="col">
-                <font size="4">{{currentFish}}</font>
-              </div>
-            </div>
-
-
-      <div class="row">
-        <div class="col">
-          <font size="4">Distance</font>
-        </div>
-        <div class="col">
-          <font size="4">{{currentDistance}}</font>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <font size="4">Fotorezystor</font>
-        </div>
-        <div class="col">
-          <font size="4">{{currentFoto}}</font>
-        </div>
-      </div>
-
-            <div class="row">
-              <div class="col">
-                <font size="4">Movement</font>
-              </div>
-              <div class="col">
-                <font size="4">{{currentMovement}}</font>
-              </div>
-            </div>
-
-    </ion-item>
-
-
-  <!-- <div class="card">
-    <div class="item item-divider">
-      Temperature Chart
     </div>
-    <div class="item item-text-wrap">
-      <canvas id="line1" class="chart chart-line" chart-data="data1" chart-labels="labels1" chart-legend="true" chart-series="series1" chart-options="options1"></canvas>
+
+    <div class="row">
+      <div class="col" style="line-height:1px">
+        <button class="button button-block button-calm">
+          <p class="button-pre">Temperature</p>
+          <p class="ion-thermometer ikon-size"></p>
+          <p class="button-after">{{currentTemperature}}</p>
+        </button>
+      </div>
+      <div class="col" style="line-height:1px">
+        <button class="button button-block button-calm">
+          <p class="button-pre">Humidity</p>
+          <p class="ion-ios-rainy ikon-size"></p>
+          <p class="button-after">{{currentHumidity}}</p>
+        </button>
+      </div>
     </div>
-    <div class="item item-divider">
-      PWM Chart
+
+    <div class="row">
+      <div class="col" style="line-height:1px">
+        <button class="button button-block button-calm">
+          <p class="button-pre">Distance to object</p>
+          <p class="ion-wifi ikon-size"></p>
+          <p class="button-after">{{currentDistance}}</p>
+        </button>
+      </div>
+      <div class="col" style="line-height:1px">
+        <button class="button button-block button-calm">
+          <p class="button-pre">Movement</p>
+          <p class="ion-eye ikon-size"></p>
+          <p class="button-after">{{currentMovement}}</p>
+        </button>
+      </div>
     </div>
-    <div class="item item-text-wrap">
-      <canvas id="line2" class="chart chart-line" chart-data="data2" chart-labels="labels2" chart-legend="true" chart-series="series2" chart-options="options2"></canvas>
+
+    <div class="row">
+      <div class="col" style="line-height:1px">
+        <button class="button button-block button-calm">
+          <p class="button-pre">Fish sensor</p>
+          <p class="ion-ios-bolt ikon-size"></p>
+          <p class="button-after">{{currentFish}}</p>
+        </button>
+      </div>
+      <div class="col" style="line-height:1px">
+        <button class="button button-block button-calm">
+          <p class="button-pre">Light</p>
+          <p class="ion-ios-sunny ikon-size"></p>
+          <p class="button-after">{{currentFoto}}</p>
+        </button>
+      </div>
     </div>
-  </div>
-  <button class='button button-block button-assertive' ng-click="resetChart()">
-    Reset charts
-  </button> -->
+
 </ion-content>
 </ion-view>

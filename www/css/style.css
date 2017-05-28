@@ -6,3 +6,23 @@ h2{
 #forward{
 	padding-bottom: : 300px;
 }
+
+#temperatura{
+	font-size: 40px;
+}
+
+
+.ikon-size{
+	font-size: 50px;
+}
+
+.button-pre {
+	padding-top: 5px;
+	font-size:10px;
+	line-height: 1.0em;
+}
+
+.button-after {
+	font-size:15px;
+	line-height: 0.5em;
+}
