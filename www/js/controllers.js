@@ -36,8 +36,8 @@ angular.module('starter.controllers', [])
 			$scope.currentFish=receivedData.getFish();
 			$scope.currentMovement=receivedData.getMovement();
 			$scope.currentHumidity=receivedData.getHumidity();
+			updateArrays();
 		}
-		updateArrays();
 	}
 
 	function updateArrays(){
