@@ -2,24 +2,15 @@
   <ion-content class="padding" style="text-align:center">
 
     <div class="row">
-      <div class="col">
-        <font size="4"><b>Time</font>
-      </div>
-      <div class="col">
-        <font size="4">{{currentTime}}</b></font>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="col" style="line-height:1px">
-        <button class="button button-block button-calm">
+        <button class="button button-block button-calm" ng-click="openModal(1)">
           <p class="button-pre">Temperature</p>
           <p class="ion-thermometer ikon-size"></p>
           <p class="button-after">{{currentTemperature}}</p>
         </button>
       </div>
       <div class="col" style="line-height:1px">
-        <button class="button button-block button-calm">
+        <button class="button button-block button-calm" ng-click="openModal(2)">
           <p class="button-pre">Humidity</p>
           <p class="ion-ios-rainy ikon-size"></p>
           <p class="button-after">{{currentHumidity}}</p>
@@ -29,14 +20,14 @@
 
     <div class="row">
       <div class="col" style="line-height:1px">
-        <button class="button button-block button-calm">
+        <button class="button button-block button-calm" ng-click="openModal(3)">
           <p class="button-pre">Distance to object</p>
           <p class="ion-wifi ikon-size"></p>
           <p class="button-after">{{currentDistance}}</p>
         </button>
       </div>
       <div class="col" style="line-height:1px">
-        <button class="button button-block button-calm">
+        <button class="button button-block button-calm" ng-click="openModal(4)">
           <p class="button-pre">Movement</p>
           <p class="ion-eye ikon-size"></p>
           <p class="button-after">{{currentMovement}}</p>
@@ -46,14 +37,14 @@
 
     <div class="row">
       <div class="col" style="line-height:1px">
-        <button class="button button-block button-calm">
+        <button class="button button-block button-calm" ng-click="openModal(5)">
           <p class="button-pre">Fish sensor</p>
           <p class="ion-ios-bolt ikon-size"></p>
           <p class="button-after">{{currentFish}}</p>
         </button>
       </div>
       <div class="col" style="line-height:1px">
-        <button class="button button-block button-calm">
+        <button class="button button-block button-calm" ng-click="openModal(6)">
           <p class="button-pre">Light</p>
           <p class="ion-ios-sunny ikon-size"></p>
           <p class="button-after">{{currentFoto}}</p>
@@ -62,4 +53,173 @@
     </div>
 
 </ion-content>
+
+<script id="templates/temperature.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar bar-header bar-positive">
+        <button class="button button-clear button-primary" ng-click="closeModal(1)">HIDE</button>
+      </ion-header-bar>
+      <ion-content class="padding" style="text-align:center">
+        <font size="5"><b>Temperature</b></font>
+        <div class="row">
+          <div class="col">
+            <font size="4"><b>Time</font>
+          </div>
+          <div class="col">
+            <font size="4">Value</b></font>
+          </div>
+        </div>
+
+        <div class="row" ng-repeat="data in temperature">
+          <div class="col">
+            <font size="3">{{data.time}}</font>
+          </div>
+          <div class="col">
+            <font size="3">{{data.value}}</font>
+          </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="templates/humidity.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar bar-header bar-positive">
+        <button class="button button-clear button-primary" ng-click="closeModal(2)">HIDE</button>
+      </ion-header-bar>
+      <ion-content class="padding" style="text-align:center">
+        <font size="5"><b>Humidity</b></font>
+        <div class="row">
+          <div class="col">
+            <font size="4"><b>Time</font>
+          </div>
+          <div class="col">
+            <font size="4">Value</b></font>
+          </div>
+        </div>
+
+        <div class="row" ng-repeat="data in humidity">
+          <div class="col">
+            <font size="3">{{data.time}}</font>
+          </div>
+          <div class="col">
+            <font size="3">{{data.value}}</font>
+          </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="templates/distance.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar bar-header bar-positive">
+        <button class="button button-clear button-primary" ng-click="closeModal(3)">HIDE</button>
+      </ion-header-bar>
+      <ion-content class="padding" style="text-align:center">
+        <font size="5"><b>Distance to object</b></font>
+        <div class="row">
+          <div class="col">
+            <font size="4"><b>Time</font>
+          </div>
+          <div class="col">
+            <font size="4">Value</b></font>
+          </div>
+        </div>
+
+        <div class="row" ng-repeat="data in distance">
+          <div class="col">
+            <font size="3">{{data.time}}</font>
+          </div>
+          <div class="col">
+            <font size="3">{{data.value}}</font>
+          </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="templates/movement.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar bar-header bar-positive">
+        <button class="button button-clear button-primary" ng-click="closeModal(4)">HIDE</button>
+      </ion-header-bar>
+      <ion-content class="padding" style="text-align:center">
+        <font size="5"><b>Movement</b></font>
+        <div class="row">
+          <div class="col">
+            <font size="4"><b>Time</font>
+          </div>
+          <div class="col">
+            <font size="4">Value</b></font>
+          </div>
+        </div>
+
+        <div class="row" ng-repeat="data in movement">
+          <div class="col">
+            <font size="3">{{data.time}}</font>
+          </div>
+          <div class="col">
+            <font size="3">{{data.value}}</font>
+          </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="templates/fish.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar bar-header bar-positive">
+        <button class="button button-clear button-primary" ng-click="closeModal(5)">HIDE</button>
+      </ion-header-bar>
+      <ion-content class="padding" style="text-align:center">
+        <font size="5"><b>Fish sensor</b></font>
+        <div class="row">
+          <div class="col">
+            <font size="4"><b>Time</font>
+          </div>
+          <div class="col">
+            <font size="4">Value</b></font>
+          </div>
+        </div>
+
+        <div class="row" ng-repeat="data in fish">
+          <div class="col">
+            <font size="3">{{data.time}}</font>
+          </div>
+          <div class="col">
+            <font size="3">{{data.value}}</font>
+          </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="templates/foto.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar class="bar bar-header bar-positive">
+        <button class="button button-clear button-primary" ng-click="closeModal(6)">HIDE</button>
+      </ion-header-bar>
+      <ion-content class="padding" style="text-align:center">
+        <font size="5"><b>Light(fotoresistor)</b></font>
+        <div class="row">
+          <div class="col">
+            <font size="4"><b>Time</font>
+          </div>
+          <div class="col">
+            <font size="4">Value</b></font>
+          </div>
+        </div>
+
+        <div class="row" ng-repeat="data in foto">
+          <div class="col">
+            <font size="3">{{data.time}}</font>
+          </div>
+          <div class="col">
+            <font size="3">{{data.value}}</font>
+          </div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+</script>
+
 </ion-view>

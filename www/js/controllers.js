@@ -2,13 +2,22 @@ angular.module('starter.controllers', [])
 
 .controller('TempCtrl', function($scope, $interval, $ionicModal, receivedData, bluetoothInformation, $ionicLoading) {
 	// INITIAL VALUES
-	$scope.currentFoto="wartosc";
-	$scope.currentTemperature="stopnie";
+	$scope.currentFoto="value";
+	$scope.currentTemperature="value";
 	$scope.currentDistance="value";
 	$scope.currentMovement="value";
 	$scope.currentHumidity="value";
 	$scope.currentFish="value";
 	$scope.currentTime="value"
+
+	$scope.foto=[{time:"time",value:"fotoresistor"}]
+	$scope.temperature=[{time:"time",value:"temperature"}]
+	$scope.distance=[{time:"time",value:"distance"}]
+	$scope.movement=[{time:"time",value:"movement"}]
+	$scope.humidity=[{time:"time",value:"humidity"}]
+	$scope.fish=[{time:"time",value:"fish sensor"}]
+	//$scope.time=["start"];
+	var i=0;
 
 	var interval1=$interval(receiveData, 2000);
 	 var timeX=new Date().toTimeString().split(" ")[0];
@@ -26,7 +35,80 @@ angular.module('starter.controllers', [])
 			$scope.currentMovement=receivedData.getMovement();
 			$scope.currentHumidity=receivedData.getHumidity();
 		}
+		updateArrays();
 	}
+
+	function updateArrays(){
+		if($scope.temperature.length>=60){
+			$scope.temperature=$scope.temperature.slice(1,60);
+			$scope.humidity=$scope.humidity.slice(1,60);
+			$scope.foto=$scope.foto.slice(1,60);
+			$scope.distance=$scope.distance.slice(1,60);
+			$scope.movement=$scope.movement.slice(1,60);
+			$scope.fish=$scope.fish.slice(1,60);
+		}
+	$scope.temperature.push({time:$scope.currentTime,value:$scope.currentTemperature});
+	$scope.humidity.push({time:$scope.currentTime,value:$scope.currentHumidity});
+	$scope.foto.push({time:$scope.currentTime,value:$scope.currentFoto});
+	$scope.distance.push({time:$scope.currentTime,value:$scope.currentDistance});
+	$scope.movement.push({time:$scope.currentTime,value:$scope.currentMovement});
+	$scope.fish.push({time:$scope.currentTime,value:$scope.currentFish});
+}
+
+
+	$scope.openModal = function(index) {
+	if (index == 1) $scope.oModal1.show();
+	else if(index==2) $scope.oModal2.show();
+	else if(index==3) $scope.oModal3.show();
+	else if(index==4) $scope.oModal4.show();
+	else if(index==5) $scope.oModal5.show();
+	else $scope.oModal6.show();
+	}
+
+	$scope.closeModal = function(index) {
+		if (index == 1) $scope.oModal1.hide();
+		else if(index==2) $scope.oModal2.hide();
+		else if(index==3) $scope.oModal3.hide();
+		else if(index==4) $scope.oModal4.hide();
+		else if(index==5) $scope.oModal5.hide();
+		else $scope.oModal6.hide();
+	}
+
+	$ionicModal.fromTemplateUrl('templates/temperature.html', {
+	id: '1',
+	scope: $scope}).then(function(modal) {
+		$scope.oModal1 = modal;
+	})
+
+	$ionicModal.fromTemplateUrl('templates/humidity.html', {
+	id: '2',
+	scope: $scope}).then(function(modal) {
+		$scope.oModal2 = modal;
+	})
+
+	$ionicModal.fromTemplateUrl('templates/distance.html', {
+	id: '3',
+	scope: $scope}).then(function(modal) {
+		$scope.oModal3 = modal;
+	})
+
+	$ionicModal.fromTemplateUrl('templates/movement.html', {
+	id: '4',
+	scope: $scope}).then(function(modal) {
+		$scope.oModal4 = modal;
+	})
+
+	$ionicModal.fromTemplateUrl('templates/fish.html', {
+	id: '5',
+	scope: $scope}).then(function(modal) {
+		$scope.oModal5 = modal;
+	})
+
+	$ionicModal.fromTemplateUrl('templates/light.html', {
+	id: '6',
+	scope: $scope}).then(function(modal) {
+		$scope.oModal6 = modal;
+	})
 
  })
 
