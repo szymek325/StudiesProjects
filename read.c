@@ -6,7 +6,7 @@ int fromBinary(char *s);
 
 int main (void)
 {
-	printf ("Pobieranie danych\n") ;
+	//printf ("Pobieranie danych\n") ;
 
 	char password[12]="";//result of password generation
 	char singleCharArray[1];//array that makes it possible to append char to string
@@ -39,10 +39,10 @@ int main (void)
 				if(clocks==1&&previousState!=clocks){
 					reading=digitalRead(7);
 					sprintf(singleBit,"%d",reading);
-					printf("%s ",singleBit );
+					//printf("%s ",singleBit );
 					const char *strFrom1=singleBit;
 					strcat(znak,strFrom1);
-					printf("Odebrano %s \n",znak);
+					//printf("Odebrano %s \n",znak);
 					if(i==7){
 						singleCharinInt=fromBinary(znak);
 					}
@@ -54,14 +54,14 @@ int main (void)
 			if(0<=singleCharinInt&&singleCharinInt<79){
 				singleChar=singleCharinInt+'0';
 				sprintf(singleCharArray,"%c",singleChar);
-				printf("Odebrany znak w CHAR %c \n",singleChar);
-				printf("Odebrany znak w tablicy %s \n",singleCharArray);
+				//printf("Odebrany znak w CHAR %c \n",singleChar);
+				//printf("Odebrany znak w tablicy %s \n",singleCharArray);
 				strcat(password,singleCharArray);
 				j++;
 			}
 			if(j==12){
-				printf("Utworzone haslo %s \n",password);
-				printf("DOLICZONO DO 12!!!!!!!!! \n");
+				//printf("Utworzone haslo %s \n",password);
+				//printf("DOLICZONO DO 12!!!!!!!!! \n");
 			}
 		}//end of password FOR
 		printf("%s\n",password);
