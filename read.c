@@ -4,11 +4,15 @@
 
 int fromBinary(char *s);
 
-int main (void)
+int main (int argc, char **argv)
 {
 	//printf ("Pobieranie danych\n") ;
+	//int num = atoi(argv);
+	int num;
+	sscanf (argv[1],"%d",&num);
+	//printf("%d",num);
 
-	char password[12]="";//result of password generation
+	char password[50]="";//result of password generation
 	char singleCharArray[1];//array that makes it possible to append char to string
 	char singleChar;
 	int singleCharinInt;//singleBit char in password
@@ -28,7 +32,7 @@ int main (void)
   //for (;;)
   //{
 		//j=0;
-		for(j=0;j<12;)
+		for(j=0;j<num;)
 		{
 			i=0;
 			memset(znak, 0, 7);
@@ -59,7 +63,7 @@ int main (void)
 				strcat(password,singleCharArray);
 				j++;
 			}
-			if(j==12){
+			if(j==num){
 				//printf("Utworzone haslo %s \n",password);
 				//printf("DOLICZONO DO 12!!!!!!!!! \n");
 			}
