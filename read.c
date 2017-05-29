@@ -64,7 +64,7 @@ int main (void)
 				//printf("DOLICZONO DO 12!!!!!!!!! \n");
 			}
 		}//end of password FOR
-		printf("%s\n",password);
+		printf("\"%s\"",password);
 		//printf("dupa \n");
 		return 1;
 	//}
