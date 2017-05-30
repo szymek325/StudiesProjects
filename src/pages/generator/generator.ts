@@ -30,18 +30,20 @@ myDate: String=new Date().toTimeString().split(" ")[0]
    loading.present();
    setTimeout(() => {
     loading.dismiss();
-  }, 2000);
+    //this.generatedPassword="nie udało sie pobrać hasła"
+  }, 8000);
     var cos=Number(this.dlugosc)
     //var par=this.dlugosc.ToString();
    this.myDate=new Date().toTimeString().split(" ")[0];
-   var url='http://172.24.1.1/index.php?z='+cos;
+   //var url='http://172.24.1.1/index.php?z='+cos;
+   var url='http://62.21.32.58/index.php?z='+cos;
    console.log(url);
     this.http.get(url).map(res => res.json()).subscribe(received=>{
       this.passwordList.push({time:this.myDate,data:received})
       this.generatedPassword=received;
-
+      loading.dismiss();
     })
-
+    //loading.dismiss();
    //this.generatedPassword="nowe haslo"
    //this.passwordList.push({time:this.myDate,data:this.generatedPassword})
    //this.sqlStorage.get('baza').then(data => {console.log(data);})

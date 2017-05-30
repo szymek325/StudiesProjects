@@ -17,14 +17,12 @@
     </ion-col>
   </ion-row>
 </h2>
-<h3>
   <ion-row *ngFor="let data of allData">
-    <ion-col width-50>
+    <ion-col>
       {{data.time}}
     </ion-col>
-    <ion-col width-50 (click)="copyToClipboard(data.data)">
+    <ion-col (click)="copyToClipboard(data.data)">
       {{data.data}}
     </ion-col>
   </ion-row>
-</h3>
 </ion-content>

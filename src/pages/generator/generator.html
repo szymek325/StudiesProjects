@@ -19,14 +19,24 @@
 <p>
 <h4>{{generatedPassword}}</h4>
 </div>
-{{dlugosc}}
-<div id="get">
-  <button ion-button primary full large (click)="setData()">Wygeneruj</button>
-</div>
 
-<ion-range min="8" max="25" [(ngModel)]="dlugosc" color="secondary" pin="true">
+<div id="long">
+<ion-row>
+  <ion-col width-50>
+    Długość
+  </ion-col>
+  <ion-col width-50 (click)="copyToClipboard(data.data)">
+    {{dlugosc}}
+  </ion-col>
+</ion-row>
+<ion-range min="8" max="25" step="1" [(ngModel)]="dlugosc" color="danger" pin="true">
   <ion-label range-left>8</ion-label>
   <ion-label range-right>25</ion-label>
 </ion-range>
+</div>
+
+<div id="get">
+  <button ion-button primary full large (click)="setData()">Wygeneruj</button>
+</div>
 
 </ion-content>
