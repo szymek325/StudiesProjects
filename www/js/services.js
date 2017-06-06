@@ -46,6 +46,9 @@ angular.module('starter.services', [])
             fotoReceived=data.substring(data.indexOf('r')+1, data.indexOf('f'));
             fishReceived=data.substring(data.indexOf('f')+1, data.indexOf('c'));
             movementReceived=data.substring(data.indexOf('c')+1, data.indexOf('o'));
+            if(movementReceived=="-5"){
+              movementReceived="Car is moving"
+            }
             distanceReceived=data.substring(data.indexOf('o')+1, data.indexOf('t'));
             temperatureReceived=data.substring(data.indexOf('t')+1, data.indexOf('h'));
             humidityReceived=data.substring(data.indexOf('h')+1, data.indexOf('/'));

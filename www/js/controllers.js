@@ -130,8 +130,8 @@ angular.module('starter.controllers', [])
 		if(bluetoothInformation.getConnectionState()){
 			console.log(argument);
 			bluetoothSerial.write(argument, function (data){
-				console.log("Data sent")}, function (data){
-					console.log("Data not sent")});
+				console.log("Data sent"+ data)}, function (data){
+					console.log("Data not sent"+ data)});
 		}
 		else{
 			alert('You should connect to a device first');

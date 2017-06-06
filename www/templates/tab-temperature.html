@@ -6,14 +6,14 @@
         <button class="button button-block button-calm" ng-click="openModal(1)">
           <p class="button-pre">Temperature</p>
           <p class="ion-thermometer ikon-size"></p>
-          <p class="button-after">{{currentTemperature}}</p>
+          <p class="button-after">{{currentTemperature}} °C</p>
         </button>
       </div>
       <div class="col" style="line-height:1px">
         <button class="button button-block button-calm" ng-click="openModal(2)">
           <p class="button-pre">Humidity</p>
           <p class="ion-ios-rainy ikon-size"></p>
-          <p class="button-after">{{currentHumidity}}</p>
+          <p class="button-after">{{currentHumidity}} %</p>
         </button>
       </div>
     </div>
@@ -23,7 +23,7 @@
         <button class="button button-block button-calm" ng-click="openModal(3)">
           <p class="button-pre">Distance to object</p>
           <p class="ion-wifi ikon-size"></p>
-          <p class="button-after">{{currentDistance}}</p>
+          <p class="button-after">{{currentDistance}} cm</p>
         </button>
       </div>
       <div class="col" style="line-height:1px">
@@ -60,6 +60,7 @@
         <button class="button button-clear button-primary" ng-click="closeModal(1)">HIDE</button>
       </ion-header-bar>
       <ion-content class="padding" style="text-align:center">
+
         <font size="5"><b>Temperature</b></font>
         <div class="row">
           <div class="col">
@@ -75,7 +76,7 @@
             <font size="3">{{data.time}}</font>
           </div>
           <div class="col">
-            <font size="3">{{data.value}}</font>
+            <font size="3">{{data.value}} °C</font>
           </div>
         </div>
       </ion-content>
@@ -103,7 +104,7 @@
             <font size="3">{{data.time}}</font>
           </div>
           <div class="col">
-            <font size="3">{{data.value}}</font>
+            <font size="3">{{data.value}} %</font>
           </div>
         </div>
       </ion-content>
@@ -131,7 +132,7 @@
             <font size="3">{{data.time}}</font>
           </div>
           <div class="col">
-            <font size="3">{{data.value}}</font>
+            <font size="3">{{data.value}} cm</font>
           </div>
         </div>
       </ion-content>
