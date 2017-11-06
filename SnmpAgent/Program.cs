@@ -9,15 +9,11 @@ namespace SnmpAgent
         static void Main(string[] args)
         {
 
-            var objectTypesProvider = new ObjectTypesProvider();
-            objectTypesProvider.GetAllObjectTypes();
+            var objects = new ObjectTypesProvider().GetAllObjectTypes();
 
-            Console.WriteLine(objectTypesProvider.ObjectTypesList);
+
+            objects[0].ShowObjectType();
             
-
-            
-
-            //Console.WriteLine(Constants.MyPattern);
 
             Console.ReadKey();
         }

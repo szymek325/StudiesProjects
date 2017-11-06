@@ -7,19 +7,18 @@ namespace SnmpAgent.Providers
 {
     public class ObjectTypesProvider
     {
-        public IEnumerable<ObjectType> ObjectTypesList { get; set; }
-        public void GetAllObjectTypes()
+        public List<ObjectType> GetAllObjectTypes()
         {
             var mib = new MibReader(Constants.Path);
             mib.ReadFile();
 
             var regexRunner= new RegexRunner(Constants.MyPattern, mib.Text);
-            regexRunner.MatchAll();
-            var matchList = regexRunner.MatchCollection;
-            CreateObjects(matchList);
+            var matchList = regexRunner.GetAllMatches();
+
+            return CreateObjects(matchList);
         }
 
-        public void CreateObjects(MatchCollection collection)
+        private List<ObjectType> CreateObjects(MatchCollection collection)
         {
             
             if (collection.Count > 0)
@@ -37,8 +36,9 @@ namespace SnmpAgent.Providers
 
                     list.Add(objectType);
                 }
-                ObjectTypesList = list;
+                return list;
             }
+            return new List<ObjectType>();
         }
     }
 }

@@ -13,15 +13,14 @@ namespace SnmpAgent.Providers
             Text = text;
         }
 
-        public MatchCollection MatchCollection { get; set; }
         public string Pattern { get; set; }
         public string Text { get; set; }
 
-        public void MatchAll()
+        public MatchCollection GetAllMatches()
         {
             var myRegex = new Regex(Pattern, RegexOptions.Singleline);
 
-            this.MatchCollection = myRegex.Matches(Text);
+            return myRegex.Matches(Text);
         }
     }
 }
