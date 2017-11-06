@@ -13,7 +13,8 @@ namespace SnmpAgent
 
 
             objects[0].ShowObjectType();
-            
+            objects[1].ShowObjectType();
+            objects[3].ShowObjectType();
 
             Console.ReadKey();
         }

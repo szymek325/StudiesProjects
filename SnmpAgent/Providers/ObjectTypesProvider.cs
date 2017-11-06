@@ -12,7 +12,7 @@ namespace SnmpAgent.Providers
             var mib = new MibReader(Constants.Path);
             mib.ReadFile();
 
-            var regexRunner= new RegexRunner(Constants.MyPattern, mib.Text);
+            var regexRunner = new RegexRunner(Constants.MyPattern, mib.Text);
             var matchList = regexRunner.GetAllMatches();
 
             return CreateObjects(matchList);
@@ -20,19 +20,20 @@ namespace SnmpAgent.Providers
 
         private List<ObjectType> CreateObjects(MatchCollection collection)
         {
-            
+
             if (collection.Count > 0)
             {
                 var list = new List<ObjectType>();
                 foreach (Match match in collection)
                 {
-                    var objectType= new ObjectType();
+                    var objectType = new ObjectType();
 
                     objectType.Name = match.Groups[1].Value;
                     objectType.Syntax = match.Groups[2].Value;
                     objectType.Access = match.Groups[3].Value;
                     objectType.Status = match.Groups[4].Value;
-                    objectType.Description = match.Groups[5].Value;
+                    objectType.Description = Regex.Replace(match.Groups[5].Value, @"\r\n?|\n\s*", " "); ;
+                    objectType.Address = match.Groups[6].Value;
 
                     list.Add(objectType);
                 }
