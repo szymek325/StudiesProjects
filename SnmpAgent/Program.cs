@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using SnmpAgent.Providers;
 
 namespace SnmpAgent
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-
             var objects = new ObjectTypesProvider().GetAllObjectTypes("RFC1213-MIB");
 
 

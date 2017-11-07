@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.IO;
+using SnmpAgent.Constants;
 
 namespace SnmpAgent
 {
@@ -18,7 +15,7 @@ namespace SnmpAgent
 
         public void ReadFile()
         {
-            var streamReader = new StreamReader(string.Format("{0}{1}.txt",Constants.Path,MibFileName));
+            var streamReader = new StreamReader(string.Format("{0}{1}.txt", OtherConstants.Path, MibFileName));
             Text = streamReader.ReadToEnd();
         }
     }

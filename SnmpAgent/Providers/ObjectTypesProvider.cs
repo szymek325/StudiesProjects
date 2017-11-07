@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+using SnmpAgent.Constants;
+using SnmpAgent.Models;
 
 namespace SnmpAgent.Providers
 {
@@ -13,28 +12,26 @@ namespace SnmpAgent.Providers
             var mib = new MibReader(fileName);
             mib.ReadFile();
 
-            var objectsTypesRunner = new RegexRunner(Constants.ObjectTypesPattern, mib.Text);
+            var objectsTypesRunner = new RegexRunner(RegexConstants.ObjectTypesPattern, mib.Text);
             var objectTypes = objectsTypesRunner.GetAllMatches();
 
 
-            return objectTypes.Select(x => (ObjectType)x).ToList();
+            return objectTypes.Select(x => (ObjectType) x).ToList();
         }
-        public List<ObjectType> GetAllObjectTypes(string mibName,List<ObjectType> objectTypesList)
+
+        public List<ObjectType> GetAllObjectTypes(string mibName, List<ObjectType> objectTypesList)
         {
             var mib = new MibReader(mibName);
             mib.ReadFile();
 
-            var objectsTypesRunner = new RegexRunner(Constants.ObjectTypesPattern, mib.Text);
+            var objectsTypesRunner = new RegexRunner(RegexConstants.ObjectTypesPattern, mib.Text);
             var objectTypes = objectsTypesRunner.GetAllMatches();
 
 
-
-            return objectTypes.Select(x => (ObjectType)x).ToList();
+            return objectTypes.Select(x => (ObjectType) x).ToList();
 
             if (false /*any imports were found*/)
-            {
                 return GetAllObjectTypes(mibName /*found import*/, objectTypesList);
-            }
 
             return objectTypesList;
         }
