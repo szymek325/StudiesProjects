@@ -9,7 +9,7 @@ namespace SnmpAgent
         static void Main(string[] args)
         {
 
-            var objects = new ObjectTypesProvider().GetAllObjectTypes();
+            var objects = new ObjectTypesProvider().GetAllObjectTypes("RFC1213-MIB");
 
 
             objects[0].ShowObjectType();

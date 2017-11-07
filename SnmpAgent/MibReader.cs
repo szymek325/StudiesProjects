@@ -8,17 +8,17 @@ namespace SnmpAgent
 {
     public class MibReader
     {
-        public MibReader(string path)
+        public MibReader(string mibFileName)
         {
-            Path = path;
+            MibFileName = mibFileName;
         }
 
-        public string Path { get; set; }
+        public string MibFileName { get; set; }
         public string Text { get; private set; }
 
         public void ReadFile()
         {
-            var streamReader = new StreamReader(Constants.Path);
+            var streamReader = new StreamReader(string.Format("{0}{1}.txt",Constants.Path,MibFileName));
             Text = streamReader.ReadToEnd();
         }
     }
