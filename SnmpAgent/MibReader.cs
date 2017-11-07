@@ -16,12 +16,6 @@ namespace SnmpAgent
         public string Path { get; set; }
         public string Text { get; private set; }
 
-        //public MibReader(string text)
-        //{
-        //    var streamReader = new StreamReader(Constants.Path);
-        //    Text = streamReader.ReadToEnd();
-        //}
-
         public void ReadFile()
         {
             var streamReader = new StreamReader(Constants.Path);
