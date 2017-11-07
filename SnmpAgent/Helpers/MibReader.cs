@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using SnmpAgent.Constants;
 
-namespace SnmpAgent
+namespace SnmpAgent.Helpers
 {
     public class MibReader
     {
