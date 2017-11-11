@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using SnmpAgent.Models;
 using SnmpAgent.Providers;
 
 namespace SnmpAgent
@@ -7,12 +9,11 @@ namespace SnmpAgent
     {
         private static void Main(string[] args)
         {
-            var objects = new ObjectTypesProvider().GetAllObjectTypes("RFC1213-MIB");
+            var objectTypesProvider= new ObjectTypesProvider();
 
+            var objectList = objectTypesProvider.GetAllObjects("RFC1213-MIB");
 
-            objects[0].ShowObjectType();
-            objects[1].ShowObjectType();
-            objects[3].ShowObjectType();
+            Console.WriteLine(string.Format("Ilość obiektów: {0}", objectList.Count));
 
             Console.ReadKey();
         }
