@@ -40,24 +40,12 @@ namespace SnmpAgent.Providers
             var objectsIdentifiersRunner = new RegexRunner(RegexConstants.ObjectIdentifiersPattern, mibText);
             var matchCollection = objectsIdentifiersRunner.GetAllMatches();
 
-            var objectsIdentifiersRunner2 = new RegexRunner(RegexConstants.ObjectIdentifiersPattern2, mibText);
-            var matchCollection2 = objectsIdentifiersRunner2.GetAllMatches();
-
             var objectIdentifiers = matchCollection.Select(x => new ObjectType()
             {
                 Name = x.Groups[1].Value,
                 NameOfNodeAbove = x.Groups[2].Value,
                 LeafNumber = int.Parse(x.Groups[3].Value)
             }).ToList();
-
-            var objectIdentifiers2 = matchCollection2.Select(x => new ObjectType()
-            {
-                Name = x.Groups[1].Value,
-                NameOfNodeAbove = x.Groups[2].Value,
-                LeafNumber = int.Parse(x.Groups[3].Value)
-            }).ToList();
-
-            objectIdentifiers.AddRange(objectIdentifiers2);
 
             return objectIdentifiers;
         }
