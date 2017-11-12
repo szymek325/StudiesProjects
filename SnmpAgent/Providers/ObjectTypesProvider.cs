@@ -11,52 +11,27 @@ namespace SnmpAgent.Providers
 {
     public class ObjectTypesProvider
     {
-        public ObjectTypesProvider(string text)
-        {
-            Text = text;
-        }
-
         private string Text { get; set; }
 
-        public Mib GetAllObjects()
+        public Mib GetMibContent(Mib mibModel)
         {
-            var mibModel = new Mib();
-            mibModel.Import = GetObjectImports(Text);
-            mibModel.ObjectIdentifiers = GetObjectIdentifiers(Text);
-            mibModel.ObjectTypes = GetObjectTypes(Text);
+            Text = MibReader.GetTextFromFile(mibModel.Import);
 
-
+            mibModel.Import = GetObjectImports();
+            mibModel.ObjectIdentifiers = mibModel.ObjectIdentifiers.Concat(GetObjectIdentifiers()); ;
+            mibModel.ObjectTypes = mibModel.ObjectTypes.Concat(GetObjectTypes());
 
             if (!mibModel.Import.Equals(""))
             {
-                return GetAllObjectsHelper(mibModel);
+                return GetMibContent(mibModel);
             }
 
             return mibModel;
         }
 
-        private Mib GetAllObjectsHelper(Mib mibModel)
+        private IEnumerable<ObjectIdentifier> GetObjectIdentifiers()
         {
-            var mibReader = new MibReader(mibModel.Import);
-            mibReader.ReadFile();
-
-            mibModel.Import = GetObjectImports(mibReader.Text);
-            mibModel.ObjectIdentifiers = mibModel.ObjectIdentifiers.Concat(GetObjectIdentifiers(mibReader.Text)); ;
-            mibModel.ObjectTypes = mibModel.ObjectTypes.Concat(GetObjectTypes(mibReader.Text));
-
-
-
-            if (!mibModel.Import.Equals(""))
-            {
-                return GetAllObjectsHelper(mibModel);
-            }
-
-            return mibModel;
-        }
-
-        private IEnumerable<ObjectIdentifier> GetObjectIdentifiers(string mibText)
-        {
-            var objectsIdentifiersRunner = new RegexRunner(RegexConstants.ObjectIdentifiersPattern, mibText);
+            var objectsIdentifiersRunner = new RegexRunner(RegexConstants.ObjectIdentifiersPattern, Text);
             var matchCollection = objectsIdentifiersRunner.GetAllMatches();
 
             var objectIdentifiers = matchCollection.Select(x => (ObjectIdentifier)x);
@@ -64,9 +39,9 @@ namespace SnmpAgent.Providers
             return objectIdentifiers;
         }
 
-        private string GetObjectImports(string mibText)
+        private string GetObjectImports()
         {
-            var importsRunner = new RegexRunner(RegexConstants.ImportPattern, mibText);
+            var importsRunner = new RegexRunner(RegexConstants.ImportPattern, Text);
             var matchCollection = importsRunner.GetAllMatches();
             if (matchCollection.Count != 0)
             {
@@ -75,9 +50,9 @@ namespace SnmpAgent.Providers
             return "";
         }
 
-        private IEnumerable<ObjectType> GetObjectTypes(string mibText)
+        private IEnumerable<ObjectType> GetObjectTypes()
         {
-            var objectsTypesRunner = new RegexRunner(RegexConstants.ObjectTypesPattern, mibText);
+            var objectsTypesRunner = new RegexRunner(RegexConstants.ObjectTypesPattern, Text);
             var matchCollection = objectsTypesRunner.GetAllMatches();
             var objectTypes = matchCollection.Select(x => (ObjectType)x);
             return objectTypes;

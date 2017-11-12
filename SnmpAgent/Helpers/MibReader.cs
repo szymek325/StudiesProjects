@@ -4,28 +4,37 @@ using SnmpAgent.Constants;
 
 namespace SnmpAgent.Helpers
 {
-    public class MibReader
+    public static class MibReader
     {
-        public MibReader(string mibFileName)
+        public static string MibFileName { get; set; }
+        public static string Text { get; private set; }
+
+        public static void ListAllAvaiableFiles()
         {
-            MibFileName = mibFileName;
+            string[] fileEntries = Directory.GetFiles(OtherConstants.Path);
+            Console.WriteLine("-------------List of all Files----------------");
+            foreach (var fileName in fileEntries)
+            {
+                Console.WriteLine(fileName);
+            }
         }
 
-        public string MibFileName { get; set; }
-        public string Text { get; private set; }
-
-        public void ReadFile()
+        public static bool CheckIfFileExists(string fileName)
         {
-            try
-            {
-                var streamReader = new StreamReader(string.Format("{0}{1}.txt", OtherConstants.Path, MibFileName));
-                Text = streamReader.ReadToEnd();
-            }
-            catch (Exception e)
+            var doesItExist = File.Exists(string.Format("{0}{1}.txt", OtherConstants.Path, fileName));
+            if (!doesItExist)
             {
                 Console.WriteLine("File wasn't recognized. Please try again.");
             }
-            
+            return doesItExist;
+        }
+
+        public static string GetTextFromFile(string fileName)
+        {
+            var streamReader = new StreamReader(string.Format("{0}{1}.txt", OtherConstants.Path, MibFileName));\
+            MibFileName = fileName;
+            Text = streamReader.ReadToEnd();
+            return Text;
         }
     }
 }

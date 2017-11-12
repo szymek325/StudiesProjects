@@ -10,26 +10,28 @@ namespace SnmpAgent.Helpers
 {
     public static class UserInterface
     {
-
+        public static Mib MibModel { get; set; }
         public static void Run()
         {
             do
             {
-                string text = GetTextFromMib();
-                ShowWhatUserWants(text);
+                string mibInput = GetMibName();
+                UpdateModel();
+
+
+                ShowDependencies();
             } while (true);
 
         }
 
-        private static void ShowWhatUserWants(string text)
+        private static void UpdateModel()
         {
-            var objectTypesProvider = new ObjectTypesProvider(text);
-            var mibContainer = objectTypesProvider.GetAllObjects();
+            var objectTypesProvider = new ObjectTypesProvider();
 
-            ShowDependencies(mibContainer);
+            MibModel = objectTypesProvider.GetMibContent(MibModel);
         }
 
-        private static void ShowDependencies(Mib mib)
+        private static void ShowDependencies()
         {
             do
             {
@@ -42,12 +44,12 @@ namespace SnmpAgent.Helpers
                 if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine("----------LIST OF ALL NODES----------");
-                    foreach (var node in mib.ObjectIdentifiers)
+                    foreach (var node in MibModel.ObjectIdentifiers)
                     {
                         Console.WriteLine(node.Name);
                     }
 
-                    foreach (var node in mib.ObjectTypes)
+                    foreach (var node in MibModel.ObjectTypes)
                     {
                         Console.WriteLine(node.Name);
                     }
@@ -55,8 +57,8 @@ namespace SnmpAgent.Helpers
                 }
                 else
                 {
-                    var parentNode = mib.ObjectTypes.FirstOrDefault(x => x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
-                    var childrenNode = mib.ObjectTypes.Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase)).ToList();
+                    var parentNode = MibModel.ObjectTypes.FirstOrDefault(x => x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
+                    var childrenNode = MibModel.ObjectTypes.Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase)).ToList();
                     if (parentNode != null)
                     {
                         Console.WriteLine("----------PARENT NODE----------");
@@ -70,33 +72,28 @@ namespace SnmpAgent.Helpers
                     if (objectTypeName.Equals("exit", StringComparison.OrdinalIgnoreCase)) return;
                 }
 
-                
+
             } while (true);
         }
 
-        private static string GetTextFromMib()
+        private static string GetMibName()
         {
             do
             {
-                string fileName = GetFileNameFromUser();
-
-                var mibReader = new MibReader(fileName);
-                mibReader.ReadFile();
-
-                if (!string.IsNullOrEmpty(mibReader.Text))
+                Console.WriteLine("-------------------------");
+                Console.WriteLine("Which MIB file do you want to read ?");
+                Console.WriteLine("1.Type 'all' if you want to see all avaiable files");
+                var fileName = Console.ReadLine();
+                if (fileName.Equals("all", StringComparison.OrdinalIgnoreCase))
                 {
-                    return mibReader.Text;
+                    MibReader.ListAllAvaiableFiles();
+                }
+                else if (MibReader.CheckIfFileExists(fileName))
+                {
+                    return fileName;
                 }
             } while (true);
 
-        }
-
-        private static string GetFileNameFromUser()
-        {
-            Console.WriteLine("-------------------------");
-            Console.WriteLine("Which MIB file do you want to read ?");
-            var fileName = Console.ReadLine();
-            return fileName;
         }
     }
 }
