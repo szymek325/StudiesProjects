@@ -87,7 +87,6 @@ namespace SnmpAgent.Helpers
 
         private static void ShowObjectsMenu()
         {
-            Console.Clear();
             Console.WriteLine("-------------------------------");
             Console.WriteLine("What object do you want to see?");
             Console.WriteLine("1.Type 'all' to see all avaiable names");
