@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using SnmpAgent.Constants;
 
 namespace SnmpAgent.Helpers
@@ -15,8 +16,16 @@ namespace SnmpAgent.Helpers
 
         public void ReadFile()
         {
-            var streamReader = new StreamReader(string.Format("{0}{1}.txt", OtherConstants.Path, MibFileName));
-            Text = streamReader.ReadToEnd();
+            try
+            {
+                var streamReader = new StreamReader(string.Format("{0}{1}.txt", OtherConstants.Path, MibFileName));
+                Text = streamReader.ReadToEnd();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("File wasn't recognized. Please try again.");
+            }
+            
         }
     }
 }

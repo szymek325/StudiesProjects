@@ -10,26 +10,44 @@ namespace SnmpAgent.Providers
 {
     public class ObjectTypesProvider
     {
-        public List<ObjectType> GetAllObjects(string fileName, List<ObjectType> collection = null)
+        public ObjectTypesProvider(string text)
         {
-            if (collection == null)
+            Text = text;
+        }
+
+        private string Text { get; set; }
+
+        public List<ObjectType> GetAllObjects()
+        {
+            var import = GetObjectImports(Text);
+            var objectIdentifiers = GetObjectIdentifiers(Text);
+            var objectTypes = GetObjectTypes(Text);
+
+            objectTypes.AddRange(objectIdentifiers);
+
+            if (import != "")
             {
-                collection= new List<ObjectType>();
+                return GetAllObjectsHelper(import, objectTypes);
             }
 
-            var mib = new MibReader(fileName);
-            mib.ReadFile();
+            return objectTypes;
+        }
 
-            var import = GetObjectImports(mib.Text);
-            var objectIdentifiers = GetObjectIdentifiers(mib.Text);
-            var objectTypes = GetObjectTypes(mib.Text);
+        private List<ObjectType> GetAllObjectsHelper(string fileName, List<ObjectType> collection)
+        {
+            var mibReader = new MibReader(fileName);
+            mibReader.ReadFile();
+
+            var import = GetObjectImports(mibReader.Text);
+            var objectIdentifiers = GetObjectIdentifiers(mibReader.Text);
+            var objectTypes = GetObjectTypes(mibReader.Text);
 
             collection.AddRange(objectIdentifiers);
             collection.AddRange(objectTypes);
 
             if (import != "")
             {
-                return GetAllObjects(import, collection);
+                return GetAllObjectsHelper(import, collection);
             }
 
             return collection;
@@ -54,7 +72,7 @@ namespace SnmpAgent.Providers
         {
             var importsRunner = new RegexRunner(RegexConstants.ImportPattern, mibText);
             var matchCollection = importsRunner.GetAllMatches();
-            if (matchCollection.Count!=0)
+            if (matchCollection.Count != 0)
             {
                 return matchCollection[0]?.Groups[1].Value;
             }
