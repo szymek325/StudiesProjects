@@ -38,13 +38,13 @@ namespace SnmpAgent.Models
         {
             return new ObjectType
             {
-                Name = match.Groups[1].Value,
+                Name = match.Groups[1].Value.Replace(" ", string.Empty),
                 Syntax = match.Groups[2].Value,
                 Access = match.Groups[3].Value,
                 Status = match.Groups[4].Value,
                 Description = Regex.Replace(match.Groups[5].Value, @"\r\n?|\n\s*", " "),
                 Index=match.Groups[6].Value,
-                NameOfNodeAbove = match.Groups[7].Value,
+                NameOfNodeAbove = match.Groups[7].Value.Replace(" ", string.Empty),
                 LeafNumber = int.Parse(match.Groups[8].Value)
             };
         }

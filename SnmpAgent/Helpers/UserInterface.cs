@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using SnmpAgent.Providers;
 
@@ -33,21 +34,37 @@ namespace SnmpAgent.Helpers
             {
                 Console.WriteLine("-------------------------------");
                 Console.WriteLine("What object do you want to see?");
+                Console.WriteLine("1.Type 'all' to see all avaiable names");
+                Console.WriteLine("2.Type exit to return to file selection");
                 var objectTypeName = Console.ReadLine();
 
-                var parentNode = objectList.FirstOrDefault(x => x.Name.Contains(objectTypeName));
-                var childrenNode = objectList.Where(x => x.NameOfNodeAbove.Contains(objectTypeName)).ToList();
-                if (parentNode != null)
+                if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine("----------PARENT NODE----------");
-                    parentNode.ShowObjectType();
-                    Console.WriteLine("----------CHILDREN NODES----------");
-                    foreach (var node in childrenNode)
+                    Console.WriteLine("----------LIST OF ALL NODES----------");
+                    foreach (var node in objectList)
                     {
-                        node.ShowObjectType();
+                        Console.WriteLine(node.Name);
                     }
+
                 }
-                if (objectTypeName == "exit") return;
+                else
+                {
+                    var parentNode = objectList.FirstOrDefault(x => x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
+                    var childrenNode = objectList.Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase)).ToList();
+                    if (parentNode != null)
+                    {
+                        Console.WriteLine("----------PARENT NODE----------");
+                        parentNode.ShowObjectType();
+                        Console.WriteLine("----------CHILDREN NODES----------");
+                        foreach (var node in childrenNode)
+                        {
+                            node.ShowObjectType();
+                        }
+                    }
+                    if (objectTypeName.Equals("exit", StringComparison.OrdinalIgnoreCase)) return;
+                }
+
+                
             } while (true);
         }
 
