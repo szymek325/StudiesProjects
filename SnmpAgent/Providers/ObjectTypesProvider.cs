@@ -24,6 +24,7 @@ namespace SnmpAgent.Providers
             mibModel.ObjectTypes = mibModel.ObjectTypes.Concat(GetObjectTypes());
             mibModel.ObjectIdentifiers = mibModel.ObjectIdentifiers.Concat(GetMainOid());
             mibModel.Sequences = mibModel.Sequences.Concat(GetSequences());
+            mibModel.DataTypes = mibModel.DataTypes.Concat(GetDataTypes());
 
             if (!mibModel.Import.Equals(""))
             {
@@ -31,6 +32,16 @@ namespace SnmpAgent.Providers
             }
 
             return mibModel;
+        }
+
+        private IEnumerable<DataType> GetDataTypes()
+        {
+            var sequencesRunner = new RegexRunner(RegexConstants.DataTypePattern, Text);
+            var matchCollection = sequencesRunner.GetAllMatches();
+
+            var dataTypes = matchCollection.Select(x => (DataType)x);
+
+            return dataTypes;
         }
 
         private IEnumerable<Sequence> GetSequences()
