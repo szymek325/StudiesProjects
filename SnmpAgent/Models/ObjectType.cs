@@ -12,6 +12,7 @@ namespace SnmpAgent.Models
         public string Description { get; set; }
         public string NameOfNodeAbove { get; set; }
         public int LeafNumber { get; set; }
+        public string Index { get; set; }
 
         public void ShowObjectType()
         {
@@ -22,6 +23,10 @@ namespace SnmpAgent.Models
             Console.WriteLine(nameof(Status) + ": " + Status);
             Console.WriteLine(nameof(Description) + ":");
             Console.WriteLine(Description);
+            if (Index != "")
+            {
+                Console.WriteLine(nameof(Index)+ ": " + Index);
+            }
             Console.WriteLine(nameof(NameOfNodeAbove) + ": " + NameOfNodeAbove);
             Console.WriteLine(nameof(LeafNumber) + ": " + LeafNumber);
             Console.WriteLine();
@@ -38,8 +43,9 @@ namespace SnmpAgent.Models
                 Access = match.Groups[3].Value,
                 Status = match.Groups[4].Value,
                 Description = Regex.Replace(match.Groups[5].Value, @"\r\n?|\n\s*", " "),
-                NameOfNodeAbove = match.Groups[6].Value,
-                LeafNumber = int.Parse(match.Groups[7].Value)
+                Index=match.Groups[6].Value,
+                NameOfNodeAbove = match.Groups[7].Value,
+                LeafNumber = int.Parse(match.Groups[8].Value)
             };
         }
     }
