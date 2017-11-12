@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Text;
+using SnmpAgent.Models;
 using SnmpAgent.Providers;
 
 namespace SnmpAgent.Helpers
@@ -23,12 +24,12 @@ namespace SnmpAgent.Helpers
         private static void ShowWhatUserWants(string text)
         {
             var objectTypesProvider = new ObjectTypesProvider(text);
-            var objectList = objectTypesProvider.GetAllObjects();
+            var mibContainer = objectTypesProvider.GetAllObjects();
 
-            ShowDependencies(objectList);
+            ShowDependencies(mibContainer);
         }
 
-        private static void ShowDependencies(List<Models.ObjectType> objectList)
+        private static void ShowDependencies(Mib mib)
         {
             do
             {
@@ -41,7 +42,12 @@ namespace SnmpAgent.Helpers
                 if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine("----------LIST OF ALL NODES----------");
-                    foreach (var node in objectList)
+                    foreach (var node in mib.ObjectIdentifiers)
+                    {
+                        Console.WriteLine(node.Name);
+                    }
+
+                    foreach (var node in mib.ObjectTypes)
                     {
                         Console.WriteLine(node.Name);
                     }
@@ -49,8 +55,8 @@ namespace SnmpAgent.Helpers
                 }
                 else
                 {
-                    var parentNode = objectList.FirstOrDefault(x => x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
-                    var childrenNode = objectList.Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase)).ToList();
+                    var parentNode = mib.ObjectTypes.FirstOrDefault(x => x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
+                    var childrenNode = mib.ObjectTypes.Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase)).ToList();
                     if (parentNode != null)
                     {
                         Console.WriteLine("----------PARENT NODE----------");

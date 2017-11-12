@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters;
 using System.Text.RegularExpressions;
 using SnmpAgent.Constants;
@@ -17,53 +18,48 @@ namespace SnmpAgent.Providers
 
         private string Text { get; set; }
 
-        public List<ObjectType> GetAllObjects()
+        public Mib GetAllObjects()
         {
-            var import = GetObjectImports(Text);
-            var objectIdentifiers = GetObjectIdentifiers(Text);
-            var objectTypes = GetObjectTypes(Text);
+            var mibModel = new Mib();
+            mibModel.Import = GetObjectImports(Text);
+            mibModel.ObjectIdentifiers = GetObjectIdentifiers(Text);
+            mibModel.ObjectTypes = GetObjectTypes(Text);
 
-            objectTypes.AddRange(objectIdentifiers);
 
-            if (import != "")
+
+            if (!mibModel.Import.Equals(""))
             {
-                return GetAllObjectsHelper(import, objectTypes);
+                return GetAllObjectsHelper(mibModel);
             }
 
-            return objectTypes;
+            return mibModel;
         }
 
-        private List<ObjectType> GetAllObjectsHelper(string fileName, List<ObjectType> collection)
+        private Mib GetAllObjectsHelper(Mib mibModel)
         {
-            var mibReader = new MibReader(fileName);
+            var mibReader = new MibReader(mibModel.Import);
             mibReader.ReadFile();
 
-            var import = GetObjectImports(mibReader.Text);
-            var objectIdentifiers = GetObjectIdentifiers(mibReader.Text);
-            var objectTypes = GetObjectTypes(mibReader.Text);
+            mibModel.Import = GetObjectImports(mibReader.Text);
+            mibModel.ObjectIdentifiers = mibModel.ObjectIdentifiers.Concat(GetObjectIdentifiers(mibReader.Text)); ;
+            mibModel.ObjectTypes = mibModel.ObjectTypes.Concat(GetObjectTypes(mibReader.Text));
 
-            collection.AddRange(objectIdentifiers);
-            collection.AddRange(objectTypes);
 
-            if (import != "")
+
+            if (!mibModel.Import.Equals(""))
             {
-                return GetAllObjectsHelper(import, collection);
+                return GetAllObjectsHelper(mibModel);
             }
 
-            return collection;
+            return mibModel;
         }
 
-        private List<ObjectType> GetObjectIdentifiers(string mibText)
+        private IEnumerable<ObjectIdentifier> GetObjectIdentifiers(string mibText)
         {
             var objectsIdentifiersRunner = new RegexRunner(RegexConstants.ObjectIdentifiersPattern, mibText);
             var matchCollection = objectsIdentifiersRunner.GetAllMatches();
 
-            var objectIdentifiers = matchCollection.Select(x => new ObjectType()
-            {
-                Name = x.Groups[1].Value,
-                NameOfNodeAbove = x.Groups[2].Value,
-                LeafNumber = int.Parse(x.Groups[3].Value)
-            }).ToList();
+            var objectIdentifiers = matchCollection.Select(x => (ObjectIdentifier)x);
 
             return objectIdentifiers;
         }
@@ -79,11 +75,11 @@ namespace SnmpAgent.Providers
             return "";
         }
 
-        private List<ObjectType> GetObjectTypes(string mibText)
+        private IEnumerable<ObjectType> GetObjectTypes(string mibText)
         {
             var objectsTypesRunner = new RegexRunner(RegexConstants.ObjectTypesPattern, mibText);
             var matchCollection = objectsTypesRunner.GetAllMatches();
-            var objectTypes = matchCollection.Select(x => (ObjectType)x).ToList();
+            var objectTypes = matchCollection.Select(x => (ObjectType)x);
             return objectTypes;
         }
 
