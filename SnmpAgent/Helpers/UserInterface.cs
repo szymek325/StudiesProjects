@@ -10,15 +10,13 @@ namespace SnmpAgent.Helpers
 {
     public static class UserInterface
     {
-        public static Mib MibModel { get; set; }
+        public static Mib MibModel { get; set; } = new Mib();
         public static void Run()
         {
             do
             {
-                string mibInput = GetMibName();
+                MibModel.Import = GetMibName();
                 UpdateModel();
-
-
                 ShowDependencies();
             } while (true);
 
@@ -33,51 +31,72 @@ namespace SnmpAgent.Helpers
 
         private static void ShowDependencies()
         {
+            Console.Clear();
             do
             {
-                Console.WriteLine("-------------------------------");
-                Console.WriteLine("What object do you want to see?");
-                Console.WriteLine("1.Type 'all' to see all avaiable names");
-                Console.WriteLine("2.Type exit to return to file selection");
+                ShowObjectsMenu();
                 var objectTypeName = Console.ReadLine();
-
-                if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
-                {
-                    Console.WriteLine("----------LIST OF ALL NODES----------");
-                    foreach (var node in MibModel.ObjectIdentifiers)
-                    {
-                        Console.WriteLine(node.Name);
-                    }
-
-                    foreach (var node in MibModel.ObjectTypes)
-                    {
-                        Console.WriteLine(node.Name);
-                    }
-
-                }
-                else
-                {
-                    var parentNode = MibModel.ObjectTypes.FirstOrDefault(x => x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
-                    var childrenNode = MibModel.ObjectTypes.Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase)).ToList();
-                    if (parentNode != null)
-                    {
-                        Console.WriteLine("----------PARENT NODE----------");
-                        parentNode.ShowObjectType();
-                        Console.WriteLine("----------CHILDREN NODES----------");
-                        foreach (var node in childrenNode)
-                        {
-                            node.ShowObjectType();
-                        }
-                    }
-                    if (objectTypeName.Equals("exit", StringComparison.OrdinalIgnoreCase)) return;
-                }
-
-
+                CheckInputValueAndActAccordingly(objectTypeName);
+                if (objectTypeName.Equals("exit", StringComparison.OrdinalIgnoreCase)) return;
             } while (true);
+        }
+
+        private static void CheckInputValueAndActAccordingly(string objectTypeName)
+        {
+            if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
+            {
+                ShowAllElements();
+            }
+            else
+            {
+                ShowParentAndChildrenNodes(objectTypeName);
+            }
+        }
+
+        private static void ShowAllElements()
+        {
+            Console.WriteLine("----------LIST OF ALL OIDs----------");
+            foreach (var node in MibModel.ObjectIdentifiers)
+            {
+                Console.WriteLine(node.Name);
+            }
+            Console.WriteLine("----------LIST OF ALL OBJECT TYPES----------");
+            foreach (var node in MibModel.ObjectTypes)
+            {
+                Console.WriteLine(node.Name);
+            }
+        }
+
+        private static void ShowParentAndChildrenNodes(string objectTypeName)
+        {
+            //var contentList = MibModel.ObjectTypes.Concat(MibModel.ObjectIdentifiers);
+            var parentNode = MibModel.DependencyTreeStructur.FirstOrDefault(x => x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
+            var childrenNode = MibModel.DependencyTreeStructur.Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (parentNode != null)
+            {
+                Console.WriteLine("----------PARENT NODE----------");
+                parentNode.ShowObjectType();
+                Console.WriteLine("----------CHILDREN NODES----------");
+                foreach (var node in childrenNode)
+                {
+                    node.ShowObjectType();
+                }
+            }
+        }
+
+        private static void ShowObjectsMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("What object do you want to see?");
+            Console.WriteLine("1.Type 'all' to see all avaiable names");
+            Console.WriteLine("2.Type 'exit' to return to file selection");
         }
 
         private static string GetMibName()
         {
+            Console.Clear();
             do
             {
                 Console.WriteLine("-------------------------");

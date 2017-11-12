@@ -3,18 +3,15 @@ using System.Text.RegularExpressions;
 
 namespace SnmpAgent.Models
 {
-    public class ObjectType
+    public class ObjectType : ObjectIdentifier
     {
-        public string Name { get; set; }
         public string Syntax { get; set; }
         public string Access { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
-        public string NameOfNodeAbove { get; set; }
-        public int LeafNumber { get; set; }
         public string Index { get; set; }
 
-        public void ShowObjectType()
+        public override void ShowObjectType()
         {
             Console.WriteLine();
             Console.WriteLine(nameof(Name) + ": " + Name);
@@ -32,7 +29,6 @@ namespace SnmpAgent.Models
             Console.WriteLine();
             Console.WriteLine("-----------------------------------");
         }
-
 
         public static explicit operator ObjectType(Match match)
         {

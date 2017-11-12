@@ -11,7 +11,7 @@ namespace SnmpAgent.Models
         public string NameOfNodeAbove { get; set; }
         public int LeafNumber { get; set; }
 
-        public void ShowObjectType()
+        public virtual void ShowObjectType()
         {
             Console.WriteLine("-----------------------------------");
             Console.WriteLine(nameof(Name) + ": " + Name);

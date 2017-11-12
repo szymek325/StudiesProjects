@@ -31,7 +31,7 @@ namespace SnmpAgent.Helpers
 
         public static string GetTextFromFile(string fileName)
         {
-            var streamReader = new StreamReader(string.Format("{0}{1}.txt", OtherConstants.Path, MibFileName));\
+            var streamReader = new StreamReader(string.Format("{0}{1}.txt", OtherConstants.Path, fileName));
             MibFileName = fileName;
             Text = streamReader.ReadToEnd();
             return Text;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SnmpAgent.Models
@@ -10,5 +11,13 @@ namespace SnmpAgent.Models
         public IEnumerable<ObjectType> ObjectTypes { get; set; }= new List<ObjectType>();
         public IEnumerable<ObjectIdentifier> ObjectIdentifiers { get; set; }= new List<ObjectIdentifier>();
         public IEnumerable<DataType> DataTypes { get; set; }= new List<DataType>();
+
+        public IEnumerable<ObjectIdentifier> DependencyTreeStructur
+        {
+            get
+            {
+                return ObjectTypes.Concat(ObjectIdentifiers);
+            }
+        }
     }
 }

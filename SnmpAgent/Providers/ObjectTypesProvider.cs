@@ -15,6 +15,7 @@ namespace SnmpAgent.Providers
 
         public Mib GetMibContent(Mib mibModel)
         {
+
             Text = MibReader.GetTextFromFile(mibModel.Import);
 
             mibModel.Import = GetObjectImports();
