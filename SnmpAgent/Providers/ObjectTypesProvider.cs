@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters;
@@ -22,7 +23,7 @@ namespace SnmpAgent.Providers
             mibModel.ObjectIdentifiers = mibModel.ObjectIdentifiers.Concat(GetObjectIdentifiers());
             mibModel.ObjectTypes = mibModel.ObjectTypes.Concat(GetObjectTypes());
             mibModel.ObjectIdentifiers = mibModel.ObjectIdentifiers.Concat(GetMainOid());
-            
+            mibModel.Sequences = mibModel.Sequences.Concat(GetSequences());
 
             if (!mibModel.Import.Equals(""))
             {
@@ -30,6 +31,16 @@ namespace SnmpAgent.Providers
             }
 
             return mibModel;
+        }
+
+        private IEnumerable<Sequence> GetSequences()
+        {
+            var sequencesRunner = new RegexRunner(RegexConstants.SequencePattern, Text);
+            var matchCollection = sequencesRunner.GetAllMatchesWithoutSingleLine();
+
+            var sequences = matchCollection.Select(x => (Sequence)x);
+
+            return sequences;
         }
 
         private IEnumerable<ObjectIdentifier> GetObjectIdentifiers()

@@ -7,7 +7,7 @@
         public static string ImportPattern = @"\s*FROM\s(\S*)\s*";
         public static string ObjectIdentifiersPattern = @"(\w*|\w*-\w*)\s*OBJECT IDENTIFIER ::= {\s*(\S*)\s*(\d*)\s*}";
         public static string MainOidPattern = @"(\w*|\w*-\w*)\s*OBJECT IDENTIFIER ::= {\s(\S*)\s(\w*)[(](\d*)[)]\s(\w*)[(](\d*)[)]\s(\d*)\s}";
-
+        public static string SequencePattern = @"\s*(\w*)\s::=\s*SEQUENCE\s{.*\n(?s)(.*?)(?>)}";
 
         //public static string ObjectIdentifiersPattern = @"(\w*)\s*OBJECT IDENTIFIER ::= {\s(\w*-\d*)\s(\d*)\s}";
         //public static string ObjectIdentifiersPattern2 = @"(\w*)\s*OBJECT IDENTIFIER ::= {\s(\w*) (\d*) }";

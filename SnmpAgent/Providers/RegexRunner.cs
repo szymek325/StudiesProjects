@@ -22,5 +22,12 @@ namespace SnmpAgent.Providers
 
             return myRegex.Matches(Text);
         }
+
+        public MatchCollection GetAllMatchesWithoutSingleLine()
+        {
+            var myRegex = new Regex(Pattern);
+
+            return myRegex.Matches(Text);
+        }
     }
 }
