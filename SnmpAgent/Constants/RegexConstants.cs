@@ -17,6 +17,7 @@
         public static string DataTypePattern =
             @"\s*(\S*)\s::=\s*[[](\S* \d*)[]]\s*(.*?)\s*(IMPLICIT|EXPLICIT)\s*(.*?)\n";
 
+        public static string SyntaxLimitationsPattern = @"\s[(](\d*)..(\d*)[)]";
 
         #region unusedRegex
 
