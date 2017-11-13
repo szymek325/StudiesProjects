@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters;
 using System.Text.RegularExpressions;
 using SnmpAgent.Constants;
 using SnmpAgent.Helpers;
@@ -16,7 +13,6 @@ namespace SnmpAgent.Providers
 
         public Mib GetMibContent(Mib mibModel)
         {
-
             Text = MibReader.GetTextFromFile(mibModel.Import);
 
             mibModel.Import = GetObjectImports();
@@ -27,9 +23,7 @@ namespace SnmpAgent.Providers
             mibModel.DataTypes = mibModel.DataTypes.Concat(GetDataTypes());
 
             if (!mibModel.Import.Equals(""))
-            {
                 return GetMibContent(mibModel);
-            }
 
             return mibModel;
         }
@@ -39,7 +33,7 @@ namespace SnmpAgent.Providers
             var sequencesRunner = new RegexRunner(RegexConstants.DataTypePattern, Text);
             var matchCollection = sequencesRunner.GetAllMatches();
 
-            var dataTypes = matchCollection.Select(x => (DataType)x);
+            var dataTypes = matchCollection.Select(x => (DataType) x);
 
             return dataTypes;
         }
@@ -49,7 +43,7 @@ namespace SnmpAgent.Providers
             var sequencesRunner = new RegexRunner(RegexConstants.SequencePattern, Text);
             var matchCollection = sequencesRunner.GetAllMatchesWithoutSingleLine();
 
-            var sequences = matchCollection.Select(x => (Sequence)x);
+            var sequences = matchCollection.Select(x => (Sequence) x);
 
             return sequences;
         }
@@ -59,7 +53,7 @@ namespace SnmpAgent.Providers
             var objectsIdentifiersRunner = new RegexRunner(RegexConstants.ObjectIdentifiersPattern, Text);
             var matchCollection = objectsIdentifiersRunner.GetAllMatches();
 
-            var objectIdentifiers = matchCollection.Select(x => (ObjectIdentifier)x);
+            var objectIdentifiers = matchCollection.Select(x => (ObjectIdentifier) x);
 
             return objectIdentifiers;
         }
@@ -69,9 +63,7 @@ namespace SnmpAgent.Providers
             var importsRunner = new RegexRunner(RegexConstants.ImportPattern, Text);
             var matchCollection = importsRunner.GetAllMatches();
             if (matchCollection.Count != 0)
-            {
                 return matchCollection[0]?.Groups[1].Value;
-            }
             return "";
         }
 
@@ -79,7 +71,7 @@ namespace SnmpAgent.Providers
         {
             var objectsTypesRunner = new RegexRunner(RegexConstants.ObjectTypesPattern, Text);
             var matchCollection = objectsTypesRunner.GetAllMatches();
-            var objectTypes = matchCollection.Select(x => (ObjectType)x);
+            var objectTypes = matchCollection.Select(x => (ObjectType) x);
             return objectTypes;
         }
 
@@ -89,43 +81,39 @@ namespace SnmpAgent.Providers
             var matchCollection = objectsIdentifiersRunner.GetAllMatches();
 
             if (matchCollection.Count != default(int))
-            {
                 return CreateMainOids(matchCollection[0]);
-            }
 
             return new List<ObjectIdentifier>();
         }
 
         private static List<ObjectIdentifier> CreateMainOids(Match match)
         {
-            return new List<ObjectIdentifier>()
+            return new List<ObjectIdentifier>
             {
-
-                new ObjectIdentifier()
+                new ObjectIdentifier
                 {
                     Name = match.Groups[2].Value,
                     NameOfNodeAbove = "",
                     LeafNumber = 1
                 },
-                new ObjectIdentifier()
+                new ObjectIdentifier
                 {
                     Name = match.Groups[3].Value,
                     NameOfNodeAbove = match.Groups[2].Value,
                     LeafNumber = int.Parse(match.Groups[4].Value)
                 },
-                new ObjectIdentifier()
+                new ObjectIdentifier
                 {
                     Name = match.Groups[5].Value,
                     NameOfNodeAbove = match.Groups[3].Value,
                     LeafNumber = int.Parse(match.Groups[6].Value)
                 },
-                new ObjectIdentifier()
+                new ObjectIdentifier
                 {
                     Name = match.Groups[1].Value,
                     NameOfNodeAbove = match.Groups[5].Value,
                     LeafNumber = int.Parse(match.Groups[7].Value)
                 }
-
             };
         }
     }

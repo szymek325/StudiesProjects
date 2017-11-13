@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace SnmpAgent.Models
 {
@@ -14,7 +11,7 @@ namespace SnmpAgent.Models
 
         public static explicit operator DataType(Match v)
         {
-            return new DataType()
+            return new DataType
             {
                 Name = v.Groups[1].Value,
                 Application = v.Groups[2].Value,

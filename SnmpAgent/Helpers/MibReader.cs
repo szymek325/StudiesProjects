@@ -11,21 +11,17 @@ namespace SnmpAgent.Helpers
 
         public static void ListAllAvaiableFiles()
         {
-            string[] fileEntries = Directory.GetFiles(OtherConstants.Path);
+            var fileEntries = Directory.GetFiles(OtherConstants.Path);
             Console.WriteLine("-------------List of all Files----------------");
             foreach (var fileName in fileEntries)
-            {
                 Console.WriteLine(fileName);
-            }
         }
 
         public static bool CheckIfFileExists(string fileName)
         {
             var doesItExist = File.Exists(string.Format("{0}{1}.txt", OtherConstants.Path, fileName));
             if (!doesItExist)
-            {
                 Console.WriteLine("File wasn't recognized. Please try again.");
-            }
             return doesItExist;
         }
 

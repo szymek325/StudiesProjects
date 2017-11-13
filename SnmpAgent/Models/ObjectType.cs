@@ -21,9 +21,7 @@ namespace SnmpAgent.Models
             Console.WriteLine(nameof(Description) + ":");
             Console.WriteLine(Description);
             if (Index != "")
-            {
-                Console.WriteLine(nameof(Index)+ ": " + Index);
-            }
+                Console.WriteLine(nameof(Index) + ": " + Index);
             Console.WriteLine(nameof(NameOfNodeAbove) + ": " + NameOfNodeAbove);
             Console.WriteLine(nameof(LeafNumber) + ": " + LeafNumber);
             Console.WriteLine();
@@ -39,7 +37,7 @@ namespace SnmpAgent.Models
                 Access = match.Groups[3].Value,
                 Status = match.Groups[4].Value,
                 Description = Regex.Replace(match.Groups[5].Value, @"\r\n?|\n\s*", " "),
-                Index=match.Groups[6].Value,
+                Index = match.Groups[6].Value,
                 NameOfNodeAbove = match.Groups[7].Value.Replace(" ", string.Empty),
                 LeafNumber = int.Parse(match.Groups[8].Value)
             };

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace SnmpAgent.Models
 {
@@ -13,7 +9,7 @@ namespace SnmpAgent.Models
 
         public static explicit operator Sequence(Match v)
         {
-            return new Sequence()
+            return new Sequence
             {
                 Name = v.Groups[1].Value,
                 Value = v.Groups[2].Value
