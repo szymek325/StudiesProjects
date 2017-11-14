@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 
@@ -20,6 +21,8 @@ namespace SnmpAgent.Models
             AddParentsAndChildrens();
 
             CreteOids(DependencyTree.FirstOrDefault(x => x.ParentNode == null));
+
+            DependencyTree= DependencyTree.OrderBy(x => x.Oid).ToList();
         }
 
         private void AddParentsAndChildrens()
