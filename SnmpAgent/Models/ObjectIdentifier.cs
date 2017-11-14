@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace SnmpAgent.Models
@@ -8,6 +9,9 @@ namespace SnmpAgent.Models
         public string Name { get; set; }
         public string NameOfNodeAbove { get; set; }
         public int LeafNumber { get; set; }
+        public string Oid { get; set; }
+        public ObjectIdentifier ParentNode { get; set; }
+        public IEnumerable<ObjectIdentifier> ChildrenNodes { get; set; }
 
         public virtual void ShowObjectType()
         {

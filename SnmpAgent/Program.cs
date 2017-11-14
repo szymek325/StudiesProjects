@@ -7,7 +7,7 @@ namespace SnmpAgent
     {
         private static void Main(string[] args)
         {
-            UserInterface.Run();
+            DataViewer.Run();
 
             Console.ReadKey();
         }

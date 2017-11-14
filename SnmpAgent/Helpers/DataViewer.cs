@@ -5,7 +5,7 @@ using SnmpAgent.Providers;
 
 namespace SnmpAgent.Helpers
 {
-    public static class UserInterface
+    public static class DataViewer
     {
         public static Mib MibModel { get; set; } = new Mib();
 
@@ -21,7 +21,7 @@ namespace SnmpAgent.Helpers
 
         private static void UpdateModel()
         {
-            var objectTypesProvider = new ObjectTypesProvider();
+            var objectTypesProvider = new MibParser();
 
             MibModel = objectTypesProvider.GetMibContent(MibModel);
         }
@@ -59,10 +59,10 @@ namespace SnmpAgent.Helpers
         private static void ShowParentAndChildrenNodes(string objectTypeName)
         {
             //var contentList = MibModel.ObjectTypes.Concat(MibModel.ObjectIdentifiers);
-            var parentNode = MibModel.DependencyTreeStructur.FirstOrDefault(x =>
+            var parentNode = MibModel.DependencyTree.FirstOrDefault(x =>
                 x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
-            var childrenNode = MibModel.DependencyTreeStructur
-                .Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase)).ToList();
+            var childrenNode = MibModel.DependencyTree
+                .Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
 
             if (parentNode != null)
             {
@@ -90,7 +90,8 @@ namespace SnmpAgent.Helpers
                 Console.WriteLine("-------------------------");
                 Console.WriteLine("Which MIB file do you want to read ?");
                 Console.WriteLine("1.Type 'all' if you want to see all avaiable files");
-                var fileName = Console.ReadLine();
+                var fileName = "rfc1213-mib";
+                //var fileName = Console.ReadLine();
                 if (fileName.Equals("all", StringComparison.OrdinalIgnoreCase))
                     MibReader.ListAllAvaiableFiles();
                 else if (MibReader.CheckIfFileExists(fileName))

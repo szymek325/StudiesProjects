@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using SnmpAgent.Constants;
@@ -7,7 +8,7 @@ using SnmpAgent.Models;
 
 namespace SnmpAgent.Providers
 {
-    public class ObjectTypesProvider
+    public class MibParser
     {
         private string Text { get; set; }
 
@@ -24,6 +25,8 @@ namespace SnmpAgent.Providers
 
             if (!mibModel.Import.Equals(""))
                 return GetMibContent(mibModel);
+
+            mibModel.CreateDependencyTree();
 
             return mibModel;
         }
@@ -94,7 +97,8 @@ namespace SnmpAgent.Providers
                 {
                     Name = match.Groups[2].Value,
                     NameOfNodeAbove = "",
-                    LeafNumber = 1
+                    LeafNumber = 1,
+                    Oid = "1"
                 },
                 new ObjectIdentifier
                 {
