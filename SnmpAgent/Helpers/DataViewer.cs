@@ -41,20 +41,21 @@ namespace SnmpAgent.Helpers
         private static void CheckInputValueAndActAccordingly(string objectTypeName)
         {
             if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
-                ShowAllElements();
+                MibModel.ShowDependencyTree();
+                ///*ShowAllElements*/();
             else
                 ShowParentAndChildrenNodes(objectTypeName);
         }
 
-        private static void ShowAllElements()
-        {
-            Console.WriteLine("----------LIST OF ALL OIDs----------");
-            foreach (var node in MibModel.ObjectIdentifiers)
-                Console.WriteLine(node.Name);
-            Console.WriteLine("----------LIST OF ALL OBJECT TYPES----------");
-            foreach (var node in MibModel.ObjectTypes)
-                Console.WriteLine(node.Name);
-        }
+        //private static void ShowAllElements()
+        //{
+        //    Console.WriteLine("----------LIST OF ALL OIDs----------");
+        //    foreach (var node in MibModel.ObjectIdentifiers)
+        //        Console.WriteLine(node.Name);
+        //    Console.WriteLine("----------LIST OF ALL OBJECT TYPES----------");
+        //    foreach (var node in MibModel.ObjectTypes)
+        //        Console.WriteLine(node.Name);
+        //}
 
         private static void ShowParentAndChildrenNodes(string objectTypeName)
         {
