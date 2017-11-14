@@ -66,7 +66,7 @@ namespace SnmpAgent.Helpers
 
             if (parentNode != null)
             {
-                Console.WriteLine("----------PARENT NODE----------");
+                Console.WriteLine("----------NODE----------");
                 parentNode.ShowObjectType();
                 Console.WriteLine("----------CHILDREN NODES----------");
                 foreach (var node in childrenNode)
