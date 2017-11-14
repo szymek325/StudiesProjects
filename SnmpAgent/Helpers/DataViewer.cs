@@ -60,9 +60,9 @@ namespace SnmpAgent.Helpers
         private static void ShowParentAndChildrenNodes(string objectTypeName)
         {
             //var contentList = MibModel.ObjectTypes.Concat(MibModel.ObjectIdentifiers);
-            var parentNode = MibModel.DependencyTree.FirstOrDefault(x =>
+            var parentNode = MibModel.ListOfAllObjects.FirstOrDefault(x =>
                 x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
-            var childrenNode = MibModel.DependencyTree
+            var childrenNode = MibModel.ListOfAllObjects
                 .Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
 
             if (parentNode != null)
@@ -73,6 +73,8 @@ namespace SnmpAgent.Helpers
                 foreach (var node in childrenNode)
                     node.ShowObjectType();
             }
+
+            MibModel.FindElementInTree(objectTypeName);
         }
 
         private static void ShowObjectsMenu()

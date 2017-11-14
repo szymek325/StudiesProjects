@@ -11,53 +11,66 @@ namespace SnmpAgent.Models
         public IEnumerable<ObjectIdentifier> ObjectIdentifiers { get; set; } = new List<ObjectIdentifier>();
         public IEnumerable<DataType> DataTypes { get; set; } = new List<DataType>();
         public IEnumerable<Sequence> Sequences { get; set; } = new List<Sequence>();
-        public IEnumerable<ObjectIdentifier> DependencyTree { get; set; } = new List<ObjectIdentifier>();
+        public IEnumerable<ObjectIdentifier> ListOfAllObjects { get; set; } = new List<ObjectIdentifier>();
+        public ObjectIdentifier Tree { get; set; }
 
         public void CreateDependencyTree()
         {
-            DependencyTree = ObjectIdentifiers.Concat(ObjectTypes).ToList();
+            ListOfAllObjects = ObjectIdentifiers.Concat(ObjectTypes).ToList();
             AddParentsAndChildrens();
 
-            CreteOids(DependencyTree.FirstOrDefault(x => x.ParentNode == null));
+            Tree = ListOfAllObjects.FirstOrDefault(x => x.ParentNode == null);
 
-            DependencyTree = DependencyTree.OrderBy(x => x.Oid).ToList();
+            CreteOids(Tree);
+            
+        }
+
+        public void FindElementInTree(string name, ObjectIdentifier node=null)
+        {
+            if (node == null)
+                node = Tree;
+
+            foreach (var child in node.ChildrenNodes)
+            {
+                if (child.Name.Equals(name))
+                    child.ShowObjectType();
+                FindElementInTree(name, child);
+            }
         }
 
         public void ShowDependencyTree()
         {
-            var oidOfFirstElementInStructure = "1";
-            var mainObject = DependencyTree.FirstOrDefault(x => x.Oid.Equals(oidOfFirstElementInStructure));
-            Console.Write(string.Format("\\ {0} {1}",mainObject.Oid,mainObject.Name));
-            ShowSubObjects(mainObject.Name);
+            
+            Console.Write(string.Format("\\ {0} {1}",Tree.Oid,Tree.Name));
+            ShowSubObjects(Tree);
         }
 
-        private void ShowSubObjects(string name)
+        private void ShowSubObjects(ObjectIdentifier node)
         {
             Console.WriteLine();
-            var children =
-                DependencyTree.Where(x => x.NameOfNodeAbove.Equals(name, StringComparison.OrdinalIgnoreCase));
-            foreach (var node in children)
+            var children = node.ChildrenNodes;
+            foreach (var child in children)
             {
-                var count = node.Oid.Count(f => f == '.');
+                var count = child.Oid.Count(f => f == '.');
                 for (var i = 0; i < count; i++)
                     Console.Write(" ");
 
                 Console.Write(
-                    node.ChildrenNodes.Count().Equals(0)
-                    ? string.Format("| {0} {1}", node.LeafNumber, node.Name)
-                    : string.Format("\\ {0} {1}", node.LeafNumber, node.Name)
+                    child.ChildrenNodes.Count().Equals(0)
+                    ? string.Format("| {0} {1}", child.LeafNumber, child.Name)
+                    : string.Format("\\ {0} {1}", child.LeafNumber, child.Name)
                     );
-                ShowSubObjects(node.Name);
+                ShowSubObjects(child);
             }
         }
 
         private void AddParentsAndChildrens()
         {
-            foreach (var node in DependencyTree)
+            foreach (var node in ListOfAllObjects)
             {
-                node.ParentNode = DependencyTree.FirstOrDefault(x =>
+                node.ParentNode = ListOfAllObjects.FirstOrDefault(x =>
                     x.Name.Equals(node.NameOfNodeAbove, StringComparison.OrdinalIgnoreCase));
-                node.ChildrenNodes = DependencyTree.Where(x =>
+                node.ChildrenNodes = ListOfAllObjects.Where(x =>
                     x.NameOfNodeAbove.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
             }
         }
