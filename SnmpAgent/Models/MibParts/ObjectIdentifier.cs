@@ -10,11 +10,6 @@ namespace SnmpAgent.Models.MibParts
         public string NameOfNodeAbove { get; set; }
         public int LeafNumber { get; set; }
 
-        //to be deleted
-        public string Oid { get; set; }
-        public ObjectIdentifier ParentNode { get; set; }
-        public IEnumerable<ObjectIdentifier> ChildrenNodes { get; set; }
-
         public virtual void ShowObjectType()
         {
             Console.WriteLine("-----------------------------------");

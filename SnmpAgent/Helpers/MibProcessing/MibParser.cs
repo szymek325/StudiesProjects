@@ -100,8 +100,7 @@ namespace SnmpAgent.Helpers.MibProcessing
                 {
                     Name = match.Groups[2].Value,
                     NameOfNodeAbove = "",
-                    LeafNumber = 1,
-                    Oid = "1"
+                    LeafNumber = 1
                 },
                 new ObjectIdentifier
                 {
