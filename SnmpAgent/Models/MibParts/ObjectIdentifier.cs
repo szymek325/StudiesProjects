@@ -10,17 +10,6 @@ namespace SnmpAgent.Models.MibParts
         public string NameOfNodeAbove { get; set; }
         public int LeafNumber { get; set; }
 
-        public virtual void ShowObjectType()
-        {
-            Console.WriteLine("-----------------------------------");
-            Console.WriteLine(nameof(Name) + ": " + Name);
-            Console.WriteLine(nameof(NameOfNodeAbove) + ": " + NameOfNodeAbove);
-            Console.WriteLine(nameof(LeafNumber) + ": " + LeafNumber);
-            Console.WriteLine();
-            Console.WriteLine("-----------------------------------");
-        }
-
-
         public static explicit operator ObjectIdentifier(Match match)
         {
             return new ObjectIdentifier

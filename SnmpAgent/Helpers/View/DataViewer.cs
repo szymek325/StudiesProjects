@@ -16,7 +16,7 @@ namespace SnmpAgent.Helpers.View
             {
                 var mibToImport = GetMibName();
                 UpdateModel(mibToImport);
-                //ShowDependencies();
+                ShowDependencies();
             } while (true);
         }
 
@@ -27,55 +27,26 @@ namespace SnmpAgent.Helpers.View
             TreeNode = treeProvider.GetDependencyTree(mibName);
         }
 
-        //private static void ShowDependencies()
-        //{
-        //    Console.Clear();
-        //    do
-        //    {
-        //        ShowObjectsMenu();
-        //        var objectTypeName = Console.ReadLine();
-        //        CheckInputValueAndActAccordingly(objectTypeName);
-        //        if (objectTypeName.Equals("exit", StringComparison.OrdinalIgnoreCase)) return;
-        //    } while (true);
-        //}
+        private static void ShowDependencies()
+        {
+            Console.Clear();
+            do
+            {
+                ShowObjectsMenu();
+                var objectTypeName = Console.ReadLine();
+                CheckInputValueAndActAccordingly(objectTypeName);
+                if (objectTypeName.Equals("exit", StringComparison.OrdinalIgnoreCase)) return;
+            } while (true);
+        }
 
-        //private static void CheckInputValueAndActAccordingly(string objectTypeName)
-        //{
-        //    if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
-        //        MibModel.ShowDependencyTree();
-        //        ///*ShowAllElements*/();
-        //    else
-        //        ShowParentAndChildrenNodes(objectTypeName);
-        //}
+        private static void CheckInputValueAndActAccordingly(string objectTypeName)
+        {
+            if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
+                TreeNode.ShowDependencyTree();
+            else
+                TreeNode.FindAndShowElement(objectTypeName);
+        }
 
-        //private static void ShowAllElements()
-        //{
-        //    Console.WriteLine("----------LIST OF ALL OIDs----------");
-        //    foreach (var node in MibModel.ObjectIdentifiers)
-        //        Console.WriteLine(node.Name);
-        //    Console.WriteLine("----------LIST OF ALL OBJECT TYPES----------");
-        //    foreach (var node in MibModel.ObjectTypes)
-        //        Console.WriteLine(node.Name);
-        //}
-
-        //private static void ShowParentAndChildrenNodes(string objectTypeName)
-        //{
-        //    var parentNode = MibModel.ListOfAllObjects.FirstOrDefault(x =>
-        //        x.Name.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
-        //    var childrenNode = MibModel.ListOfAllObjects
-        //        .Where(x => x.NameOfNodeAbove.Equals(objectTypeName, StringComparison.OrdinalIgnoreCase));
-
-        //    if (parentNode != null)
-        //    {
-        //        Console.WriteLine("----------NODE----------");
-        //        parentNode.ShowObjectType();
-        //        Console.WriteLine("----------CHILDREN NODES----------");
-        //        foreach (var node in childrenNode)
-        //            node.ShowObjectType();
-        //    }
-
-        //    MibModel.FindElementInTree(objectTypeName);
-        //}
 
         private static void ShowObjectsMenu()
         {

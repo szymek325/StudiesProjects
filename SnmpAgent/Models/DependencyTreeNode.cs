@@ -24,7 +24,7 @@ namespace SnmpAgent.Models
             {
                 Name = model.Name,
                 Oid = model.LeafNumber.ToString(),
-                Syntax= model.Syntax,
+                Syntax = model.Syntax,
                 Access = model.Access,
                 Status = model.Status,
                 Description = model.Description,
@@ -34,6 +34,35 @@ namespace SnmpAgent.Models
                     Name = model.NameOfNodeAbove
                 }
             };
+        }
+
+        public void ShowNode()
+        {
+            Console.WriteLine();
+            Console.WriteLine(nameof(Name) + ": " + Name);
+            Console.WriteLine(nameof(Oid) + ": " + Oid);
+            if (ParentNode != null && !string.IsNullOrEmpty(ParentNode.Name))
+                Console.WriteLine("Parent node: " + ParentNode.Name);
+            if (Syntax != null 
+                && !string.IsNullOrEmpty(Access)
+                && !string.IsNullOrEmpty(Status)
+                && !string.IsNullOrEmpty(Description))
+            {
+                Console.WriteLine(" Syntax: " + Syntax.Name);
+                if (!string.IsNullOrEmpty(Syntax.Max))
+                {
+                    Console.WriteLine(string.Format("       MIN: {0}", Syntax.Min));
+                    Console.WriteLine(string.Format("       MAX: {0}", Syntax.Max));
+                }
+                Console.WriteLine(nameof(Access) + ": " + Access);
+                Console.WriteLine(nameof(Status) + ": " + Status);
+                Console.WriteLine(nameof(Description) + ":");
+                Console.WriteLine(Description);
+                if (Index != "")
+                    Console.WriteLine(nameof(Index) + ": " + Index);
+            }
+            Console.WriteLine();
+            Console.WriteLine("-----------------------------------");
         }
     }
 }
