@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using SnmpAgent.Constants;
-using RegexRunner = SnmpAgent.Providers.RegexRunner;
+using SnmpAgent.Helpers.MibProcessing;
 
-namespace SnmpAgent.Models
+namespace SnmpAgent.Models.MibParts
 {
     public class ObjectType : ObjectIdentifier
     {
@@ -13,8 +13,8 @@ namespace SnmpAgent.Models
         public string Status { get; set; }
         public string Description { get; set; }
         public string Index { get; set; }
-        public int Min { get; set; }
-        public int Max { get; set; }
+        public string Min { get; set; }
+        public string Max { get; set; }
 
         public override void ShowObjectType()
         {
@@ -23,7 +23,7 @@ namespace SnmpAgent.Models
             Console.WriteLine(nameof(Syntax) + ": " + Syntax);
             if (!Max.Equals(0))
             {
-                Console.WriteLine(string.Format("       MIN: {0}",Min));
+                Console.WriteLine(string.Format("       MIN: {0}", Min));
                 Console.WriteLine(string.Format("       MAX: {0}", Max));
             }
             Console.WriteLine(nameof(Access) + ": " + Access);
@@ -40,8 +40,8 @@ namespace SnmpAgent.Models
 
         public static explicit operator ObjectType(Match match)
         {
-            var runner = new RegexRunner(RegexConstants.SyntaxLimitationsPattern, match.Groups[2].Value);
-            var matches=runner.GetAllMatches();
+            var runner = new CustomRegexRunner(RegexConstants.SyntaxLimitationsPattern, match.Groups[2].Value);
+            var matches = runner.GetAllMatches();
             var syntax = match.Groups[2].Value.Split("(")[0];
             return new ObjectType
             {
@@ -53,8 +53,8 @@ namespace SnmpAgent.Models
                 Index = match.Groups[6].Value,
                 NameOfNodeAbove = match.Groups[7].Value.Replace(" ", string.Empty),
                 LeafNumber = int.Parse(match.Groups[8].Value),
-                Min= !matches.Count.Equals(0)?int.Parse(matches.First().Groups[1].Value):0,
-                Max = !matches.Count.Equals(0) ? int.Parse(matches.First().Groups[2].Value):0,
+                Min = !matches.Count.Equals(0) ? matches.First().Groups[1].Value : null,
+                Max = !matches.Count.Equals(0) ? matches.First().Groups[2].Value : null
             };
         }
     }

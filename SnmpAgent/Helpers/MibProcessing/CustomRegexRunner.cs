@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace SnmpAgent.Providers
+namespace SnmpAgent.Helpers.MibProcessing
 {
-    public class RegexRunner
+    public class CustomRegexRunner
     {
-        public RegexRunner(string pattern, string text)
+        public CustomRegexRunner(string pattern, string text)
         {
             Pattern = pattern;
             Text = text;

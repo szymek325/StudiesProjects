@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using SnmpAgent.Helpers.MibProcessing;
 using SnmpAgent.Models;
-using SnmpAgent.Providers;
 
-namespace SnmpAgent.Helpers
+namespace SnmpAgent.Helpers.View
 {
     public static class DataViewer
     {
@@ -23,7 +23,7 @@ namespace SnmpAgent.Helpers
         {
             var objectTypesProvider = new MibParser();
 
-            MibModel = objectTypesProvider.GetMibContent(MibModel);
+            MibModel = objectTypesProvider.GetMibContent(MibModel.Import);
         }
 
         private static void ShowDependencies()

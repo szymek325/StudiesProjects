@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace SnmpAgent.Models
+namespace SnmpAgent.Models.MibParts
 {
     public class Sequence
     {

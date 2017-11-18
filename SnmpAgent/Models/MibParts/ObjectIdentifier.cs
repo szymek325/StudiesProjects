@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace SnmpAgent.Models
+namespace SnmpAgent.Models.MibParts
 {
     public class ObjectIdentifier
     {
         public string Name { get; set; }
         public string NameOfNodeAbove { get; set; }
         public int LeafNumber { get; set; }
+
+        //to be deleted
         public string Oid { get; set; }
         public ObjectIdentifier ParentNode { get; set; }
         public IEnumerable<ObjectIdentifier> ChildrenNodes { get; set; }
