@@ -58,7 +58,7 @@ namespace SnmpAgent.Models
                 Console.WriteLine(nameof(Status) + ": " + Status);
                 Console.WriteLine(nameof(Description) + ":");
                 Console.WriteLine(Description);
-                if (Index != "")
+                if (Index != "" && !Index.Equals("\n ")) //sometimes "\n" is added to Index beacuse of bad parsing
                     Console.WriteLine(nameof(Index) + ": " + Index);
             }
             Console.WriteLine();

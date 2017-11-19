@@ -28,6 +28,8 @@ namespace SnmpAgent.Providers
         {
             MibModel = mibParser.GetMibContent(mibName);
 
+            AddConnectionToDataTypes();
+
             CreateTreeNodes();
             AddParentsAndChildrens();
             Tree = TreeNodes.FirstOrDefault(x => x.ParentNode == null);
@@ -36,6 +38,26 @@ namespace SnmpAgent.Providers
             return Tree;
         }
 
+        public void AddConnectionToDataTypes()
+        {
+            MibModel.ObjectTypes = MibModel.ObjectTypes.ToList();
+            foreach (var node in MibModel.ObjectTypes)
+            {
+                foreach (var dataType in MibModel.DataTypes)
+                {
+                    if (node.Syntax.Name.Equals(dataType.Name))
+                    {
+                        node.Syntax = new Syntax()
+                        {
+                            Name = dataType.Name,
+                            Min = dataType.Min,
+                            Max = dataType.Max,
+                            Mode = dataType.Mode
+                        };
+                    }
+                }
+            }
+        }
 
         public void CreateTreeNodes()
         {
