@@ -6,11 +6,18 @@ using SnmpAgent.Providers;
 
 namespace SnmpAgent.Helpers.View
 {
-    public static class DataViewer
+    public class DataViewer
     {
+        private readonly DependencyTreeCreator treeCreator;
+
+        public DataViewer(DependencyTreeCreator treeCreator)
+        {
+            this.treeCreator = treeCreator;
+        }
+
         public static DependencyTreeNode TreeNode { get; set; }
 
-        public static void Run()
+        public void Run()
         {
             do
             {
@@ -20,14 +27,12 @@ namespace SnmpAgent.Helpers.View
             } while (true);
         }
 
-        private static void UpdateModel(string mibName)
+        private void UpdateModel(string mibName)
         {
-            var treeProvider = new DependencyTreeProvider();
-
-            TreeNode = treeProvider.GetDependencyTree(mibName);
+            TreeNode = treeCreator.GetDependencyTree(mibName);
         }
 
-        private static void ShowDependencies()
+        private void ShowDependencies()
         {
             Console.Clear();
             do
@@ -39,7 +44,7 @@ namespace SnmpAgent.Helpers.View
             } while (true);
         }
 
-        private static void CheckInputValueAndActAccordingly(string objectTypeName)
+        private void CheckInputValueAndActAccordingly(string objectTypeName)
         {
             if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
                 TreeNode.ShowDependencyTree();
@@ -48,7 +53,7 @@ namespace SnmpAgent.Helpers.View
         }
 
 
-        private static void ShowObjectsMenu()
+        private void ShowObjectsMenu()
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("What object do you want to see?");
@@ -56,7 +61,7 @@ namespace SnmpAgent.Helpers.View
             Console.WriteLine("2.Type 'exit' to return to file selection");
         }
 
-        private static string GetMibName()
+        private string GetMibName()
         {
             Console.Clear();
             do
