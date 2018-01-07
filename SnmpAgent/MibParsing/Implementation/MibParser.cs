@@ -2,19 +2,29 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using SnmpAgent.Constants;
+using SnmpAgent.MibParsing.Interface;
 using SnmpAgent.Models;
 using SnmpAgent.Models.MibParts;
 
-namespace SnmpAgent.Helpers.MibProcessing
+namespace SnmpAgent.MibParsing.Implementation
 {
-    public class MibParser
+    public class MibParser: IMibParser
     {
+        private readonly IMibReader mibReader;
+        private readonly ICustomRegexRunner regexRunner;
+
+        public MibParser(IMibReader mibReader, ICustomRegexRunner regexRunner)
+        {
+            this.mibReader = mibReader;
+            this.regexRunner = regexRunner;
+        }
+
         private string Text { get; set; }
         public Mib MibModel { get; set; } = new Mib();
 
         public Mib GetMibContent(string fileName)
         {
-            Text = MibReader.GetTextFromFile(fileName);
+            Text = mibReader.GetTextFromFile(fileName);
 
             AddParsedDataToModel();
 
@@ -36,38 +46,34 @@ namespace SnmpAgent.Helpers.MibProcessing
 
         private IEnumerable<DataType> GetDataTypes()
         {
-            var sequencesRunner = new CustomRegexRunner(RegexConstants.DataTypePattern, Text);
-            var matchCollection = sequencesRunner.GetAllMatches();
+            var matchCollection = regexRunner.GetAllMatches(RegexConstants.DataTypePattern, Text);
 
-            var dataTypes = matchCollection.Select(x => (DataType)x);
+            var dataTypes = matchCollection.Select(x => (DataType) x);
 
             return dataTypes;
         }
 
         private IEnumerable<Sequence> GetSequences()
         {
-            var sequencesRunner = new CustomRegexRunner(RegexConstants.SequencePattern, Text);
-            var matchCollection = sequencesRunner.GetAllMatchesWithoutSingleLine();
+            var matchCollection = regexRunner.GetAllMatchesWithoutSingleLine(RegexConstants.SequencePattern, Text);
 
-            var sequences = matchCollection.Select(x => (Sequence)x);
+            var sequences = matchCollection.Select(x => (Sequence) x);
 
             return sequences;
         }
 
         private IEnumerable<ObjectIdentifier> GetObjectIdentifiers()
         {
-            var objectsIdentifiersRunner = new CustomRegexRunner(RegexConstants.ObjectIdentifiersPattern, Text);
-            var matchCollection = objectsIdentifiersRunner.GetAllMatches();
+            var matchCollection = regexRunner.GetAllMatches(RegexConstants.ObjectIdentifiersPattern, Text);
 
-            var objectIdentifiers = matchCollection.Select(x => (ObjectIdentifier)x);
+            var objectIdentifiers = matchCollection.Select(x => (ObjectIdentifier) x);
 
             return objectIdentifiers;
         }
 
         private string GetObjectImports()
         {
-            var importsRunner = new CustomRegexRunner(RegexConstants.ImportPattern, Text);
-            var matchCollection = importsRunner.GetAllMatches();
+            var matchCollection = regexRunner.GetAllMatches(RegexConstants.ImportPattern, Text);
             if (matchCollection.Count != 0)
                 return matchCollection[0]?.Groups[1].Value;
             return "";
@@ -75,16 +81,14 @@ namespace SnmpAgent.Helpers.MibProcessing
 
         private IEnumerable<ObjectType> GetObjectTypes()
         {
-            var objectsTypesRunner = new CustomRegexRunner(RegexConstants.ObjectTypesPattern, Text);
-            var matchCollection = objectsTypesRunner.GetAllMatches();
-            var objectTypes = matchCollection.Select(x => (ObjectType)x);
+            var matchCollection = regexRunner.GetAllMatches(RegexConstants.ObjectTypesPattern, Text);
+            var objectTypes = matchCollection.Select(x => (ObjectType) x);
             return objectTypes;
         }
 
         private IEnumerable<ObjectIdentifier> GetMainOid()
         {
-            var objectsIdentifiersRunner = new CustomRegexRunner(RegexConstants.MainOidPattern, Text);
-            var matchCollection = objectsIdentifiersRunner.GetAllMatches();
+            var matchCollection = regexRunner.GetAllMatches(RegexConstants.MainOidPattern, Text);
 
             if (matchCollection.Count != default(int))
                 return CreateMainOids(matchCollection[0]);

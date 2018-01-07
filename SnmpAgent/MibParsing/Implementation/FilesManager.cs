@@ -1,15 +1,13 @@
 ﻿using System;
 using System.IO;
 using SnmpAgent.Constants;
+using SnmpAgent.MibParsing.Interface;
 
-namespace SnmpAgent.Helpers.MibProcessing
+namespace SnmpAgent.MibParsing.Implementation
 {
-    public static class MibReader
+    public class FilesManager: IFilesManager
     {
-        public static string MibFileName { get; set; }
-        public static string Text { get; private set; }
-
-        public static void ListAllAvaiableFiles()
+        public void ListAllAvaiableFiles()
         {
             var fileEntries = Directory.GetFiles(OtherConstants.Path);
             Console.WriteLine("-------------List of all Files----------------");
@@ -17,20 +15,12 @@ namespace SnmpAgent.Helpers.MibProcessing
                 Console.WriteLine(fileName);
         }
 
-        public static bool CheckIfFileExists(string fileName)
+        public bool CheckIfFileExists(string fileName)
         {
             var doesItExist = File.Exists(string.Format("{0}{1}.txt", OtherConstants.Path, fileName));
             if (!doesItExist)
                 Console.WriteLine("File wasn't recognized. Please try again.");
             return doesItExist;
-        }
-
-        public static string GetTextFromFile(string fileName)
-        {
-            var streamReader = new StreamReader(string.Format("{0}{1}.txt", OtherConstants.Path, fileName));
-            MibFileName = fileName;
-            Text = streamReader.ReadToEnd();
-            return Text;
         }
     }
 }

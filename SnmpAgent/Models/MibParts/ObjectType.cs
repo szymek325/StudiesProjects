@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 using SnmpAgent.Constants;
-using SnmpAgent.Helpers.MibProcessing;
+using SnmpAgent.MibParsing.Implementation;
 
 namespace SnmpAgent.Models.MibParts
 {
@@ -16,8 +15,8 @@ namespace SnmpAgent.Models.MibParts
 
         public static explicit operator ObjectType(Match match)
         {
-            var runner = new CustomRegexRunner(RegexConstants.SyntaxLimitationsPattern, match.Groups[2].Value);
-            var matches = runner.GetAllMatches();
+            var regexRunner = new CustomRegexRunner();
+            var matches = regexRunner.GetAllMatches(RegexConstants.SyntaxLimitationsPattern, match.Groups[2].Value);
             var syntax = match.Groups[2].Value.Split("(")[0];
             return new ObjectType
             {
@@ -28,12 +27,12 @@ namespace SnmpAgent.Models.MibParts
                 Index = match.Groups[6].Value,
                 NameOfNodeAbove = match.Groups[7].Value.Replace(" ", string.Empty),
                 LeafNumber = int.Parse(match.Groups[8].Value),
-                Syntax = new Syntax()
+                Syntax = new Syntax
                 {
                     Name = syntax,
                     Min = !matches.Count.Equals(0) ? matches.First().Groups[1].Value : null,
                     Max = !matches.Count.Equals(0) ? matches.First().Groups[2].Value : null
-                },
+                }
             };
         }
     }

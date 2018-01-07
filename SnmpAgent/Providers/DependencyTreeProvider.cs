@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SnmpAgent.Helpers;
-using SnmpAgent.Helpers.MibProcessing;
+using SnmpAgent.MibParsing.Implementation;
 using SnmpAgent.Models;
 using SnmpAgent.Models.MibParts;
 
@@ -11,18 +9,17 @@ namespace SnmpAgent.Providers
 {
     public class DependencyTreeProvider
     {
-        public static Mib MibModel { get; set; }
-        public IEnumerable<ObjectIdentifier> ListOfAllObjects { get; set; } = new List<ObjectIdentifier>();
-        public IEnumerable<DependencyTreeNode> TreeNodes { get; set; }
-        public DependencyTreeNode Tree { get; set; }
-
-
         private static MibParser mibParser;
 
         public DependencyTreeProvider()
         {
             mibParser = new MibParser();
         }
+
+        public static Mib MibModel { get; set; }
+        public IEnumerable<ObjectIdentifier> ListOfAllObjects { get; set; } = new List<ObjectIdentifier>();
+        public IEnumerable<DependencyTreeNode> TreeNodes { get; set; }
+        public DependencyTreeNode Tree { get; set; }
 
         public DependencyTreeNode GetDependencyTree(string mibName)
         {
@@ -47,7 +44,7 @@ namespace SnmpAgent.Providers
                 {
                     if (node.Syntax.Name.Equals(dataType.Name))
                     {
-                        node.Syntax = new Syntax()
+                        node.Syntax = new Syntax
                         {
                             Name = dataType.Name,
                             Min = dataType.Min,
@@ -62,15 +59,15 @@ namespace SnmpAgent.Providers
         public void CreateTreeNodes()
         {
             ListOfAllObjects = MibModel.ObjectTypes.Concat(
-                MibModel.ObjectIdentifiers.Select(x => new ObjectType()
+                MibModel.ObjectIdentifiers.Select(x => new ObjectType
                 {
                     Name = x.Name,
                     NameOfNodeAbove = x.NameOfNodeAbove,
                     LeafNumber = x.LeafNumber
                 })
-                ).ToList();
+            ).ToList();
 
-            TreeNodes = ListOfAllObjects.Select(x => (DependencyTreeNode)x);
+            TreeNodes = ListOfAllObjects.Select(x => (DependencyTreeNode) x);
         }
 
         private void AddParentsAndChildrens()
@@ -81,10 +78,10 @@ namespace SnmpAgent.Providers
                 node.ParentNode = TreeNodes.FirstOrDefault(x =>
                     x.Name.Equals(node.ParentNode.Name, StringComparison.OrdinalIgnoreCase));
                 node.ChildrenNodes = TreeNodes.Where(x =>
-                    x.ParentNode != null ?
-                    x.ParentNode.Name.Equals(node.Name, StringComparison.OrdinalIgnoreCase) :
-                    false
-                    );
+                    x.ParentNode != null
+                        ? x.ParentNode.Name.Equals(node.Name, StringComparison.OrdinalIgnoreCase)
+                        : false
+                );
             }
         }
 

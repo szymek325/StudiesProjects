@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SnmpAgent.Models.MibParts
+﻿namespace SnmpAgent.Models.MibParts
 {
     public class Syntax
     {

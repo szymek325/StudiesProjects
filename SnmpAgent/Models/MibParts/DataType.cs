@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 using SnmpAgent.Constants;
-using SnmpAgent.Helpers.MibProcessing;
+using SnmpAgent.MibParsing.Implementation;
 
 namespace SnmpAgent.Models.MibParts
 {
@@ -16,8 +16,8 @@ namespace SnmpAgent.Models.MibParts
 
         public static explicit operator DataType(Match v)
         {
-            var runner = new CustomRegexRunner(RegexConstants.SyntaxLimitationsPattern, v.Groups[5].Value);
-            var matches = runner.GetAllMatches();
+            var regexRunner= new CustomRegexRunner();
+            var matches = regexRunner.GetAllMatches(RegexConstants.SyntaxLimitationsPattern, v.Groups[5].Value);
 
             return new DataType
             {

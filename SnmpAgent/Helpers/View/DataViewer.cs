@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
-using SnmpAgent.Helpers.MibProcessing;
+
+using SnmpAgent.MibParsing.Implementation;
 using SnmpAgent.Models;
 using SnmpAgent.Providers;
 
@@ -66,9 +66,9 @@ namespace SnmpAgent.Helpers.View
                 Console.WriteLine("1.Type 'all' if you want to see all avaiable files");
                 var fileName = "rfc1213-mib";
                 //var fileName = Console.ReadLine();
-                if (fileName.Equals("all", StringComparison.OrdinalIgnoreCase))
-                    MibReader.ListAllAvaiableFiles();
-                else if (MibReader.CheckIfFileExists(fileName))
+                //if (fileName.Equals("all", StringComparison.OrdinalIgnoreCase))
+                //    MibReader.ListAllAvaiableFiles();
+                //else if (MibReader.CheckIfFileExists(fileName))
                     return fileName;
             } while (true);
         }

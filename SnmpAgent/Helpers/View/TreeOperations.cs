@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
 using SnmpAgent.Models;
-using SnmpAgent.Models.MibParts;
-using SnmpAgent.Providers;
 
 namespace SnmpAgent.Helpers.View
 {
@@ -31,27 +26,28 @@ namespace SnmpAgent.Helpers.View
                     Console.Write(" ");
 
                 var oidNumbers = child.Oid.Split(".");
-                var oid = oidNumbers[oidNumbers.Length-1];
+                var oid = oidNumbers[oidNumbers.Length - 1];
 
                 Console.Write(
                     child.ChildrenNodes.Count().Equals(0)
-                    ? string.Format("| {0} {1}", oid, child.Name)
-                    : string.Format("\\ {0} {1}", oid, child.Name)
-                    );
+                        ? string.Format("| {0} {1}", oid, child.Name)
+                        : string.Format("\\ {0} {1}", oid, child.Name)
+                );
                 ShowSubObjects(child);
             }
         }
 
-        public static void FindAndShowElement(this DependencyTreeNode node,string name)
+        public static void FindAndShowElement(this DependencyTreeNode node, string name)
         {
             if (node.Name.Equals(name))
             {
                 ShowParentAndChildrens(node);
                 return;
             }
+
             foreach (var child in node.ChildrenNodes)
             {
-                FindAndShowElement(child,name);
+                FindAndShowElement(child, name);
             }
         }
 
