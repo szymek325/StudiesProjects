@@ -43,7 +43,7 @@ namespace SnmpAgent.MibParsing.Helpers.Implementation
             if (objectTypeName.Equals("all", StringComparison.OrdinalIgnoreCase))
                 dependencyTreeViewer.ShowDependencyTree(TreeNode);
             else if (objectTypeName.Contains("1"))
-                nodeFinder.FindAndShowElement(TreeNode,objectTypeName);
+                nodeFinder.FindAndShowElementByOid(TreeNode,objectTypeName);
             else
                 nodeFinder.FindAndShowElement(TreeNode, objectTypeName);
         }

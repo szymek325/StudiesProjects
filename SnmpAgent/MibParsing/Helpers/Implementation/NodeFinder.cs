@@ -21,7 +21,7 @@ namespace SnmpAgent.MibParsing.Helpers.Implementation
 
         public void FindAndShowElementByOid(DependencyTreeNode node, string oid)
         {
-            if (node.Name.Equals(oid))
+            if (node.Oid.Equals(oid))
             {
                 ShowParentAndChildrens(node);
                 return;
@@ -29,7 +29,7 @@ namespace SnmpAgent.MibParsing.Helpers.Implementation
 
             foreach (var child in node.ChildrenNodes)
             {
-                FindAndShowElement(child, oid);
+                FindAndShowElementByOid(child, oid);
             }
         }
 
