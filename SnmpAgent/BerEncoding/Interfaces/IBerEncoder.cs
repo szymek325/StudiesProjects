@@ -2,7 +2,7 @@
 
 namespace SnmpAgent.BerEncoding.Interfaces
 {
-    public interface IEncoding
+    public interface IBerEncoder
     {
         void Encode(DependencyTreeNode node, string value);
     }

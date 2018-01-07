@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SnmpAgent.BerDecoding.Implementation;
+using SnmpAgent.BerDecoding.Interface;
 using SnmpAgent.BerEncoding.Implementation;
 using SnmpAgent.BerEncoding.Interfaces;
 using SnmpAgent.Helpers.View;
@@ -33,7 +35,9 @@ namespace SnmpAgent
                 .AddTransient<INodeFinder,NodeFinder>()
                 .AddTransient<IMibViewMenu,MibViewMenu>()
                 //BerEncoding
-                .AddTransient<IEncoding, Encoding>()
+                .AddTransient<IBerEncoder, BerEncoder>()
+                //BerDECODING
+                .AddTransient<IBerDecoder, BerDecoder>()
                 //main
                 .AddSingleton<ISnmpRunner, SnmpRunner>()
                 .BuildServiceProvider();

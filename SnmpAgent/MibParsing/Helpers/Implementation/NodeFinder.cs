@@ -6,11 +6,11 @@ namespace SnmpAgent.MibParsing.Helpers.Implementation
 {
     public class NodeFinder : INodeFinder
     {
-        private readonly IEncoding encoder;
+        private readonly IBerEncoder berEncoder;
 
-        public NodeFinder(IEncoding encoder)
+        public NodeFinder(IBerEncoder berEncoder)
         {
-            this.encoder = encoder;
+            this.berEncoder = berEncoder;
         }
 
         public void FindAndShowElement(DependencyTreeNode node, string name)
@@ -44,7 +44,7 @@ namespace SnmpAgent.MibParsing.Helpers.Implementation
         private void ShowParentAndChildrens(DependencyTreeNode node)
         {
             node.ShowNode();
-            encoder.Encode(node, "5");
+            berEncoder.Encode(node, "5");
             foreach (var child in node.ChildrenNodes)
             {
                 child.ShowNode();

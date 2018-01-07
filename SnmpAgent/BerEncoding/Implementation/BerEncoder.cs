@@ -4,7 +4,7 @@ using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.BerEncoding.Implementation
 {
-    public class Encoding : IEncoding
+    public class BerEncoder : IBerEncoder
     {
         private DependencyTreeNode node;
         private string value;
@@ -19,11 +19,12 @@ namespace SnmpAgent.BerEncoding.Implementation
             encodedData = EncodeTag();
             Console.WriteLine(encodedData);
 
+
         }
 
         private string EncodeTag()
         {
-            if (node.Syntax!=null)
+            if (node.Syntax != null)
             {
                 switch (node.Syntax.Name)
                 {
@@ -41,12 +42,14 @@ namespace SnmpAgent.BerEncoding.Implementation
                         return "4";
                     case "PhysAddress":
                         return "4";
-                    default:
-                        return "6";
+                }
+
+                if (node.Syntax.Name.Contains("SEQUENCE"))
+                {
+                    return "16";
                 }
             }
-            else
-                return "6";
+            return "6";
         }
     }
 }
