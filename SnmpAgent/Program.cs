@@ -38,7 +38,9 @@ namespace SnmpAgent
                 .AddTransient<IBerEncoder, BerEncoder>()
                 //BerDECODING
                 .AddTransient<IBerDecoder, BerDecoder>()
-                .AddTransient<IByteOperations,ByteOperations>()
+                .AddTransient<IIdentifierOctetDecoder, IdentifierOctetDecoder>()
+                .AddTransient<ILengthDecoder, LengthDecoder>()
+                .AddTransient<IValueOctetsDecoder, ValueOctetsDecoder>()
                 //main
                 .AddSingleton<ISnmpRunner, SnmpRunner>()
                 .BuildServiceProvider();
