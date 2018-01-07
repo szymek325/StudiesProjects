@@ -29,13 +29,13 @@ namespace SnmpAgent.MainProgramLoop.Implementation
             //input[1] = 0x02;
             //input[2] = 0xFF;
             //input[3] = 0x7f;
-            input[0] = 0x1A;
+            input[0] = 0x06;
             input[1] = 0x05;
-            input[2] = 0x4A;
-            input[3] = 0x6F;
-            input[4] = 0x6E;
-            input[5] = 0x65;
-            input[6] = 0x73;
+            input[2] = 0x2b;
+            input[3] = 0x06;
+            input[4] = 0x01;
+            input[5] = 0x04;
+            input[6] = 0x01;
 
             berDecoder.Decode(input);
         }

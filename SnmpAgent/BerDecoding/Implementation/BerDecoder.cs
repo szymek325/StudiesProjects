@@ -17,7 +17,7 @@ namespace SnmpAgent.BerDecoding.Implementation
         {
             var identifierOctet = byteOperations.GetType(input[0]);
             var lenght = byteOperations.GetLenght(input[1]);
-            var value = byteOperations.GetValue(input,identifierOctet.Tag);
+            var value = byteOperations.GetValue(input,identifierOctet.Tag,lenght);
         }
     }
 }

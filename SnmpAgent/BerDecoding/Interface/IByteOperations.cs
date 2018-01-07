@@ -6,6 +6,6 @@ namespace SnmpAgent.BerDecoding.Interface
     {
         IdentifierOctet GetType(byte v);
         int GetLenght(byte v);
-        string GetValue(byte[] input, string tag);
+        string GetValue(byte[] input, string tag, int length);
     }
 }

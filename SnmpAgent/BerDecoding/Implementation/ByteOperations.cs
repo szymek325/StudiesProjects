@@ -88,14 +88,15 @@ namespace SnmpAgent.BerDecoding.Implementation
             return identifierOctet;
         }
 
-        public string GetValue(byte[] input, string tag)
+        public string GetValue(byte[] input, string tag, int length)
         {
             input = input.Skip(2).ToArray();
-            string hex = "";
+            
 
             if (tag.Equals("INTEGER"))
             {
-                for (int i = 0; i < input.Length; i++)
+                string hex = "";
+                for (int i = 0; i < length; i++)
                 {
                     var inputInString = Convert.ToString(input[i], 16);
                     hex = hex + inputInString;
@@ -104,7 +105,8 @@ namespace SnmpAgent.BerDecoding.Implementation
             }
             else if(tag.Equals("OCTET STRING"))
             {
-                for (int i = 0; i < input.Length; i++)
+                string hex = "";
+                for (int i = 0; i < length; i++)
                 {
                     var inputInString = Convert.ToString(input[i], 16);
                     if (inputInString.Length.Equals(1))
@@ -119,7 +121,7 @@ namespace SnmpAgent.BerDecoding.Implementation
             else if (tag.Equals("VisibleString"))
             {
                 string message = "";
-                for (int i = 0; i < input.Length; i++)
+                for (int i = 0; i < length; i++)
                 {
                     var inputInString = Convert.ToString(input[i], 16);
                     var asciiNumber=Convert.ToInt32(inputInString, 16);
@@ -127,10 +129,30 @@ namespace SnmpAgent.BerDecoding.Implementation
                 }
 
                 return message;
-
             }
-
-            return "vbalue";
+            else if (tag.Equals("OBJECT IDENTIFIER"))
+            {
+                string oid="";
+                for (int i = 0; i < length; i++)
+                {
+                    if (i == 0)
+                    {
+                        var text = Convert.ToString(input[i], 16);
+                        var number = Convert.ToInt16(text, 16);
+                        var y = number % 40;
+                        var x = (number - y) / 40;
+                        oid = $"{x}.{y}";
+                    }
+                    else
+                    {
+                        var inputInString = Convert.ToString(input[i], 16);
+                        var number = Convert.ToInt16(inputInString, 16).ToString();
+                        oid = oid +"."+ number;
+                    }
+                }
+                return oid;
+            }
+            return "something went wrong";
         }
     }
 }
