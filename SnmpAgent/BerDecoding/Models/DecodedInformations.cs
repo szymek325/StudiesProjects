@@ -9,6 +9,6 @@
     {
         public string Class { get; set; }
         public string PC { get; set; }
-        public string TagNumber { get; set; }
+        public string Tag { get; set; }
     }
 }

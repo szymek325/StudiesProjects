@@ -6,7 +6,7 @@ namespace SnmpAgent.BerDecoding.Implementation
 {
     public class BerDecoder : IBerDecoder
     {
-        private IByteOperations byteOperations;
+        private readonly IByteOperations byteOperations;
 
         public BerDecoder(IByteOperations byteOperations)
         {
@@ -15,7 +15,9 @@ namespace SnmpAgent.BerDecoding.Implementation
 
         public void Decode(byte[] input)
         {
-            byteOperations.GetType(input[0]);
+            var identifierOctet = byteOperations.GetType(input[0]);
+            var lenght = byteOperations.GetLenght(input[1]);
+            var value = byteOperations.GetValue(input,identifierOctet.Tag);
         }
     }
 }

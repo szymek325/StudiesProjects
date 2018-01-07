@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using SnmpAgent.BerDecoding.Interface;
 using SnmpAgent.BerDecoding.Models;
 
@@ -10,13 +7,18 @@ namespace SnmpAgent.BerDecoding.Implementation
 {
     public class ByteOperations : IByteOperations
     {
+        public int GetLenght(byte v)
+        {
+            var bits = Convert.ToString(v, 2);
+            return Convert.ToInt32(bits, 2);
+        }
 
         public IdentifierOctet GetType(byte v)
         {
             var identifierOctet = new IdentifierOctet();
 
-            var bits=Convert.ToString(v, 2);
-            for (int i = 0; bits.Length<8; i++)
+            var bits = Convert.ToString(v, 2);
+            for (var i = 0; bits.Length < 8; i++)
             {
                 bits = "0" + bits;
             }
@@ -53,20 +55,20 @@ namespace SnmpAgent.BerDecoding.Implementation
 
             if (identifierOctet.Class.Equals("Universal"))
             {
-                var tagInInt = Convert.ToInt32(tagNumber,2);
+                var tagInInt = Convert.ToInt32(tagNumber, 2);
                 switch (tagInInt)
                 {
                     case 2:
-                        identifierOctet.TagNumber = "INTEGER";
+                        identifierOctet.Tag = "INTEGER";
                         break;
                     case 4:
-                        identifierOctet.TagNumber = "OCTET STRING";
+                        identifierOctet.Tag = "OCTET STRING";
                         break;
                     case 6:
-                        identifierOctet.TagNumber = "OBJECT IDENTIFIER";
+                        identifierOctet.Tag = "OBJECT IDENTIFIER";
                         break;
                     case 16:
-                        identifierOctet.TagNumber = "SEQUENCE/ SEQUENCE OF";
+                        identifierOctet.Tag = "SEQUENCE/ SEQUENCE OF";
                         break;
                     default:
                         Console.WriteLine($"Tag nie został rozpoznany, wartość pola Tag: {tagInInt}");
@@ -77,10 +79,18 @@ namespace SnmpAgent.BerDecoding.Implementation
             else if (identifierOctet.Class.Equals("Application"))
             {
                 var tagInInt = Convert.ToInt32(tagNumber);
-                identifierOctet.TagNumber = $"APPLICATION {tagInInt.ToString()}";
+                identifierOctet.Tag = $"APPLICATION {tagInInt}";
             }
 
             return identifierOctet;
+        }
+
+        public string GetValue(byte[] input, string tag)
+        {
+            input = input.Skip(2).ToArray();
+
+
+            return "vbalue";
         }
     }
 }
