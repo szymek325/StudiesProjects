@@ -44,7 +44,7 @@ namespace SnmpAgent.MibParsing.Implementation
 
         public IEnumerable<Sequence> GetSequences()
         {
-            var matchCollection = regexRunner.GetAllMatchesWithoutSingleLine(RegexConstants.SequencePattern, Text);
+            var matchCollection = regexRunner.GetAllMatches(RegexConstants.SequencePattern, Text);
 
             var sequences = matchCollection.Select(x => (Sequence) x);
 
