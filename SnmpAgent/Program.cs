@@ -2,6 +2,7 @@
 using SnmpAgent.Helpers.View;
 using SnmpAgent.MainProgramLoop.Implementation;
 using SnmpAgent.MainProgramLoop.Interface;
+using SnmpAgent.MibParsing.Helpers.Implementation;
 using SnmpAgent.MibParsing.Helpers.Interface;
 using SnmpAgent.MibParsing.Implementation;
 using SnmpAgent.MibParsing.Interface;
@@ -26,7 +27,9 @@ namespace SnmpAgent
                 .AddTransient<IObjectTypesParser, ObjectTypesParser>()
                 .AddTransient<IMainObjectIdentifiersCreator, MainObjectIdentifiersCreator>()
                     //mib viewing
-                .AddTransient<IMibTreeViewer, MibTreeViewer>()
+                .AddTransient<IDependencyTreeViewer, DependencyTreeViewer>()
+                .AddTransient<INodeFinder,NodeFinder>()
+                .AddTransient<IMibViewMenu,MibViewMenu>()
                 //main
                 .AddSingleton<ISnmpRunner, SnmpRunner>()
                 .BuildServiceProvider();

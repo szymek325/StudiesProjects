@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
+using SnmpAgent.MibParsing.Helpers.Interface;
 using SnmpAgent.MibParsing.Models;
 
-namespace SnmpAgent.MibParsing.Helpers
+namespace SnmpAgent.Helpers.View
 {
-    public static class NodeViewFunctionality
+    public class DependencyTreeViewer : IDependencyTreeViewer
     {
-        public static void ShowDependencyTree(this DependencyTreeNode tree)
+        public void ShowDependencyTree(DependencyTreeNode tree)
         {
             Console.WriteLine();
             Console.WriteLine("---------DEPENDENCY TREE---------");
@@ -15,7 +16,7 @@ namespace SnmpAgent.MibParsing.Helpers
             ShowSubObjects(tree);
         }
 
-        private static void ShowSubObjects(DependencyTreeNode node)
+        private void ShowSubObjects(DependencyTreeNode node)
         {
             Console.WriteLine();
             var children = node.ChildrenNodes;
@@ -34,29 +35,6 @@ namespace SnmpAgent.MibParsing.Helpers
                         : string.Format("\\ {0} {1}", oid, child.Name)
                 );
                 ShowSubObjects(child);
-            }
-        }
-
-        public static void FindAndShowElement(this DependencyTreeNode node, string name)
-        {
-            if (node.Name.Equals(name))
-            {
-                ShowParentAndChildrens(node);
-                return;
-            }
-
-            foreach (var child in node.ChildrenNodes)
-            {
-                FindAndShowElement(child, name);
-            }
-        }
-
-        private static void ShowParentAndChildrens(DependencyTreeNode node)
-        {
-            node.ShowNode();
-            foreach (var child in node.ChildrenNodes)
-            {
-                child.ShowNode();
             }
         }
     }
