@@ -9,14 +9,14 @@ namespace SnmpAgent.MibParsing.Implementation
 {
     public class DependencyTreeCreator : IDependencyTreeCreator
     {
-        private readonly MibModelProvider mibModelProvider;
+        private readonly IMibModelProvider mibModelProvider;
 
-        public DependencyTreeCreator(MibModelProvider mibModelProvider)
+        public DependencyTreeCreator(IMibModelProvider mibModelProvider)
         {
             this.mibModelProvider = mibModelProvider;
         }
 
-        public static Mib MibModel { get; set; }
+        public Mib MibModel { get; set; }
         public IEnumerable<ObjectIdentifier> ListOfAllObjects { get; set; } = new List<ObjectIdentifier>();
         public IEnumerable<DependencyTreeNode> TreeNodes { get; set; }
         public DependencyTreeNode Tree { get; set; }

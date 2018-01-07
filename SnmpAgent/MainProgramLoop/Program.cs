@@ -15,6 +15,7 @@ namespace SnmpAgent.MainProgramLoop
                 .AddTransient<IDependencyTreeCreator, DependencyTreeCreator>()
                 .AddTransient<IFilesManager, FilesManager>()
                 .AddTransient<IMibModelProvider, MibModelProvider>()
+                .AddTransient<IMibParsingRunner, MibParsingRunner>()
                 .AddTransient<IMibPicker, MibPicker>()
                 .AddTransient<IMibReader,MibReader>()
                 .AddTransient<IObjectTypesParser, ObjectTypesParser>()

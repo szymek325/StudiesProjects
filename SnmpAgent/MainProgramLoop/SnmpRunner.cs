@@ -4,23 +4,16 @@ namespace SnmpAgent.MainProgramLoop
 {
     internal class SnmpRunner : ISnmpRunner
     {
-        private readonly IMibPicker mibPicker;
-        private readonly IMibReader mibReader;
-        private readonly IMibModelProvider mibModelProvider;
+        private readonly IMibParsingRunner mibParsingRunner;
 
-        public SnmpRunner(IMibPicker mibPicker, IMibReader mibReader, IMibModelProvider mibModelProvider)
+        public SnmpRunner(IMibParsingRunner mibParsingRunner)
         {
-            this.mibPicker = mibPicker;
-            this.mibReader = mibReader;
-            this.mibModelProvider = mibModelProvider;
+            this.mibParsingRunner = mibParsingRunner;
         }
 
         public void Run()
         {
-            var mibName = mibPicker.GetMibName();
-            var mib = mibModelProvider.GetMibContent(mibName); //get different object types
-            // creates tree
-            //returns tree
+            mibParsingRunner.StartParsing();
 
         }
     }
