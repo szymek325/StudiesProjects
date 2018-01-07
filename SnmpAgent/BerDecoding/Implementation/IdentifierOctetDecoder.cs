@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using SnmpAgent.BerDecoding.Interface;
 using SnmpAgent.BerDecoding.Models;
 
@@ -7,8 +8,10 @@ namespace SnmpAgent.BerDecoding.Implementation
     internal class IdentifierOctetDecoder : IIdentifierOctetDecoder
     {
         private readonly IdentifierOctet identifierOctet= new IdentifierOctet();
-        public IdentifierOctet GetType(byte v)
+        public IdentifierOctet GetType(ref byte[] input)
         {
+            var v = input[0];
+            input = input.Skip(1).ToArray();
             var bits = Convert.ToString(v, 2);
             for (var i = 0; bits.Length < 8; i++)
             {

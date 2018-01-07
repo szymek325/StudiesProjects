@@ -2,6 +2,6 @@
 {
     public interface IValueOctetsDecoder
     {
-        string GetValue(byte[] input, string tag, int length);
+        string GetValue(ref byte[] input, string tag, int length);
     }
 }

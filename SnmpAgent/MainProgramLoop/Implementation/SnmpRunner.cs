@@ -37,7 +37,7 @@ namespace SnmpAgent.MainProgramLoop.Implementation
             input[5] = 0x04;
             input[6] = 0x01;
 
-            berDecoder.Decode(input);
+            berDecoder.Decode(ref input);
         }
     }
 }

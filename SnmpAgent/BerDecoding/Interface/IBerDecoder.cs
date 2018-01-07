@@ -4,6 +4,6 @@ namespace SnmpAgent.BerDecoding.Interface
 {
     public interface IBerDecoder
     {
-        void Decode(byte[] input);
+        DecodedInformations Decode(ref byte[] input);
     }
 }

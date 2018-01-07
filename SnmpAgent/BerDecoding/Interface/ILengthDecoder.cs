@@ -2,6 +2,6 @@
 {
     public interface ILengthDecoder
     {
-        int GetLenght(byte v);
+        int GetLenght(ref byte[] input);
     }
 }

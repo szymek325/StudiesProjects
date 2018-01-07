@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using SnmpAgent.BerDecoding.Interface;
 using SnmpAgent.BerDecoding.Models;
 
@@ -17,15 +18,30 @@ namespace SnmpAgent.BerDecoding.Implementation
             this.valueOctetsDecoder = valueOctetsDecoder;
         }
 
-        public void Decode(byte[] input)
+        public DecodedInformations Decode(ref byte[] input)
         {
-            var identifierOctet = identifierOctetDecoder.GetType(input[0]);
-            if (identifierOctet.Tag.Equals("unidentified"))
+            var receivedData= new DecodedInformations();
+            receivedData.IdentifierOctet = identifierOctetDecoder.GetType(ref input);
+            if (receivedData.IdentifierOctet.Tag.Equals("unidentified"))
             {
-                return;
+                return new DecodedInformations(); ;
             }
-            var lenght = lengthDecoder.GetLenght(input[1]);
-            var value = valueOctetsDecoder.GetValue(input,identifierOctet.Tag,lenght);
+            receivedData.Length = lengthDecoder.GetLenght(ref input);
+            if (!receivedData.IdentifierOctet.Tag.Contains("SEQUENCE"))
+            {
+                receivedData.Value = valueOctetsDecoder.GetValue(ref input, receivedData.IdentifierOctet.Tag, receivedData.Length);
+                return receivedData;
+            }
+            else
+            {
+                while (input.Length!=default(int))
+                {
+                    receivedData.Sequences.ToList().Add(Decode(ref input));
+                }
+                
+            }
+
+            return receivedData;
         }
     }
 }

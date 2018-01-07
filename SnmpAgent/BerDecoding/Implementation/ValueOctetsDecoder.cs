@@ -8,11 +8,12 @@ namespace SnmpAgent.BerDecoding.Implementation
     {
         private byte[] inputBits;
         private int valueLenght;
-        public string GetValue(byte[] input, string tag, int length)
+        public string GetValue(ref byte[] input, string tag, int length)
         {
-            input = input.Skip(2).ToArray();
+            
             inputBits = input;
             valueLenght = length;
+            input = input.Skip(length).ToArray();
 
             if (tag.Equals("INTEGER"))
             {
