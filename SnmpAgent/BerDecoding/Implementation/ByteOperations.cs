@@ -70,6 +70,9 @@ namespace SnmpAgent.BerDecoding.Implementation
                     case 16:
                         identifierOctet.Tag = "SEQUENCE/ SEQUENCE OF";
                         break;
+                    case 26:
+                        identifierOctet.Tag = "VisibleString";
+                        break;
                     default:
                         Console.WriteLine($"Tag nie został rozpoznany, wartość pola Tag: {tagInInt}");
                         throw new NotImplementedException();
@@ -88,7 +91,44 @@ namespace SnmpAgent.BerDecoding.Implementation
         public string GetValue(byte[] input, string tag)
         {
             input = input.Skip(2).ToArray();
+            string hex = "";
 
+            if (tag.Equals("INTEGER"))
+            {
+                for (int i = 0; i < input.Length; i++)
+                {
+                    var inputInString = Convert.ToString(input[i], 16);
+                    hex = hex + inputInString;
+                }
+                return Convert.ToInt16(hex, 16).ToString();
+            }
+            else if(tag.Equals("OCTET STRING"))
+            {
+                for (int i = 0; i < input.Length; i++)
+                {
+                    var inputInString = Convert.ToString(input[i], 16);
+                    if (inputInString.Length.Equals(1))
+                    {
+                        inputInString = "0" + inputInString;
+                    }
+                    hex = hex + inputInString;
+                }
+
+                return hex;
+            }
+            else if (tag.Equals("VisibleString"))
+            {
+                string message = "";
+                for (int i = 0; i < input.Length; i++)
+                {
+                    var inputInString = Convert.ToString(input[i], 16);
+                    var asciiNumber=Convert.ToInt32(inputInString, 16);
+                    message = message + Convert.ToChar(asciiNumber);
+                }
+
+                return message;
+
+            }
 
             return "vbalue";
         }

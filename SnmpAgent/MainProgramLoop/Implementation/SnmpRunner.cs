@@ -24,11 +24,18 @@ namespace SnmpAgent.MainProgramLoop.Implementation
             var mibTree=mibParsingRunner.ParseMib();
             //mibViewMenu.StartViewMode(mibTree);
 
-            byte[] input= new byte[4];
-            input[0] = 0x02;
-            input[1] = 0x02;
-            input[2] = 0xFF;
-            input[3] = 0x7f;
+            byte[] input= new byte[7];
+            //input[0] = 0x02;
+            //input[1] = 0x02;
+            //input[2] = 0xFF;
+            //input[3] = 0x7f;
+            input[0] = 0x1A;
+            input[1] = 0x05;
+            input[2] = 0x4A;
+            input[3] = 0x6F;
+            input[4] = 0x6E;
+            input[5] = 0x65;
+            input[6] = 0x73;
 
             berDecoder.Decode(input);
         }
