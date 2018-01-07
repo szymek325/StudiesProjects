@@ -23,17 +23,17 @@ namespace SnmpAgent.BerDecoding.Implementation
             var receivedData = new DecodedInformations();
 
             receivedData.IdentifierOctet = identifierOctetDecoder.GetType(ref input);
-            if (receivedData.IdentifierOctet.Tag.Equals("unidentified"))
+            if (receivedData.IdentifierOctet.Class.Equals("unidentified"))
             {
                 Console.WriteLine("UnidentifiedType");
                 throw new Exception("Unidentified Type!!!");
             }
 
             receivedData.Length = lengthDecoder.GetLenght(ref input);
-            if (!receivedData.Length.Equals(input.Length))
+            if (receivedData.Length>input.Length)
             {
                 Console.WriteLine("Defined Length isn't equal number of value bytes");
-                throw new Exception("Defined Length isn't equal number of value bytes");
+                //throw new Exception("Defined Length isn't equal number of value bytes");
             }
 
 

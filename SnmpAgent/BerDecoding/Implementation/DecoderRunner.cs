@@ -16,14 +16,22 @@ namespace SnmpAgent.BerDecoding.Implementation
 
         public void Run()
         {
-            ShowDecoderMenu();
-            var encodedData= ReadEncodedData();
-            Console.WriteLine(encodedData);
-            var formattedData=PrepareString(encodedData);
-
-            var bytes = StringToByteArrayFastest(formattedData);
-
-            berDecoder.Decode(ref bytes);
+            while (true)
+            {
+                Console.Clear();
+                ShowDecoderMenu();
+                var encodedData = ReadEncodedData();
+                Console.WriteLine(encodedData);
+                var formattedData = PrepareString(encodedData);
+                if (formattedData.Equals("exit"))
+                {
+                    return;
+                }
+                var bytes = StringToByteArrayFastest(formattedData);
+                var node = berDecoder.Decode(ref bytes);
+                node.ShowNode();
+                Console.ReadKey();
+            }
         }
 
         private string PrepareString(string encodedData)
@@ -44,7 +52,7 @@ namespace SnmpAgent.BerDecoding.Implementation
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("DECODER MENU");
-            Console.WriteLine("Just type data to decode");
+            Console.WriteLine("type data to decode or exit");
         }
 
         private byte[] StringToByteArray(string hex)
@@ -58,7 +66,13 @@ namespace SnmpAgent.BerDecoding.Implementation
         public static byte[] StringToByteArrayFastest(string hex)
         {
             if (hex.Length % 2 == 1)
+            {
                 throw new Exception("The binary key cannot have an odd number of digits");
+                Console.WriteLine("The binary key cannot have an odd number of digits");
+                
+            }
+                
+                
 
             byte[] arr = new byte[hex.Length >> 1];
 
