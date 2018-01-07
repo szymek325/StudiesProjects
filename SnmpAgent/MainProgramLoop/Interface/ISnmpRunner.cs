@@ -1,4 +1,4 @@
-﻿namespace SnmpAgent.MainProgramLoop
+﻿namespace SnmpAgent.MainProgramLoop.Interface
 {
     internal interface ISnmpRunner
     {

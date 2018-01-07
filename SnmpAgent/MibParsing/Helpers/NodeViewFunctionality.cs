@@ -2,9 +2,9 @@
 using System.Linq;
 using SnmpAgent.MibParsing.Models;
 
-namespace SnmpAgent.Helpers.View
+namespace SnmpAgent.MibParsing.Helpers
 {
-    public static class TreeOperations
+    public static class NodeViewFunctionality
     {
         public static void ShowDependencyTree(this DependencyTreeNode tree)
         {

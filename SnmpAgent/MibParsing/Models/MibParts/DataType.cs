@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
-using SnmpAgent.Constants;
+using SnmpAgent.MibParsing.Constants;
 using SnmpAgent.MibParsing.Implementation;
 
 namespace SnmpAgent.MibParsing.Models.MibParts
@@ -16,7 +16,7 @@ namespace SnmpAgent.MibParsing.Models.MibParts
 
         public static explicit operator DataType(Match v)
         {
-            var regexRunner= new CustomRegexRunner();
+            var regexRunner = new CustomRegexRunner();
             var matches = regexRunner.GetAllMatches(RegexConstants.SyntaxLimitationsPattern, v.Groups[5].Value);
 
             return new DataType
@@ -25,8 +25,8 @@ namespace SnmpAgent.MibParsing.Models.MibParts
                 Application = v.Groups[2].Value,
                 Mode = v.Groups[4].Value,
                 Type = v.Groups[5].Value,
-                Min = !matches.Count.Equals(0) ? (matches.First().Groups[1].Value) : null,
-                Max = !matches.Count.Equals(0) ? (matches.First().Groups[2].Value) : null
+                Min = !matches.Count.Equals(0) ? matches.First().Groups[1].Value : null,
+                Max = !matches.Count.Equals(0) ? matches.First().Groups[2].Value : null
             };
         }
     }

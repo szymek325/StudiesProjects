@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using SnmpAgent.Constants;
+using SnmpAgent.MibParsing.Constants;
 using SnmpAgent.MibParsing.Interface;
 
 namespace SnmpAgent.MibParsing.Implementation
 {
-    public class FilesManager: IFilesManager
+    public class FilesManager : IFilesManager
     {
         public void ListAllAvaiableFiles()
         {

@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using SnmpAgent.Constants;
+using SnmpAgent.MibParsing.Constants;
 using SnmpAgent.MibParsing.Interface;
 
 namespace SnmpAgent.MibParsing.Implementation

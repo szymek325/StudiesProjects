@@ -1,7 +1,9 @@
-﻿namespace SnmpAgent.MibParsing.Interface
+﻿using SnmpAgent.MibParsing.Models;
+
+namespace SnmpAgent.MibParsing.Interface
 {
     public interface IMibParsingRunner
     {
-        void StartParsing();
+        DependencyTreeNode ParseMib();
     }
 }

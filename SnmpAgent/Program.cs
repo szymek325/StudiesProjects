@@ -1,8 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SnmpAgent.Helpers.View;
+using SnmpAgent.MainProgramLoop.Implementation;
+using SnmpAgent.MainProgramLoop.Interface;
+using SnmpAgent.MibParsing.Helpers.Interface;
 using SnmpAgent.MibParsing.Implementation;
 using SnmpAgent.MibParsing.Interface;
 
-namespace SnmpAgent.MainProgramLoop
+namespace SnmpAgent
 {
     public class Program
     {
@@ -10,6 +14,7 @@ namespace SnmpAgent.MainProgramLoop
         {
             //setup our DI
             var serviceProvider = new ServiceCollection()
+                
                 //MibParsing
                 .AddTransient<ICustomRegexRunner, CustomRegexRunner>()
                 .AddTransient<IDependencyTreeCreator, DependencyTreeCreator>()
@@ -17,9 +22,11 @@ namespace SnmpAgent.MainProgramLoop
                 .AddTransient<IMibModelProvider, MibModelProvider>()
                 .AddTransient<IMibParsingRunner, MibParsingRunner>()
                 .AddTransient<IMibPicker, MibPicker>()
-                .AddTransient<IMibReader,MibReader>()
+                .AddTransient<IMibReader, MibReader>()
                 .AddTransient<IObjectTypesParser, ObjectTypesParser>()
                 .AddTransient<IMainObjectIdentifiersCreator, MainObjectIdentifiersCreator>()
+                    //mib viewing
+                .AddTransient<IMibTreeViewer, MibTreeViewer>()
                 //main
                 .AddSingleton<ISnmpRunner, SnmpRunner>()
                 .BuildServiceProvider();

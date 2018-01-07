@@ -16,8 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\MibProcessing\" />
-    <Folder Include="Providers\" />
+    <Folder Include="Helpers\View\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
-using SnmpAgent.Constants;
+using SnmpAgent.MibParsing.Constants;
 using SnmpAgent.MibParsing.Implementation;
 
 namespace SnmpAgent.MibParsing.Models.MibParts

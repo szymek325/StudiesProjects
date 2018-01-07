@@ -1,9 +1,7 @@
-﻿namespace SnmpAgent.Constants
+﻿namespace SnmpAgent.MibParsing.Constants
 {
     public static class RegexConstants
     {
-
-
         public static string ObjectTypesPattern =
             @"(\w*\s*)OBJECT-TYPE\s* SYNTAX\s* (.*?)\s* ACCESS\s* (\w*-\w*)\s* STATUS\s* (.*?)\s* DESCRIPTION\s*""(.*?)""(.*?)::= { (\w*) (\d*) }";
 

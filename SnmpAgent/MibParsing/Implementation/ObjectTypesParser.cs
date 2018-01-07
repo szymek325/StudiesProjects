@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SnmpAgent.Constants;
+using SnmpAgent.MibParsing.Constants;
 using SnmpAgent.MibParsing.Interface;
 using SnmpAgent.MibParsing.Models.MibParts;
 
@@ -11,7 +11,8 @@ namespace SnmpAgent.MibParsing.Implementation
         private readonly IMainObjectIdentifiersCreator mainObjectIdentifiersCreator;
         private readonly ICustomRegexRunner regexRunner;
 
-        public ObjectTypesParser(ICustomRegexRunner regexRunner, IMainObjectIdentifiersCreator mainObjectIdentifiersCreator)
+        public ObjectTypesParser(ICustomRegexRunner regexRunner,
+            IMainObjectIdentifiersCreator mainObjectIdentifiersCreator)
         {
             this.regexRunner = regexRunner;
             this.mainObjectIdentifiersCreator = mainObjectIdentifiersCreator;
@@ -67,7 +68,8 @@ namespace SnmpAgent.MibParsing.Implementation
         }
 
         public IEnumerable<ObjectIdentifier> GetMainObjectIdentifiersWhichAreNotDefinedInMib()
-        {//ISO etc
+        {
+            //ISO etc
             var matchCollection = regexRunner.GetAllMatches(RegexConstants.MainOidPattern, Text);
 
             if (matchCollection.Count != default(int))

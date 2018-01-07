@@ -1,4 +1,4 @@
-﻿namespace SnmpAgent.Constants
+﻿namespace SnmpAgent.MibParsing.Constants
 {
     public static class OtherConstants
     {

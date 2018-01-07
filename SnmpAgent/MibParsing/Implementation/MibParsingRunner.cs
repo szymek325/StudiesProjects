@@ -1,4 +1,5 @@
 ﻿using SnmpAgent.MibParsing.Interface;
+using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.MibParsing.Implementation
 {
@@ -13,11 +14,11 @@ namespace SnmpAgent.MibParsing.Implementation
             this.dependencyTreeCreator = dependencyTreeCreator;
         }
 
-        public void StartParsing()
+        public DependencyTreeNode ParseMib()
         {
             var mibName = mibPicker.GetMibName();
             dependencyTreeCreator.CreateDependencyTree(mibName);
-            var tree = dependencyTreeCreator.GetDependencyTree();
+            return dependencyTreeCreator.GetDependencyTree();
         }
     }
 }
