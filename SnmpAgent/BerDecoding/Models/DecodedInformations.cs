@@ -8,7 +8,7 @@ namespace SnmpAgent.BerDecoding.Models
         public IdentifierOctet IdentifierOctet { get; set; }
         public int Length { get; set; }
         public string Value { get; set; }
-        public IEnumerable<DecodedInformations> Sequences { get; set; }
+        public List<DecodedInformations> Sequences { get; set; }= new List<DecodedInformations>();
     }
 
     public class IdentifierOctet

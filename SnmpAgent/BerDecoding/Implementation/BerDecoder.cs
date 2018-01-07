@@ -36,11 +36,11 @@ namespace SnmpAgent.BerDecoding.Implementation
             {
                 while (input.Length!=default(int))
                 {
-                    receivedData.Sequences.ToList().Add(Decode(ref input));
+                    var newElement = Decode(ref input);
+                    receivedData.Sequences.Add(newElement);
                 }
                 
             }
-
             return receivedData;
         }
     }
