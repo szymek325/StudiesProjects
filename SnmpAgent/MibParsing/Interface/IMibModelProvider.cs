@@ -2,7 +2,7 @@
 
 namespace SnmpAgent.MibParsing.Interface
 {
-    public interface IMibParser
+    public interface IMibModelProvider
     {
         Mib GetMibContent(string fileName);
     }

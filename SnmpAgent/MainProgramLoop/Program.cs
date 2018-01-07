@@ -12,6 +12,10 @@ namespace SnmpAgent.MainProgramLoop
             var serviceProvider = new ServiceCollection()
                 .AddTransient<IMibPicker, MibPicker>()
                 .AddTransient<IMibReader,MibReader>()
+                .AddTransient<IMibModelProvider, MibModelProvider>()
+                .AddTransient<ICustomRegexRunner, CustomRegexRunner>()
+                .AddTransient<IOidCreator, OidCreator>()
+                .AddTransient<IDependencyTreeCreator, DependencyTreeCreator>()
                 .AddTransient<IFilesManager,FilesManager>()
                 .AddSingleton<ISnmpRunner, SnmpRunner>()
                 .BuildServiceProvider();

@@ -2,7 +2,6 @@
 
 using SnmpAgent.MibParsing.Implementation;
 using SnmpAgent.Models;
-using SnmpAgent.Providers;
 
 namespace SnmpAgent.Helpers.View
 {

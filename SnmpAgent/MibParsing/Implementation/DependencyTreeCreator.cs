@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SnmpAgent.MibParsing.Implementation;
 using SnmpAgent.MibParsing.Interface;
 using SnmpAgent.Models;
 using SnmpAgent.Models.MibParts;
 
-namespace SnmpAgent.Providers
+namespace SnmpAgent.MibParsing.Implementation
 {
-    public class DependencyTreeCreator: IDependencyTreeCreator
+    public class DependencyTreeCreator : IDependencyTreeCreator
     {
-        private readonly MibParser mibParser;
+        private readonly MibModelProvider mibModelProvider;
 
-        public DependencyTreeCreator(MibParser mibParser)
+        public DependencyTreeCreator(MibModelProvider mibModelProvider)
         {
-            this.mibParser = mibParser;
+            this.mibModelProvider = mibModelProvider;
         }
 
         public static Mib MibModel { get; set; }
@@ -24,7 +23,7 @@ namespace SnmpAgent.Providers
 
         public DependencyTreeNode GetDependencyTree(string mibName)
         {
-            MibModel = mibParser.GetMibContent(mibName);
+            MibModel = mibModelProvider.GetMibContent(mibName);
 
             AddConnectionToDataTypes();
 
