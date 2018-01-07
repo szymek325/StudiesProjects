@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using SnmpAgent.BerDecoding.Interface;
 
 namespace SnmpAgent.BerDecoding.Implementation
 {
-    public class ByteOperations
+    public class ByteOperations: IByteOperations
     {
-        private void strip_sequence(ref byte[] input)
+        public void strip_sequence(ref byte[] input)
         {
             get_length(ref input);
         }
