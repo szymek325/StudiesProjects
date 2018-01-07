@@ -30,7 +30,7 @@ namespace SnmpAgent.MainProgramLoop.Implementation
             input[2] = 0xFF;
             input[3] = 0x7f;
 
-            berDecoder.decode(input);
+            berDecoder.Decode(input);
         }
     }
 }

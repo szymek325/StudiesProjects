@@ -1,138 +1,86 @@
 ﻿using System;
+using System.Collections;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using SnmpAgent.BerDecoding.Interface;
+using SnmpAgent.BerDecoding.Models;
 
 namespace SnmpAgent.BerDecoding.Implementation
 {
-    public class ByteOperations: IByteOperations
+    public class ByteOperations : IByteOperations
     {
-        public void strip_sequence(ref byte[] input)
-        {
-            get_length(ref input);
-        }
 
-        public int get_length(ref byte[] input)
+        public IdentifierOctet GetType(byte v)
         {
-            var size = 0;
-            if (input[1] >= 128)
+            var identifierOctet = new IdentifierOctet();
+
+            var bits=Convert.ToString(v, 2);
+            for (int i = 0; bits.Length<8; i++)
             {
-                for (var i = 0; i < Convert.ToInt32(input[1] & 0x7F); i++)
+                bits = "0" + bits;
+            }
+
+            var classofTag = bits.Substring(0, 2);
+            var pc = bits.Substring(2, 1);
+            var tagNumber = bits.Substring(3, 5);
+
+            switch (classofTag)
+            {
+                case "00":
+                    identifierOctet.Class = "Universal";
+                    break;
+                case "01":
+                    identifierOctet.Class = "Application";
+                    break;
+                case "10":
+                    identifierOctet.Class = "Context-specific";
+                    break;
+                case "11":
+                    identifierOctet.Class = "Private";
+                    break;
+            }
+
+            switch (pc)
+            {
+                case "0":
+                    identifierOctet.PC = "Primitive";
+                    break;
+                case "1":
+                    identifierOctet.PC = "Constructed";
+                    break;
+            }
+
+            if (identifierOctet.Class.Equals("Universal"))
+            {
+                var tagInInt = Convert.ToInt32(tagNumber,2);
+                switch (tagInInt)
                 {
-                    if (i == 0) size = Convert.ToInt32(input[2]);
-                    else size = size * 256 + Convert.ToInt32(input[2 + i]);
-                }
-
-                input = input.Skip(2 + Convert.ToInt32(input[1] & 0x7F)).ToArray();
-            }
-            else
-            {
-                size = Convert.ToInt32(input[1]);
-                input = input.Skip(2).ToArray();
-            }
-
-            return size;
-        }
-
-        public byte[] code_length(int size)
-        {
-            byte[] array;
-            if (size < 128)
-            {
-                array = new byte[1];
-                array[0] = Convert.ToByte(size);
-            }
-            else
-            {
-                var count = 0;
-                var temp = size;
-                while (temp >= 1)
-                {
-                    count++;
-                    temp = temp / 256;
-                }
-
-                array = new byte[count + 1];
-                array[0] = Convert.ToByte(count + 128);
-
-                for (var i = count; i >= 1; i--)
-                {
-                    array[i] = Convert.ToByte(size % 256);
-                    size = size / 256;
+                    case 2:
+                        identifierOctet.TagNumber = "INTEGER";
+                        break;
+                    case 4:
+                        identifierOctet.TagNumber = "OCTET STRING";
+                        break;
+                    case 6:
+                        identifierOctet.TagNumber = "OBJECT IDENTIFIER";
+                        break;
+                    case 16:
+                        identifierOctet.TagNumber = "SEQUENCE/ SEQUENCE OF";
+                        break;
+                    default:
+                        Console.WriteLine($"Tag nie został rozpoznany, wartość pola Tag: {tagInInt}");
+                        throw new NotImplementedException();
+                        break;
                 }
             }
-
-            return array;
-        }
-
-        public int get_int(ref byte[] input)
-        {
-            if (input[0] != 0x02)
+            else if (identifierOctet.Class.Equals("Application"))
             {
-                Console.WriteLine("Zły typ, spodziwano się inta");
-                return -1;
+                var tagInInt = Convert.ToInt32(tagNumber);
+                identifierOctet.TagNumber = $"APPLICATION {tagInInt.ToString()}";
             }
 
-            var value = 0;
-            var length = get_length(ref input);
-            for (var i = 0; i < length; i++)
-            {
-                if (i == 0) value = Convert.ToInt32(input[i] & 0x7F);
-                else value = value * 256 + Convert.ToInt32(input[i]);
-            }
-
-            value = value - Convert.ToInt32((input[0] & 0x80) << (8 * (length - 1)));
-            Console.WriteLine("Int o długości: " + length + " i wartości: " + value);
-            input = input.Skip(length).ToArray();
-            return value;
-        }
-
-        public string get_octet_string(ref byte[] input)
-        {
-            if (input[0] != 0x04)
-            {
-                Console.WriteLine("Zły typ, spodziwano się stringa");
-                return "error";
-            }
-
-            var value = "";
-            var length = get_length(ref input);
-            var my_string = new byte[length];
-            Array.Copy(input, 0, my_string, 0, length);
-            Console.WriteLine("Octet string: " + Encoding.ASCII.GetString(my_string) + " o długości:" + length);
-            value = Encoding.ASCII.GetString(my_string);
-            input = input.Skip(length).ToArray();
-            return value;
-        }
-
-        public string get_object_id(ref byte[] input, ref byte[] raw_obj_id)
-        {
-            var obj_id = "";
-
-            if (input[0] != 0x06)
-            {
-                Console.WriteLine("Zły typ, spodziwano się object_id");
-                return "error";
-            }
-
-            var temp = new byte[input.Length];
-            Buffer.BlockCopy(input, 0, temp, 0, input.Length);
-
-            var size = get_length(ref input);
-            raw_obj_id = new byte[size + (temp.Length - input.Length)];
-            Buffer.BlockCopy(temp, 0, raw_obj_id, 0, size + (temp.Length - input.Length));
-
-            for (var i = 0; i < size; i++)
-            {
-                if (input[i] == 0x2B) obj_id += "1.3";
-                else obj_id += "." + input[i];
-            }
-
-            Console.WriteLine("Object id: " + obj_id + " o długości:" + size);
-
-            input = input.Skip(size).ToArray();
-
-            return obj_id;
+            return identifierOctet;
         }
     }
 }
