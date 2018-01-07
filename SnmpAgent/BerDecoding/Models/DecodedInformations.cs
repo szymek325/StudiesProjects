@@ -7,6 +7,9 @@ namespace SnmpAgent.BerDecoding.Models
     public class DecodedInformations
     {
         public IdentifierOctet IdentifierOctet { get; set; }
+        //public string Class { get; set; }
+        //public string PC { get; set; }
+        //public string Tag { get; set; }
         public int Length { get; set; }
         public string Value { get; set; }
         public List<DecodedInformations> Sequences { get; set; }= new List<DecodedInformations>();
@@ -14,6 +17,9 @@ namespace SnmpAgent.BerDecoding.Models
         public void ShowNode()
         {
             Console.WriteLine("-----------------------------------");
+            //Console.WriteLine($"    {nameof(Class)}: {Class}");
+            //Console.WriteLine($"    {nameof(PC)}: {PC}");
+            //Console.WriteLine($"    {nameof(Tag)}: {Tag}");
             Console.WriteLine(nameof(IdentifierOctet));
             Console.WriteLine($"    {nameof(IdentifierOctet.Class)}: {IdentifierOctet.Class}");
             Console.WriteLine($"    {nameof(IdentifierOctet.PC)}: {IdentifierOctet.PC}");

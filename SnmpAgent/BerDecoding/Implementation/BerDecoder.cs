@@ -22,7 +22,13 @@ namespace SnmpAgent.BerDecoding.Implementation
         {
             var receivedData = new DecodedInformations();
 
-            receivedData.IdentifierOctet = identifierOctetDecoder.GetType(ref input);
+            //var data = identifierOctetDecoder.GetType(ref input);
+            //receivedData.Class = data.Class;
+            //receivedData.PC = data.PC;
+            //receivedData.Tag = data.Tag;
+            var identifier= identifierOctetDecoder.GetType(ref input);
+
+            receivedData.IdentifierOctet = identifier;
             if (receivedData.IdentifierOctet.Class.Equals("unidentified"))
             {
                 Console.WriteLine("UnidentifiedType");
@@ -43,14 +49,19 @@ namespace SnmpAgent.BerDecoding.Implementation
                     valueOctetsDecoder.GetValue(ref input, receivedData.IdentifierOctet.Tag, receivedData.Length);
                 return receivedData;
             }
-
-            while (input.Length != default(int))
+            else
             {
-                var newElement = Decode(ref input);
-                receivedData.Sequences.Add(newElement);
+                receivedData.Value = "Sequences";
+                while (input.Length != default(int))
+                {
+                    var newElement = Decode(ref input);
+                    receivedData.Sequences.Add(newElement);
+                }
+
+                return receivedData;
             }
 
-            return receivedData;
+
         }
     }
 }
