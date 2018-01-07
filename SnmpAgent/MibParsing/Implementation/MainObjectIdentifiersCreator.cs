@@ -5,9 +5,9 @@ using SnmpAgent.MibParsing.Models.MibParts;
 
 namespace SnmpAgent.MibParsing.Implementation
 {
-    public class OidCreator : IOidCreator
+    public class MainObjectIdentifiersCreator : IMainObjectIdentifiersCreator
     {
-        public List<ObjectIdentifier> CreateMainOids(Match match)
+        public List<ObjectIdentifier> CreateMainObjectIdentifiersNotDefinedInMib(Match match)
         {
             return new List<ObjectIdentifier>
             {

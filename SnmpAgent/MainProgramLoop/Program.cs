@@ -18,7 +18,7 @@ namespace SnmpAgent.MainProgramLoop
                 .AddTransient<IMibPicker, MibPicker>()
                 .AddTransient<IMibReader,MibReader>()
                 .AddTransient<IObjectTypesParser, ObjectTypesParser>()
-                .AddTransient<IOidCreator, OidCreator>()
+                .AddTransient<IMainObjectIdentifiersCreator, MainObjectIdentifiersCreator>()
                 //main
                 .AddSingleton<ISnmpRunner, SnmpRunner>()
                 .BuildServiceProvider();

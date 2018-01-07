@@ -35,7 +35,7 @@ namespace SnmpAgent.MibParsing.Implementation
             objectTypesParser.SetText(Text);
             MibModel.Import = objectTypesParser.GetObjectImports();
             MibModel.ObjectIdentifiers = MibModel.ObjectIdentifiers.Concat(objectTypesParser.GetObjectIdentifiers());
-            MibModel.ObjectIdentifiers = MibModel.ObjectIdentifiers.Concat(objectTypesParser.GetMainOid());
+            MibModel.ObjectIdentifiers = MibModel.ObjectIdentifiers.Concat(objectTypesParser.GetMainObjectIdentifiersWhichAreNotDefinedInMib());
             MibModel.ObjectTypes = MibModel.ObjectTypes.Concat(objectTypesParser.GetObjectTypes());
             MibModel.Sequences = MibModel.Sequences.Concat(objectTypesParser.GetSequences());
             MibModel.DataTypes = MibModel.DataTypes.Concat(objectTypesParser.GetDataTypes());

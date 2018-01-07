@@ -11,6 +11,6 @@ namespace SnmpAgent.MibParsing.Interface
         IEnumerable<ObjectIdentifier> GetObjectIdentifiers();
         string GetObjectImports();
         IEnumerable<ObjectType> GetObjectTypes();
-        IEnumerable<ObjectIdentifier> GetMainOid();
+        IEnumerable<ObjectIdentifier> GetMainObjectIdentifiersWhichAreNotDefinedInMib();
     }
 }

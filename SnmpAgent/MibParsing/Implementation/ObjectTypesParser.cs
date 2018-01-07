@@ -8,13 +8,13 @@ namespace SnmpAgent.MibParsing.Implementation
 {
     public class ObjectTypesParser : IObjectTypesParser
     {
-        private readonly IOidCreator oidCreator;
+        private readonly IMainObjectIdentifiersCreator mainObjectIdentifiersCreator;
         private readonly ICustomRegexRunner regexRunner;
 
-        public ObjectTypesParser(ICustomRegexRunner regexRunner, IOidCreator oidCreator)
+        public ObjectTypesParser(ICustomRegexRunner regexRunner, IMainObjectIdentifiersCreator mainObjectIdentifiersCreator)
         {
             this.regexRunner = regexRunner;
-            this.oidCreator = oidCreator;
+            this.mainObjectIdentifiersCreator = mainObjectIdentifiersCreator;
         }
 
         private string Text { get; set; }
@@ -66,12 +66,12 @@ namespace SnmpAgent.MibParsing.Implementation
             return objectTypes;
         }
 
-        public IEnumerable<ObjectIdentifier> GetMainOid()
-        {
+        public IEnumerable<ObjectIdentifier> GetMainObjectIdentifiersWhichAreNotDefinedInMib()
+        {//ISO etc
             var matchCollection = regexRunner.GetAllMatches(RegexConstants.MainOidPattern, Text);
 
             if (matchCollection.Count != default(int))
-                return oidCreator.CreateMainOids(matchCollection[0]);
+                return mainObjectIdentifiersCreator.CreateMainObjectIdentifiersNotDefinedInMib(matchCollection[0]);
 
             return new List<ObjectIdentifier>();
         }

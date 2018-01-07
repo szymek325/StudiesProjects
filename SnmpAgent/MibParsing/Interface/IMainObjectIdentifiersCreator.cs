@@ -4,8 +4,8 @@ using SnmpAgent.MibParsing.Models.MibParts;
 
 namespace SnmpAgent.MibParsing.Interface
 {
-    public interface IOidCreator
+    public interface IMainObjectIdentifiersCreator
     {
-        List<ObjectIdentifier> CreateMainOids(Match match);
+        List<ObjectIdentifier> CreateMainObjectIdentifiersNotDefinedInMib(Match match);
     }
 }

@@ -21,7 +21,21 @@ namespace SnmpAgent.MibParsing.Implementation
         public IEnumerable<DependencyTreeNode> TreeNodes { get; set; }
         public DependencyTreeNode Tree { get; set; }
 
-        public void AddConnectionToDataTypes()
+        public DependencyTreeNode GetDependencyTree()
+        {
+            return Tree;
+        }
+        public void CreateDependencyTree(string mibName)
+        {
+            MibModel = mibModelProvider.GetMibContent(mibName);
+            AddConnectionToDataTypes();
+            CreateTreeNodes();
+            AddParentsAndChildrens();
+            Tree = TreeNodes.FirstOrDefault(x => x.ParentNode == null);
+            CreteOids(Tree);
+        }
+
+        private void AddConnectionToDataTypes()
         {
             MibModel.ObjectTypes = MibModel.ObjectTypes.ToList();
             foreach (var node in MibModel.ObjectTypes)
@@ -42,7 +56,7 @@ namespace SnmpAgent.MibParsing.Implementation
             }
         }
 
-        public void CreateTreeNodes()
+        private void CreateTreeNodes()
         {
             ListOfAllObjects = MibModel.ObjectTypes.Concat(
                 MibModel.ObjectIdentifiers.Select(x => new ObjectType
@@ -54,20 +68,6 @@ namespace SnmpAgent.MibParsing.Implementation
             ).ToList();
 
             TreeNodes = ListOfAllObjects.Select(x => (DependencyTreeNode) x);
-        }
-
-        public DependencyTreeNode GetDependencyTree(string mibName)
-        {
-            MibModel = mibModelProvider.GetMibContent(mibName);
-
-            AddConnectionToDataTypes();
-
-            CreateTreeNodes();
-            AddParentsAndChildrens();
-            Tree = TreeNodes.FirstOrDefault(x => x.ParentNode == null);
-            CreteOids(Tree);
-
-            return Tree;
         }
 
         private void AddParentsAndChildrens()

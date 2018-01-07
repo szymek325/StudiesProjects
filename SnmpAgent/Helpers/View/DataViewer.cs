@@ -27,7 +27,8 @@ namespace SnmpAgent.Helpers.View
 
         private void UpdateModel(string mibName)
         {
-            TreeNode = treeCreator.GetDependencyTree(mibName);
+            treeCreator.CreateDependencyTree(mibName);
+            TreeNode = treeCreator.GetDependencyTree();
         }
 
         private void ShowDependencies()
