@@ -7,7 +7,7 @@ namespace SnmpAgent.BerDecoding.Implementation
 {
     internal class IdentifierOctetDecoder : IIdentifierOctetDecoder
     {
-        private readonly IdentifierOctet identifierOctet= new IdentifierOctet();
+        private readonly IdentifierOctet identifierOctet = new IdentifierOctet();
         public IdentifierOctet GetType(ref byte[] input)
         {
             var v = input[0];
@@ -23,9 +23,11 @@ namespace SnmpAgent.BerDecoding.Implementation
             var tagBits = bits.Substring(3, 5);
 
             GetClass(classBits);
-            GetPc(pcBits);
-            GetTag(tagBits);
-
+            if (!identifierOctet.Class.Equals("unidentified"))
+            {
+                GetPc(pcBits);
+                GetTag(tagBits);
+            }
             return identifierOctet;
         }
 
@@ -93,6 +95,11 @@ namespace SnmpAgent.BerDecoding.Implementation
                 case "11":
                     identifierOctet.Class = "Private";
                     break;
+                default:
+                    identifierOctet.Class = "unidentified";
+                    Console.WriteLine($"Class not found: {classofTag}. Please try again");
+                    break;
+
             }
         }
     }
