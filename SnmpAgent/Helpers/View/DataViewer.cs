@@ -1,7 +1,6 @@
 ﻿using System;
-
 using SnmpAgent.MibParsing.Implementation;
-using SnmpAgent.Models;
+using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.Helpers.View
 {
@@ -73,7 +72,7 @@ namespace SnmpAgent.Helpers.View
                 //if (fileName.Equals("all", StringComparison.OrdinalIgnoreCase))
                 //    MibReader.ListAllAvaiableFiles();
                 //else if (MibReader.CheckIfFileExists(fileName))
-                    return fileName;
+                return fileName;
             } while (true);
         }
     }

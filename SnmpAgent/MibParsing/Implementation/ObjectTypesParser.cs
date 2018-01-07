@@ -2,14 +2,14 @@
 using System.Linq;
 using SnmpAgent.Constants;
 using SnmpAgent.MibParsing.Interface;
-using SnmpAgent.Models.MibParts;
+using SnmpAgent.MibParsing.Models.MibParts;
 
 namespace SnmpAgent.MibParsing.Implementation
 {
-    public  class ObjectTypesParser: IObjectTypesParser
+    public class ObjectTypesParser : IObjectTypesParser
     {
-        private readonly ICustomRegexRunner regexRunner;
         private readonly IOidCreator oidCreator;
+        private readonly ICustomRegexRunner regexRunner;
 
         public ObjectTypesParser(ICustomRegexRunner regexRunner, IOidCreator oidCreator)
         {
@@ -24,33 +24,6 @@ namespace SnmpAgent.MibParsing.Implementation
             Text = textToBeParsed;
         }
 
-        public IEnumerable<DataType> GetDataTypes()
-        {
-            var matchCollection = regexRunner.GetAllMatches(RegexConstants.DataTypePattern, Text);
-
-            var dataTypes = matchCollection.Select(x => (DataType)x);
-
-            return dataTypes;
-        }
-
-        public IEnumerable<Sequence> GetSequences()
-        {
-            var matchCollection = regexRunner.GetAllMatchesWithoutSingleLine(RegexConstants.SequencePattern, Text);
-
-            var sequences = matchCollection.Select(x => (Sequence)x);
-
-            return sequences;
-        }
-
-        public IEnumerable<ObjectIdentifier> GetObjectIdentifiers()
-        {
-            var matchCollection = regexRunner.GetAllMatches(RegexConstants.ObjectIdentifiersPattern, Text);
-
-            var objectIdentifiers = matchCollection.Select(x => (ObjectIdentifier)x);
-
-            return objectIdentifiers;
-        }
-
         public string GetObjectImports()
         {
             var matchCollection = regexRunner.GetAllMatches(RegexConstants.ImportPattern, Text);
@@ -59,10 +32,37 @@ namespace SnmpAgent.MibParsing.Implementation
             return "";
         }
 
+        public IEnumerable<DataType> GetDataTypes()
+        {
+            var matchCollection = regexRunner.GetAllMatches(RegexConstants.DataTypePattern, Text);
+
+            var dataTypes = matchCollection.Select(x => (DataType) x);
+
+            return dataTypes;
+        }
+
+        public IEnumerable<Sequence> GetSequences()
+        {
+            var matchCollection = regexRunner.GetAllMatchesWithoutSingleLine(RegexConstants.SequencePattern, Text);
+
+            var sequences = matchCollection.Select(x => (Sequence) x);
+
+            return sequences;
+        }
+
+        public IEnumerable<ObjectIdentifier> GetObjectIdentifiers()
+        {
+            var matchCollection = regexRunner.GetAllMatches(RegexConstants.ObjectIdentifiersPattern, Text);
+
+            var objectIdentifiers = matchCollection.Select(x => (ObjectIdentifier) x);
+
+            return objectIdentifiers;
+        }
+
         public IEnumerable<ObjectType> GetObjectTypes()
         {
             var matchCollection = regexRunner.GetAllMatches(RegexConstants.ObjectTypesPattern, Text);
-            var objectTypes = matchCollection.Select(x => (ObjectType)x);
+            var objectTypes = matchCollection.Select(x => (ObjectType) x);
             return objectTypes;
         }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using SnmpAgent.Models.MibParts;
+using SnmpAgent.MibParsing.Models.MibParts;
 
-namespace SnmpAgent.Models
+namespace SnmpAgent.MibParsing.Models
 {
     public class Mib
     {

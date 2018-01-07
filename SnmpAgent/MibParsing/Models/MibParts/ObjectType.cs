@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using SnmpAgent.Constants;
 using SnmpAgent.MibParsing.Implementation;
 
-namespace SnmpAgent.Models.MibParts
+namespace SnmpAgent.MibParsing.Models.MibParts
 {
     public class ObjectType : ObjectIdentifier
     {

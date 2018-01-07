@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SnmpAgent.Models;
+﻿using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.MibParsing.Interface
 {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using SnmpAgent.MibParsing.Interface;
-using SnmpAgent.Models;
-using SnmpAgent.Models.MibParts;
+using SnmpAgent.MibParsing.Models;
+using SnmpAgent.MibParsing.Models.MibParts;
 
 namespace SnmpAgent.MibParsing.Implementation
 {
@@ -20,20 +20,6 @@ namespace SnmpAgent.MibParsing.Implementation
         public IEnumerable<ObjectIdentifier> ListOfAllObjects { get; set; } = new List<ObjectIdentifier>();
         public IEnumerable<DependencyTreeNode> TreeNodes { get; set; }
         public DependencyTreeNode Tree { get; set; }
-
-        public DependencyTreeNode GetDependencyTree(string mibName)
-        {
-            MibModel = mibModelProvider.GetMibContent(mibName);
-
-            AddConnectionToDataTypes();
-
-            CreateTreeNodes();
-            AddParentsAndChildrens();
-            Tree = TreeNodes.FirstOrDefault(x => x.ParentNode == null);
-            CreteOids(Tree);
-
-            return Tree;
-        }
 
         public void AddConnectionToDataTypes()
         {
@@ -68,6 +54,20 @@ namespace SnmpAgent.MibParsing.Implementation
             ).ToList();
 
             TreeNodes = ListOfAllObjects.Select(x => (DependencyTreeNode) x);
+        }
+
+        public DependencyTreeNode GetDependencyTree(string mibName)
+        {
+            MibModel = mibModelProvider.GetMibContent(mibName);
+
+            AddConnectionToDataTypes();
+
+            CreateTreeNodes();
+            AddParentsAndChildrens();
+            Tree = TreeNodes.FirstOrDefault(x => x.ParentNode == null);
+            CreteOids(Tree);
+
+            return Tree;
         }
 
         private void AddParentsAndChildrens()

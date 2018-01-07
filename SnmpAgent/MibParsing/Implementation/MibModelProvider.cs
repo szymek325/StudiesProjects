@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using SnmpAgent.MibParsing.Interface;
-using SnmpAgent.Models;
+using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.MibParsing.Implementation
 {

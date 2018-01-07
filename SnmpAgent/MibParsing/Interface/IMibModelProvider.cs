@@ -1,4 +1,4 @@
-﻿using SnmpAgent.Models;
+﻿using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.MibParsing.Interface
 {

@@ -1,4 +1,4 @@
-﻿namespace SnmpAgent.Models.MibParts
+﻿namespace SnmpAgent.MibParsing.Models.MibParts
 {
     public class Syntax
     {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SnmpAgent.MibParsing.Models.MibParts;
+using System;
 using System.Collections.Generic;
-using SnmpAgent.Models.MibParts;
 
-namespace SnmpAgent.Models
+namespace SnmpAgent.MibParsing.Models
 {
     public class DependencyTreeNode
     {
@@ -20,7 +20,7 @@ namespace SnmpAgent.Models
 
         public static explicit operator DependencyTreeNode(ObjectType model)
         {
-            return new DependencyTreeNode()
+            return new DependencyTreeNode
             {
                 Name = model.Name,
                 Oid = model.LeafNumber.ToString(),
@@ -29,7 +29,7 @@ namespace SnmpAgent.Models
                 Status = model.Status,
                 Description = model.Description,
                 Index = model.Index,
-                ParentNode = new DependencyTreeNode()
+                ParentNode = new DependencyTreeNode
                 {
                     Name = model.NameOfNodeAbove
                 }
@@ -43,7 +43,7 @@ namespace SnmpAgent.Models
             Console.WriteLine(nameof(Oid) + ": " + Oid);
             if (ParentNode != null && !string.IsNullOrEmpty(ParentNode.Name))
                 Console.WriteLine("Parent node: " + ParentNode.Name);
-            if (Syntax != null 
+            if (Syntax != null
                 && !string.IsNullOrEmpty(Access)
                 && !string.IsNullOrEmpty(Status)
                 && !string.IsNullOrEmpty(Description))
@@ -54,6 +54,7 @@ namespace SnmpAgent.Models
                     Console.WriteLine(string.Format("       MIN: {0}", Syntax.Min));
                     Console.WriteLine(string.Format("       MAX: {0}", Syntax.Max));
                 }
+
                 Console.WriteLine(nameof(Access) + ": " + Access);
                 Console.WriteLine(nameof(Status) + ": " + Status);
                 Console.WriteLine(nameof(Description) + ":");
@@ -61,6 +62,7 @@ namespace SnmpAgent.Models
                 if (Index != "" && !Index.Equals("\n ")) //sometimes "\n" is added to Index beacuse of bad parsing
                     Console.WriteLine(nameof(Index) + ": " + Index);
             }
+
             Console.WriteLine();
             Console.WriteLine("-----------------------------------");
         }

@@ -10,13 +10,16 @@ namespace SnmpAgent.MainProgramLoop
         {
             //setup our DI
             var serviceProvider = new ServiceCollection()
+                //MibParsing
+                .AddTransient<ICustomRegexRunner, CustomRegexRunner>()
+                .AddTransient<IDependencyTreeCreator, DependencyTreeCreator>()
+                .AddTransient<IFilesManager, FilesManager>()
+                .AddTransient<IMibModelProvider, MibModelProvider>()
                 .AddTransient<IMibPicker, MibPicker>()
                 .AddTransient<IMibReader,MibReader>()
-                .AddTransient<IMibModelProvider, MibModelProvider>()
-                .AddTransient<ICustomRegexRunner, CustomRegexRunner>()
+                .AddTransient<IObjectTypesParser, ObjectTypesParser>()
                 .AddTransient<IOidCreator, OidCreator>()
-                .AddTransient<IDependencyTreeCreator, DependencyTreeCreator>()
-                .AddTransient<IFilesManager,FilesManager>()
+                //main
                 .AddSingleton<ISnmpRunner, SnmpRunner>()
                 .BuildServiceProvider();
 

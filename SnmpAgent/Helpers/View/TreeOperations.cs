@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using SnmpAgent.Models;
+using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.Helpers.View
 {
