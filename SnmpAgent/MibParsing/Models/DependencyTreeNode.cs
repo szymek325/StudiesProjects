@@ -54,6 +54,10 @@ namespace SnmpAgent.MibParsing.Models
                     Console.WriteLine(string.Format("       MIN: {0}", Syntax.Min));
                     Console.WriteLine(string.Format("       MAX: {0}", Syntax.Max));
                 }
+                if(!string.IsNullOrEmpty(Syntax.Mode))
+                    Console.WriteLine(string.Format("       Mode: {0}", Syntax.Mode));
+                if (!string.IsNullOrEmpty(Syntax.Application))
+                    Console.WriteLine(string.Format("       Application: {0}", Syntax.Application));
 
                 Console.WriteLine(nameof(Access) + ": " + Access);
                 Console.WriteLine(nameof(Status) + ": " + Status);

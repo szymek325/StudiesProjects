@@ -49,7 +49,8 @@ namespace SnmpAgent.MibParsing.Implementation
                             Name = dataType.Name,
                             Min = dataType.Min,
                             Max = dataType.Max,
-                            Mode = dataType.Mode
+                            Mode = dataType.Mode,
+                            Application = dataType.Application
                         };
                     }
                 }

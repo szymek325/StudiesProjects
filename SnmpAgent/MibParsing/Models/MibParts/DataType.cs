@@ -22,7 +22,7 @@ namespace SnmpAgent.MibParsing.Models.MibParts
             return new DataType
             {
                 Name = v.Groups[1].Value,
-                Application = v.Groups[2].Value,
+                Application = Regex.Match(v.Groups[2].Value, @"\d+").Value,
                 Mode = v.Groups[4].Value,
                 Type = v.Groups[5].Value,
                 Min = !matches.Count.Equals(0) ? matches.First().Groups[1].Value : null,
