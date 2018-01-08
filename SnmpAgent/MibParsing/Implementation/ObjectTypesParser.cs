@@ -38,8 +38,24 @@ namespace SnmpAgent.MibParsing.Implementation
             var matchCollection = regexRunner.GetAllMatches(RegexConstants.DataTypePattern, Text);
 
             var dataTypes = matchCollection.Select(x => (DataType) x);
+            var types = dataTypes.ToList();
 
-            return dataTypes;
+            foreach (var type in types)
+            {
+                if (type.Type.Contains("SIZE"))
+                {
+                    var size = regexRunner.GetAllMatches(RegexConstants.SingleSize, type.Type);
+                    if (size.Count != default(int))
+                    {
+                        type.Min = size.First().Groups[1].Value;
+                        type.Max = size.First().Groups[1].Value;
+                    }
+                }
+                var split= type.Type.Split('(');;
+                type.Type = split[0];
+            }
+
+            return types;
         }
 
         public IEnumerable<Sequence> GetSequences()

@@ -19,7 +19,10 @@
 
         public static string SyntaxLimitationsPattern = @"\s[(](\d*)..(\d*)[)]";
 
+        public static string SingleSize = @"\s*[(](\d*)[)]\s*";
+
         #region unusedRegex
+
         //public static string SequencePattern = @"\s*(\w*)\s::=\s*SEQUENCE\s{.*\n(?s)(.*?)(?>)}";
         //public static string ObjectTypesPattern =
         //        @"(\w*\s*)OBJECT-TYPE\s*SYNTAX\s*(.*?)\s*ACCESS\s*(\w*-\w*)\s*STATUS\s*(.*?)\s*DESCRIPTION\s*""(.*?)""\s*\w*\s*\W (\w*) \W\s*::= { (\w*) (\d*) }";

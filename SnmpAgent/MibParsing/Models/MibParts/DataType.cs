@@ -18,7 +18,7 @@ namespace SnmpAgent.MibParsing.Models.MibParts
         {
             var regexRunner = new CustomRegexRunner();
             var matches = regexRunner.GetAllMatches(RegexConstants.SyntaxLimitationsPattern, v.Groups[5].Value);
-
+            
             return new DataType
             {
                 Name = v.Groups[1].Value,

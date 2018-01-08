@@ -58,6 +58,8 @@ namespace SnmpAgent.MibParsing.Models
                     Console.WriteLine(string.Format("       Mode: {0}", Syntax.Mode));
                 if (!string.IsNullOrEmpty(Syntax.Application))
                     Console.WriteLine(string.Format("       Application: {0}", Syntax.Application));
+                if (!string.IsNullOrEmpty(Syntax.SpecialTypeName))
+                    Console.WriteLine(string.Format("       SpecialTypeName: {0}", Syntax.SpecialTypeName));
 
                 Console.WriteLine(nameof(Access) + ": " + Access);
                 Console.WriteLine(nameof(Status) + ": " + Status);

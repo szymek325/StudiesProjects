@@ -23,7 +23,8 @@ namespace SnmpAgent.MainProgramLoop.Implementation
         public void Run()
         {
             var mibTree=mibParsingRunner.ParseMib();
-            //mibViewMenu.StartViewMode(mibTree);
+            mibViewMenu.StartViewMode(mibTree);
+            var dataTypes = mibParsingRunner.GetDataTypes();
             decoderRunner.Run();
         }
     }

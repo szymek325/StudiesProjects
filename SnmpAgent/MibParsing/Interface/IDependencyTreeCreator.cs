@@ -1,4 +1,6 @@
-﻿using SnmpAgent.MibParsing.Models;
+﻿using System.Collections.Generic;
+using SnmpAgent.MibParsing.Models;
+using SnmpAgent.MibParsing.Models.MibParts;
 
 namespace SnmpAgent.MibParsing.Interface
 {
@@ -6,5 +8,6 @@ namespace SnmpAgent.MibParsing.Interface
     {
         DependencyTreeNode GetDependencyTree();
         void CreateDependencyTree(string mibName);
+        IEnumerable<DataType> GetDataTypes();
     }
 }

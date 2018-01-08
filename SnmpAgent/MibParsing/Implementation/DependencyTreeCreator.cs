@@ -25,6 +25,12 @@ namespace SnmpAgent.MibParsing.Implementation
         {
             return Tree;
         }
+
+        public IEnumerable<DataType> GetDataTypes()
+        {
+            return MibModel.DataTypes;
+        }
+
         public void CreateDependencyTree(string mibName)
         {
             MibModel = mibModelProvider.GetMibContent(mibName);
@@ -46,11 +52,12 @@ namespace SnmpAgent.MibParsing.Implementation
                     {
                         node.Syntax = new Syntax
                         {
-                            Name = dataType.Name,
+                            Name = dataType.Type,
                             Min = dataType.Min,
                             Max = dataType.Max,
                             Mode = dataType.Mode,
-                            Application = dataType.Application
+                            Application = dataType.Application,
+                            SpecialTypeName = dataType.Name
                         };
                     }
                 }

@@ -1,5 +1,7 @@
-﻿using SnmpAgent.MibParsing.Interface;
+﻿using System.Collections.Generic;
+using SnmpAgent.MibParsing.Interface;
 using SnmpAgent.MibParsing.Models;
+using SnmpAgent.MibParsing.Models.MibParts;
 
 namespace SnmpAgent.MibParsing.Implementation
 {
@@ -19,6 +21,11 @@ namespace SnmpAgent.MibParsing.Implementation
             var mibName = mibPicker.GetMibName();
             dependencyTreeCreator.CreateDependencyTree(mibName);
             return dependencyTreeCreator.GetDependencyTree();
+        }
+
+        public IEnumerable<DataType> GetDataTypes()
+        {
+            return dependencyTreeCreator.GetDataTypes();
         }
     }
 }
