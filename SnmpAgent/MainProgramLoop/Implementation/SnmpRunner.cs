@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using SnmpAgent.BerDecoding.Interface;
 using SnmpAgent.MainProgramLoop.Interface;
 using SnmpAgent.MibParsing.Helpers.Interface;
@@ -23,9 +24,27 @@ namespace SnmpAgent.MainProgramLoop.Implementation
         public void Run()
         {
             var mibTree=mibParsingRunner.ParseMib();
-            mibViewMenu.StartViewMode(mibTree);
             var dataTypes = mibParsingRunner.GetDataTypes();
-            decoderRunner.Run();
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("-------------------------MENU-------------------------");
+                Console.WriteLine("1.Browse MIB Tree");
+                Console.WriteLine("2.Decode bytes");
+                var pick=Console.ReadLine();
+                if (pick.Contains("1"))
+                {
+                    mibViewMenu.StartViewMode(mibTree);
+                }
+                else if (pick.Contains("2"))
+                {
+                    decoderRunner.Run();
+                }
+                
+                
+            }
+
         }
     }
 }

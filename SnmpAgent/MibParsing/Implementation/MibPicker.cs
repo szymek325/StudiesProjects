@@ -19,9 +19,10 @@ namespace SnmpAgent.MibParsing.Implementation
             Console.Clear();
             do
             {
-                Console.WriteLine("-------------------------");
+                Console.WriteLine("-------------------------MIB PICKER-------------------------");
                 Console.WriteLine("Which MIB file do you want to read ?");
                 Console.WriteLine("1.Type 'all' if you want to see all avaiable files");
+                Console.WriteLine("2.Type name to load MIB");
                 var fileName = "rfc1213-mib";
                 //var fileName = Console.ReadLine();
                 if (fileName.Equals("all", StringComparison.OrdinalIgnoreCase))

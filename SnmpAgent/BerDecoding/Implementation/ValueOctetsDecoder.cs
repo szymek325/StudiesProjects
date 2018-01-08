@@ -15,19 +15,19 @@ namespace SnmpAgent.BerDecoding.Implementation
             valueLenght = length;
             input = input.Skip(length).ToArray();
 
-            if (tag.Equals("INTEGER"))
+            if (tag.Equals("INTEGER", StringComparison.OrdinalIgnoreCase))
             {
                 return GetInteger();
             }
-            else if (tag.Equals("OCTET STRING"))
+            else if (tag.Equals("OCTET STRING", StringComparison.OrdinalIgnoreCase))
             {
                 return GetOctetString();
             }
-            else if (tag.Equals("VisibleString"))
+            else if (tag.Equals("VisibleString", StringComparison.OrdinalIgnoreCase))
             {
                 return GetVisibleString();
             }
-            else if (tag.Equals("OBJECT IDENTIFIER"))
+            else if (tag.Equals("OBJECT IDENTIFIER", StringComparison.OrdinalIgnoreCase))
             {
                 return GetObjectIdentifier();
             }

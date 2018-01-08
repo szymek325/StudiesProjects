@@ -23,7 +23,7 @@ namespace SnmpAgent.BerDecoding.Implementation
             var tagBits = bits.Substring(3, 5);
 
             GetClass(classBits);
-            if (!identifierOctet.Class.Equals("unidentified"))
+            if (!identifierOctet.Class.Equals("unidentified", StringComparison.OrdinalIgnoreCase))
             {
                 GetPc(pcBits);
                 GetTag(tagBits);
@@ -59,7 +59,7 @@ namespace SnmpAgent.BerDecoding.Implementation
                         break;
                 }
             }
-            else if (identifierOctet.Class.Equals("Application"))
+            else if (identifierOctet.Class.Equals("Application", StringComparison.OrdinalIgnoreCase))
             {
                 var tagInInt = Convert.ToInt32(tagNumber);
                 identifierOctet.Tag = $"APPLICATION {tagInInt}";

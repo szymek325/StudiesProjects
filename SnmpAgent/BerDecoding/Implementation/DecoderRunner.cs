@@ -50,9 +50,9 @@ namespace SnmpAgent.BerDecoding.Implementation
 
         private void ShowDecoderMenu()
         {
-            Console.WriteLine("-------------------------------");
-            Console.WriteLine("DECODER MENU");
-            Console.WriteLine("type data to decode or exit");
+            Console.WriteLine("-------------------------DECODER MENU-------------------------");
+            Console.WriteLine(" Type data to decode"); 
+            Console.WriteLine(" Type exit to exit decoder");
         }
 
         private byte[] StringToByteArray(string hex)

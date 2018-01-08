@@ -32,7 +32,7 @@ namespace SnmpAgent.MibParsing.Helpers.Implementation
 
         private void ShowObjectsMenu()
         {
-            Console.WriteLine("-------------------------------");
+            Console.WriteLine("----------------MIB VIEW MENU----------------");
             Console.WriteLine("What object do you want to see?");
             Console.WriteLine("1.Type 'all' to see all avaiable names");
             Console.WriteLine("2.Type 'exit' to return to file selection");
