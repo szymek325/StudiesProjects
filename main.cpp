@@ -73,7 +73,7 @@ void detectContours(int, void* ) //detect and draw contours
 
     for( size_t i = 0; i< contours_poly.size(); i++ )
     {
-        if(isContourConvex(contours_poly[i])&&(int)contourArea(contours_poly[i],false)>1000){
+        if(isContourConvex(contours_poly[i])&&(int)contourArea(contours_poly[i],false)>1000&&hierarchy[i][2] < 0 && hierarchy[i][3] < 0){
             if(contours_poly[i].size()==8){
                 Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
                 drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
