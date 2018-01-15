@@ -18,8 +18,17 @@ void detectContours(int, void* );
 void detectCircles(int,void*);
 
 int main() {
-    img= imread("./figures.jpg", 3);
+    VideoCapture cap(10); //capture the video from web cam
+    if (!cap.isOpened())  // if not success, exit program
+    {
+        cout << "Cannot open the web cam" << endl;
+        return -1;
+    }
+//    img= imread("./figures.jpg", 3);
+
     do{
+        cap.grab();
+        cap.retrieve(img);
         const char* source_window = "Source";
         namedWindow( source_window, WINDOW_AUTOSIZE );
         imshow( source_window, img );
@@ -64,35 +73,36 @@ void detectContours(int, void* ) //detect and draw contours
 
     for( size_t i = 0; i< contours_poly.size(); i++ )
     {
-        if(contours_poly[i].size()==8){
-            Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-            drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
-            putText(img, "CIRCLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+        if(isContourConvex(contours_poly[i])&&(int)contourArea(contours_poly[i],false)>1000){
+            if(contours_poly[i].size()==8){
+                Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+                drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
+                putText(img, "CIRCLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
 
-            drawContours(mask, contours,i, Scalar(255), CV_FILLED);
+                drawContours(mask, contours,i, Scalar(255), CV_FILLED);
+            }
+            if(contours_poly[i].size()==5){
+                Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+                drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
+                putText(img, "PENTAGON", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+
+                drawContours(mask, contours, i, Scalar(255), CV_FILLED);
+            }
+            else if(contours_poly[i].size()==4){
+                Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+                drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
+                putText(img, "RECTANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+
+                drawContours(mask, contours, i, Scalar(255), CV_FILLED);
+            }
+            else if(contours_poly[i].size()==3) {
+                Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+                drawContours(drawing, contours_poly, (int) i, color, 2, 8, hierarchy, 0, Point());
+                putText(img, "TRIANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+
+                drawContours(mask, contours, i, Scalar(255), CV_FILLED);
+            }
         }
-        if(contours_poly[i].size()==5){
-            Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-            drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
-            putText(img, "PENTAGON", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
-
-            drawContours(mask, contours, i, Scalar(255), CV_FILLED);
-        }
-        else if(contours_poly[i].size()==4){
-            Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-            drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
-            putText(img, "RECTANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
-
-            drawContours(mask, contours, i, Scalar(255), CV_FILLED);
-        }
-        else if(contours_poly[i].size()==3) {
-            Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-            drawContours(drawing, contours_poly, (int) i, color, 2, 8, hierarchy, 0, Point());
-            putText(img, "TRIANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
-
-            drawContours(mask, contours, i, Scalar(255), CV_FILLED);
-        }
-
     }
 
     Mat crop(img.rows, img.cols, CV_8UC3);
@@ -143,7 +153,7 @@ void detectCircles(int,void*)
     namedWindow( "Hough Circle Transform Demo", WINDOW_AUTOSIZE );
     imshow( "Hough Circle Transform Demo", circlesImage );
 
-    waitKey(0);
+
 
 
 }
