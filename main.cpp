@@ -14,8 +14,12 @@ int max_thresh = 255;
 RNG rng(12345);
 Scalar boundingColor = Scalar((0, 0), (0, 0), (0, 0));
 
-void detectContours(int, void* );
+void detectAndDrawContours(int, void *);
 void detectCircles(int,void*);
+
+void DrawContoursForFigure(const vector<vector<Point>> &contours, const vector<Vec4i> &hierarchy, const Mat &drawing,
+                           const Mat &mask, const vector<vector<Point>> &contours_poly, const vector<Point2f> &center,
+                           size_t i);
 
 int main() {
     VideoCapture cap(10); //capture the video from web cam
@@ -33,9 +37,9 @@ int main() {
         namedWindow( source_window, WINDOW_AUTOSIZE );
         imshow( source_window, img );
 
-        createTrackbar( " Canny thresh:", "Source", &thresh, max_thresh, detectContours );
-        detectContours( 0, 0 );
-        detectCircles(0,0);
+        createTrackbar(" Canny thresh:", "Source", &thresh, max_thresh, detectAndDrawContours);
+        detectAndDrawContours(0, 0);
+        //detectCircles(0,0);
 
         if (waitKey(30) == 27) {
             cout << "esc key is pressed by user" << endl;
@@ -47,7 +51,7 @@ int main() {
 }
 
 
-void detectContours(int, void* ) //detect and draw contours
+void detectAndDrawContours(int, void *) //detect and draw contours
 {
     Mat contoursImg;
     Mat canny_output;
@@ -75,35 +79,21 @@ void detectContours(int, void* ) //detect and draw contours
     {
         if(isContourConvex(contours_poly[i])&&(int)contourArea(contours_poly[i],false)>1000&&hierarchy[i][2] < 0 && hierarchy[i][3] < 0){
             if(contours_poly[i].size()==8){
-                Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-                drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
-                putText(img, "CIRCLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
-
-                drawContours(mask, contours,i, Scalar(255), CV_FILLED);
+                DrawContoursForFigure(contours, hierarchy, drawing, mask, contours_poly,center, i);
             }
             if(contours_poly[i].size()==5){
-                Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-                drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
-                putText(img, "PENTAGON", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
-
-                drawContours(mask, contours, i, Scalar(255), CV_FILLED);
+                DrawContoursForFigure(contours, hierarchy, drawing, mask, contours_poly,center, i);
             }
             else if(contours_poly[i].size()==4){
-                Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-                drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
-                putText(img, "RECTANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
-
-                drawContours(mask, contours, i, Scalar(255), CV_FILLED);
+                DrawContoursForFigure(contours, hierarchy, drawing, mask, contours_poly,center, i);
             }
             else if(contours_poly[i].size()==3) {
-                Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-                drawContours(drawing, contours_poly, (int) i, color, 2, 8, hierarchy, 0, Point());
-                putText(img, "TRIANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
-
-                drawContours(mask, contours, i, Scalar(255), CV_FILLED);
+                DrawContoursForFigure(contours, hierarchy, drawing, mask, contours_poly,center, i);
             }
         }
     }
+
+
 
     Mat crop(img.rows, img.cols, CV_8UC3);
 
@@ -126,7 +116,17 @@ void detectContours(int, void* ) //detect and draw contours
     imshow( "Contours", drawing );
 }
 
-void detectCircles(int,void*)
+void DrawContoursForFigure(const vector<vector<Point>> &contours, const vector<Vec4i> &hierarchy, const Mat &drawing,
+                           const Mat &mask, const vector<vector<Point>> &contours_poly, const vector<Point2f> &center,
+                           size_t i) {
+    Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255) );
+    drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
+    putText(img, "CIRCLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+
+    drawContours(mask, contours,i, Scalar(255), CV_FILLED);
+}
+
+void detectCircles(int,void*) //with Hough
 {
     Mat circlesImage;
     cvtColor( img, circlesImage, COLOR_BGR2GRAY );
