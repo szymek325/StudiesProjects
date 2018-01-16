@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "opencv2/imgcodecs.hpp"
+#include "constants.h"
 
 using namespace cv;
 using namespace std;
@@ -17,7 +18,10 @@ vector<vector<Point> > foundFigures;
 
 vector<vector<Point>> GetFigures(int, void *);
 void detectCircles(int,void*);
-void GetColors(vector<vector<Point>> someFigures);
+void WriteColorTextOnImage(vector<vector<Point>> someFigures);
+String GetColor(Mat maska);
+void Morphos(Mat &workImage);
+int GetContourSizeFromEachColorImage(Mat specificColorImage);
 
 
 int main() {
@@ -35,7 +39,7 @@ int main() {
 
         foundFigures=GetFigures(0, 0);
         printf("foundFigures %d",(int)foundFigures.size());
-        GetColors(foundFigures);
+        WriteColorTextOnImage(foundFigures);
 
 
 
@@ -140,30 +144,127 @@ void detectCircles(int,void*) //with Hough
 
 }
 
-void GetColors(vector<vector<Point>> someFigures)
+void WriteColorTextOnImage(vector<vector<Point>> someFigures)
 {
-    Mat mask = Mat::zeros(canny_output.rows, canny_output.cols, CV_8UC1);
+    vector<vector<Point> > contours_poly(someFigures.size());
+    vector<float> radius(someFigures.size());
+    vector<Point2f> center(someFigures.size());
 
     for(size_t i = 0; i< someFigures.size(); i++ )
     {
+        approxPolyDP(someFigures[i], contours_poly[i], arcLength(Mat(someFigures[i]), true)*0.02, true);
+        minEnclosingCircle(contours_poly[i], center[i], radius[i]);
+
+
+        Mat mask = Mat::zeros(canny_output.rows, canny_output.cols, CV_8UC1);
         drawContours(mask, someFigures,i, Scalar(255), CV_FILLED);
+        String colorText=GetColor(mask);
+        putText(img, colorText, center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
     }
 
+}
+
+String GetColor(Mat maska)
+{
     Mat crop(img.rows, img.cols, CV_8UC3);
-
-    // set background to green
     crop.setTo(Scalar(255,255,255));
+    img.copyTo(crop, maska);
+    normalize(maska.clone(), maska, 0.0, 255.0, CV_MINMAX, CV_8UC1);
 
-    // and copy the magic apple
-    img.copyTo(crop, mask);
+    Mat imgHSV;
+    Mat imgRed;
+    Mat imgBlue;
+    Mat imgYellow;
+    Mat imgGreen;
 
-    // normalize so imwrite(...)/imshow(...) shows the mask correctly!
-    normalize(mask.clone(), mask, 0.0, 255.0, CV_MINMAX, CV_8UC1);
+    cvtColor(crop, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
-    namedWindow( "MASK", WINDOW_AUTOSIZE );
-    imshow( "MASK", mask );
+    Mat redMask1, redMask2;
 
-    namedWindow( "CROP", WINDOW_AUTOSIZE );
-    imshow( "CROP", crop );
+    inRange(imgHSV, Scalar(0, 100, 100), Scalar(10, 255, 255), redMask1); //Threshold the image
+    inRange(imgHSV, Scalar(160, 100, 100), Scalar(179, 255, 255), redMask2); //Threshold the image
+    cv::addWeighted(redMask1, 1.0, redMask2, 1.0, 0.0, imgRed);
 
+    inRange(imgHSV, Scalar(iBlueLowH, iBlueLowS, iBlueLowV), Scalar(iBlueHighH, iBlueHighS, iBlueHighV),
+            imgBlue); //Threshold the image
+    inRange(imgHSV, Scalar(iYellowLowH, iYellowLowS, iYellowLowV), Scalar(iYellowHighH, iYellowHighS, iYellowHighV),
+            imgYellow); //Threshold the image
+    inRange(imgHSV, Scalar(iGreenLowH, iGreenLowS, iGreenLowV), Scalar(iGreenHighH, iGreenHighS, iGreenHighV),
+            imgGreen); //Threshold the image
+
+    Morphos(imgRed);
+    Morphos(imgBlue);
+    Morphos(imgYellow);
+    Morphos(imgGreen);
+
+    vector<int> areaSizeForColors;
+
+    areaSizeForColors.push_back(GetContourSizeFromEachColorImage(imgRed));
+    areaSizeForColors.push_back(GetContourSizeFromEachColorImage(imgBlue));
+    areaSizeForColors.push_back(GetContourSizeFromEachColorImage(imgYellow));
+    areaSizeForColors.push_back(GetContourSizeFromEachColorImage(imgGreen));
+
+    int biggestArea=0;
+    int colorNumber=0;
+    for(int i=0;i<areaSizeForColors.size();i++)
+    {
+        int area=areaSizeForColors[i];
+        if(area>biggestArea)
+        {
+            biggestArea=area;
+            colorNumber=i;
+        }
+    }
+
+    if(colorNumber==0){
+        return "RED";
+    }
+    else if(colorNumber==1){
+        return "BLUE";
+    }
+    else if(colorNumber==2){
+        return "YELLOW";
+    }
+    else if(colorNumber==3){
+        return "GREEN";
+    }
+
+//    namedWindow( "MASK", WINDOW_AUTOSIZE );
+//    imshow( "MASK", maska );
+//
+//    namedWindow( "CROP", WINDOW_AUTOSIZE );
+//    imshow( "CROP", crop );
+//    return "text";
+}
+
+void Morphos(Mat &workImage){
+    Mat erodeElement= getStructuringElement(MORPH_RECT, Size(3, 3));
+    Mat dilateElement=getStructuringElement(MORPH_RECT, Size(8, 8));
+    erode(workImage,workImage,erodeElement);
+    erode(workImage,workImage,erodeElement);
+    dilate(workImage,workImage,dilateElement);
+    dilate(workImage,workImage,dilateElement);
+}
+
+int GetContourSizeFromEachColorImage(Mat specificColorImage)
+{
+    vector<vector<Point> > contours;
+    vector<Vec4i> hierarchy;
+    vector<Vec3f> circles;
+
+    threshold(specificColorImage, specificColorImage, thresh, 255, THRESH_BINARY);
+    findContours(specificColorImage, contours, hierarchy, RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+
+    int biggestArea=0;
+
+    for (size_t i = 0; i < contours.size(); i++)
+    {
+        int area=(int)contourArea(contours[i],false);
+        if(area>biggestArea)
+        {
+            biggestArea=area;
+        }
+    }
+
+    return biggestArea;
 }

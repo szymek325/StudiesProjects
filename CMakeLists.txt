@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package( OpenCV REQUIRED )
 
-add_executable(CvOtherIdea main.cpp)
+add_executable(CvOtherIdea main.cpp constants.h)
 
 target_link_libraries( CvOtherIdea ${OpenCV_LIBS} )
