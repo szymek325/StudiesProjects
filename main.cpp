@@ -10,10 +10,10 @@ using namespace std;
 
 Mat img;
 Mat canny_output;
+
 int thresh = 52;
-int max_thresh = 255;
-RNG rng(12345);
-Scalar boundingColor = Scalar((0, 0), (0, 0), (0, 0));
+Scalar boundingColor = Scalar((0, 0), (255, 255), (0, 0));
+Scalar textColor = Scalar((0, 0), (0, 0), (0, 0));
 vector<vector<Point> > foundFigures;
 
 vector<vector<Point>> GetFigures(int, void *);
@@ -63,6 +63,7 @@ int main() {
 vector<vector<Point>> GetFigures(int, void *) //detect and draw contours
 {
     Mat contoursImg;
+
     vector<vector<Point> > contours;
     vector<vector<Point> > figures;
     vector<Vec4i> hierarchy;
@@ -88,23 +89,23 @@ vector<vector<Point>> GetFigures(int, void *) //detect and draw contours
     {
         if(isContourConvex(contours_poly[i])&&(int)contourArea(contours_poly[i],false)>1000&&hierarchy[i][2] < 0 && hierarchy[i][3] < 0){
             if(contours_poly[i].size()==8){
-                putText(img, "CIRCLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
                 drawContours( img, contours, (int)i, boundingColor, 10, 8, hierarchy, 0, Point() );
+                putText(img, "CIRCLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, textColor, 1,CV_AA);
                 figures.push_back(contours[i]);
             }
             if(contours_poly[i].size()==5){
-                putText(img, "PENTAGON", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
                 drawContours( img, contours, (int)i, boundingColor, 10, 8, hierarchy, 0, Point() );
+                putText(img, "PENTAGON", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, textColor, 1,CV_AA);
                 figures.push_back(contours[i]);
             }
             else if(contours_poly[i].size()==4){
-                putText(img, "RECTANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
                 drawContours( img, contours, (int)i, boundingColor, 10, 8, hierarchy, 0, Point() );
+                putText(img, "RECTANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, textColor, 1,CV_AA);
                 figures.push_back(contours[i]);
             }
             else if(contours_poly[i].size()==3) {
-                putText(img, "TRIANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
                 drawContours( img, contours, (int)i, boundingColor, 10, 8, hierarchy, 0, Point() );
+                putText(img, "TRIANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, textColor, 1,CV_AA);
                 figures.push_back(contours[i]);
             }
         }
@@ -154,12 +155,12 @@ void WriteColorTextOnImage(vector<vector<Point>> someFigures)
     {
         approxPolyDP(someFigures[i], contours_poly[i], arcLength(Mat(someFigures[i]), true)*0.02, true);
         minEnclosingCircle(contours_poly[i], center[i], radius[i]);
-
+        center[i].y=center[i].y-20;
 
         Mat mask = Mat::zeros(canny_output.rows, canny_output.cols, CV_8UC1);
         drawContours(mask, someFigures,i, Scalar(255), CV_FILLED);
         String colorText=GetColor(mask);
-        putText(img, colorText, center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+        putText(img, colorText, center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, textColor, 1,CV_AA);
     }
 
 }
@@ -187,6 +188,16 @@ String GetColor(Mat maska)
         return "RED";
     }
 
+    Mat imgGreen;
+    inRange(imgHSV, Scalar(iGreenLowH, iGreenLowS, iGreenLowV), Scalar(iGreenHighH, iGreenHighS, iGreenHighV),
+            imgGreen); //Threshold the image
+    Morphos(imgGreen);
+    contourSize=GetContourSIzeFromSpecificColorImage(imgGreen);
+    if(contourSize!=0)
+    {
+        return "GREEN";
+    }
+
     Mat imgBlue;
     inRange(imgHSV, Scalar(iBlueLowH, iBlueLowS, iBlueLowV), Scalar(iBlueHighH, iBlueHighS, iBlueHighV),
             imgBlue); //Threshold the image
@@ -207,15 +218,6 @@ String GetColor(Mat maska)
         return "YELLOW";
     }
 
-    Mat imgGreen;
-    inRange(imgHSV, Scalar(iGreenLowH, iGreenLowS, iGreenLowV), Scalar(iGreenHighH, iGreenHighS, iGreenHighV),
-            imgGreen); //Threshold the image
-    Morphos(imgGreen);
-    contourSize=GetContourSIzeFromSpecificColorImage(imgGreen);
-    if(contourSize!=0)
-    {
-        return "GREEN";
-    }
 
     return "COLOR UNRECOGNIZED";
 
