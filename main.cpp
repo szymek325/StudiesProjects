@@ -21,7 +21,7 @@ void detectCircles(int,void*);
 void WriteColorTextOnImage(vector<vector<Point>> someFigures);
 String GetColor(Mat maska);
 void Morphos(Mat &workImage);
-int GetContourSizeFromEachColorImage(Mat specificColorImage);
+int GetContourSIzeFromSpecificColorImage(Mat specificColorImage);
 
 
 int main() {
@@ -166,68 +166,59 @@ void WriteColorTextOnImage(vector<vector<Point>> someFigures)
 
 String GetColor(Mat maska)
 {
+    int contourSize=0;
     Mat crop(img.rows, img.cols, CV_8UC3);
     crop.setTo(Scalar(255,255,255));
     img.copyTo(crop, maska);
     normalize(maska.clone(), maska, 0.0, 255.0, CV_MINMAX, CV_8UC1);
-
     Mat imgHSV;
-    Mat imgRed;
-    Mat imgBlue;
-    Mat imgYellow;
-    Mat imgGreen;
-
     cvtColor(crop, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
-    Mat redMask1, redMask2;
 
+    Mat imgRed;
+    Mat redMask1, redMask2;
     inRange(imgHSV, Scalar(0, 100, 100), Scalar(10, 255, 255), redMask1); //Threshold the image
     inRange(imgHSV, Scalar(160, 100, 100), Scalar(179, 255, 255), redMask2); //Threshold the image
     cv::addWeighted(redMask1, 1.0, redMask2, 1.0, 0.0, imgRed);
-
-    inRange(imgHSV, Scalar(iBlueLowH, iBlueLowS, iBlueLowV), Scalar(iBlueHighH, iBlueHighS, iBlueHighV),
-            imgBlue); //Threshold the image
-    inRange(imgHSV, Scalar(iYellowLowH, iYellowLowS, iYellowLowV), Scalar(iYellowHighH, iYellowHighS, iYellowHighV),
-            imgYellow); //Threshold the image
-    inRange(imgHSV, Scalar(iGreenLowH, iGreenLowS, iGreenLowV), Scalar(iGreenHighH, iGreenHighS, iGreenHighV),
-            imgGreen); //Threshold the image
-
     Morphos(imgRed);
-    Morphos(imgBlue);
-    Morphos(imgYellow);
-    Morphos(imgGreen);
-
-    vector<int> areaSizeForColors;
-
-    areaSizeForColors.push_back(GetContourSizeFromEachColorImage(imgRed));
-    areaSizeForColors.push_back(GetContourSizeFromEachColorImage(imgBlue));
-    areaSizeForColors.push_back(GetContourSizeFromEachColorImage(imgYellow));
-    areaSizeForColors.push_back(GetContourSizeFromEachColorImage(imgGreen));
-
-    int biggestArea=0;
-    int colorNumber=0;
-    for(int i=0;i<areaSizeForColors.size();i++)
+    contourSize=GetContourSIzeFromSpecificColorImage(imgRed);
+    if(contourSize!=0)
     {
-        int area=areaSizeForColors[i];
-        if(area>biggestArea)
-        {
-            biggestArea=area;
-            colorNumber=i;
-        }
-    }
-
-    if(colorNumber==0){
         return "RED";
     }
-    else if(colorNumber==1){
+
+    Mat imgBlue;
+    inRange(imgHSV, Scalar(iBlueLowH, iBlueLowS, iBlueLowV), Scalar(iBlueHighH, iBlueHighS, iBlueHighV),
+            imgBlue); //Threshold the image
+    Morphos(imgBlue);
+    contourSize=GetContourSIzeFromSpecificColorImage(imgBlue);
+    if(contourSize!=0)
+    {
         return "BLUE";
     }
-    else if(colorNumber==2){
+
+    Mat imgYellow;
+    inRange(imgHSV, Scalar(iYellowLowH, iYellowLowS, iYellowLowV), Scalar(iYellowHighH, iYellowHighS, iYellowHighV),
+            imgYellow); //Threshold the image
+    Morphos(imgYellow);
+    contourSize=GetContourSIzeFromSpecificColorImage(imgYellow);
+    if(contourSize!=0)
+    {
         return "YELLOW";
     }
-    else if(colorNumber==3){
+
+    Mat imgGreen;
+    inRange(imgHSV, Scalar(iGreenLowH, iGreenLowS, iGreenLowV), Scalar(iGreenHighH, iGreenHighS, iGreenHighV),
+            imgGreen); //Threshold the image
+    Morphos(imgGreen);
+    contourSize=GetContourSIzeFromSpecificColorImage(imgGreen);
+    if(contourSize!=0)
+    {
         return "GREEN";
     }
+
+    return "COLOR UNRECOGNIZED";
+
 
 //    namedWindow( "MASK", WINDOW_AUTOSIZE );
 //    imshow( "MASK", maska );
@@ -246,7 +237,7 @@ void Morphos(Mat &workImage){
     dilate(workImage,workImage,dilateElement);
 }
 
-int GetContourSizeFromEachColorImage(Mat specificColorImage)
+int GetContourSIzeFromSpecificColorImage(Mat specificColorImage)
 {
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
