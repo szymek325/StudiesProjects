@@ -8,18 +8,17 @@ using namespace cv;
 using namespace std;
 
 Mat img;
-Mat imgGray;
+Mat canny_output;
 int thresh = 52;
 int max_thresh = 255;
 RNG rng(12345);
 Scalar boundingColor = Scalar((0, 0), (0, 0), (0, 0));
+vector<vector<Point> > foundFigures;
 
-void detectAndDrawContours(int, void *);
+vector<vector<Point>> GetFigures(int, void *);
 void detectCircles(int,void*);
+void GetColors(vector<vector<Point>> someFigures);
 
-void DrawContoursForFigure(const vector<vector<Point>> &contours, const vector<Vec4i> &hierarchy, const Mat &drawing,
-                           const Mat &mask, const vector<vector<Point>> &contours_poly, const vector<Point2f> &center,
-                           size_t i);
 
 int main() {
     VideoCapture cap(10); //capture the video from web cam
@@ -33,13 +32,19 @@ int main() {
     do{
         cap.grab();
         cap.retrieve(img);
+
+        foundFigures=GetFigures(0, 0);
+        printf("foundFigures %d",(int)foundFigures.size());
+        GetColors(foundFigures);
+
+
+
+
+
+
         const char* source_window = "Source";
         namedWindow( source_window, WINDOW_AUTOSIZE );
         imshow( source_window, img );
-
-        createTrackbar(" Canny thresh:", "Source", &thresh, max_thresh, detectAndDrawContours);
-        detectAndDrawContours(0, 0);
-        //detectCircles(0,0);
 
         if (waitKey(30) == 27) {
             cout << "esc key is pressed by user" << endl;
@@ -51,11 +56,11 @@ int main() {
 }
 
 
-void detectAndDrawContours(int, void *) //detect and draw contours
+vector<vector<Point>> GetFigures(int, void *) //detect and draw contours
 {
     Mat contoursImg;
-    Mat canny_output;
     vector<vector<Point> > contours;
+    vector<vector<Point> > figures;
     vector<Vec4i> hierarchy;
 
     cvtColor( img, contoursImg, COLOR_BGR2GRAY );
@@ -63,8 +68,8 @@ void detectAndDrawContours(int, void *) //detect and draw contours
     Canny( contoursImg, canny_output, thresh, thresh*2, 3 );
     findContours( canny_output, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE, Point(0, 0) );
 
-    Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
-    Mat mask = Mat::zeros(canny_output.rows, canny_output.cols, CV_8UC1);
+    //Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
+    //Mat mask = Mat::zeros(canny_output.rows, canny_output.cols, CV_8UC1);
 
     vector<vector<Point> > contours_poly(contours.size());
     vector<float> radius(contours.size());
@@ -79,51 +84,28 @@ void detectAndDrawContours(int, void *) //detect and draw contours
     {
         if(isContourConvex(contours_poly[i])&&(int)contourArea(contours_poly[i],false)>1000&&hierarchy[i][2] < 0 && hierarchy[i][3] < 0){
             if(contours_poly[i].size()==8){
-                DrawContoursForFigure(contours, hierarchy, drawing, mask, contours_poly,center, i);
+                putText(img, "CIRCLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+                drawContours( img, contours, (int)i, boundingColor, 10, 8, hierarchy, 0, Point() );
+                figures.push_back(contours[i]);
             }
             if(contours_poly[i].size()==5){
-                DrawContoursForFigure(contours, hierarchy, drawing, mask, contours_poly,center, i);
+                putText(img, "PENTAGON", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+                drawContours( img, contours, (int)i, boundingColor, 10, 8, hierarchy, 0, Point() );
+                figures.push_back(contours[i]);
             }
             else if(contours_poly[i].size()==4){
-                DrawContoursForFigure(contours, hierarchy, drawing, mask, contours_poly,center, i);
+                putText(img, "RECTANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+                drawContours( img, contours, (int)i, boundingColor, 10, 8, hierarchy, 0, Point() );
+                figures.push_back(contours[i]);
             }
             else if(contours_poly[i].size()==3) {
-                DrawContoursForFigure(contours, hierarchy, drawing, mask, contours_poly,center, i);
+                putText(img, "TRIANGLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
+                drawContours( img, contours, (int)i, boundingColor, 10, 8, hierarchy, 0, Point() );
+                figures.push_back(contours[i]);
             }
         }
     }
-
-
-
-    Mat crop(img.rows, img.cols, CV_8UC3);
-
-    // set background to green
-    crop.setTo(Scalar(255,255,255));
-
-    // and copy the magic apple
-    img.copyTo(crop, mask);
-
-    // normalize so imwrite(...)/imshow(...) shows the mask correctly!
-    normalize(mask.clone(), mask, 0.0, 255.0, CV_MINMAX, CV_8UC1);
-
-    namedWindow( "MASK", WINDOW_AUTOSIZE );
-    imshow( "MASK", mask );
-
-    namedWindow( "CROP", WINDOW_AUTOSIZE );
-    imshow( "CROP", crop );
-
-    namedWindow( "Contours", WINDOW_AUTOSIZE );
-    imshow( "Contours", drawing );
-}
-
-void DrawContoursForFigure(const vector<vector<Point>> &contours, const vector<Vec4i> &hierarchy, const Mat &drawing,
-                           const Mat &mask, const vector<vector<Point>> &contours_poly, const vector<Point2f> &center,
-                           size_t i) {
-    Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255) );
-    drawContours( drawing, contours_poly, (int)i, color, 2, 8, hierarchy, 0, Point() );
-    putText(img, "CIRCLE", center[i], FONT_HERSHEY_COMPLEX_SMALL, 0.8, boundingColor, 1,CV_AA);
-
-    drawContours(mask, contours,i, Scalar(255), CV_FILLED);
+    return figures;
 }
 
 void detectCircles(int,void*) //with Hough
@@ -155,5 +137,33 @@ void detectCircles(int,void*) //with Hough
 
 
 
+
+}
+
+void GetColors(vector<vector<Point>> someFigures)
+{
+    Mat mask = Mat::zeros(canny_output.rows, canny_output.cols, CV_8UC1);
+
+    for(size_t i = 0; i< someFigures.size(); i++ )
+    {
+        drawContours(mask, someFigures,i, Scalar(255), CV_FILLED);
+    }
+
+    Mat crop(img.rows, img.cols, CV_8UC3);
+
+    // set background to green
+    crop.setTo(Scalar(255,255,255));
+
+    // and copy the magic apple
+    img.copyTo(crop, mask);
+
+    // normalize so imwrite(...)/imshow(...) shows the mask correctly!
+    normalize(mask.clone(), mask, 0.0, 255.0, CV_MINMAX, CV_8UC1);
+
+    namedWindow( "MASK", WINDOW_AUTOSIZE );
+    imshow( "MASK", mask );
+
+    namedWindow( "CROP", WINDOW_AUTOSIZE );
+    imshow( "CROP", crop );
 
 }
