@@ -25,8 +25,6 @@ namespace SnmpAgent.BerDecoding.Implementation
             receivedData.IdentifierOctet= identifierOctetDecoder.GetType(ref input);
             receivedData.Length = lengthDecoder.GetLenght(ref input);
 
-
-
             if (!receivedData.IdentifierOctet.Tag.Contains("SEQUENCE"))
             {
                 receivedData.Value =
@@ -35,11 +33,15 @@ namespace SnmpAgent.BerDecoding.Implementation
             }
             else
             {
+                var inputLengthBeforeDecodingOfSingleElement = 0;
+                var parsedSequenceLength = 0;
                 receivedData.Value = "Sequences";
-                while (input.Length != default(int))
+                while (receivedData.Length != parsedSequenceLength)
                 {
+                    inputLengthBeforeDecodingOfSingleElement=input.Length;
                     var newElement = Decode(ref input);
                     receivedData.Sequences.Add(newElement);
+                    parsedSequenceLength = parsedSequenceLength + (inputLengthBeforeDecodingOfSingleElement - input.Length);
                 }
 
                 return receivedData;
