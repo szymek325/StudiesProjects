@@ -8,10 +8,12 @@ namespace SnmpAgent.BerEncoding.Implementation
     public class EncoderRunner : IEncoderRunner
     {
         private readonly INodeFinder nodeFinder;
+        private readonly IBerEncoder berEncoder;
 
-        public EncoderRunner(INodeFinder nodeFinder)
+        public EncoderRunner(INodeFinder nodeFinder, IBerEncoder berEncoder)
         {
             this.nodeFinder = nodeFinder;
+            this.berEncoder = berEncoder;
         }
 
         public DependencyTreeNode snmpTree { get; set; }
@@ -39,8 +41,9 @@ namespace SnmpAgent.BerEncoding.Implementation
 
                     nodeFinder.SetNeededElement(mibTree,formattedData[0]);
                     var node = nodeFinder.GetFoundNode();
-
-
+                    var encoded=berEncoder.Encode(node, formattedData[1]);
+                    Console.Write("Encoded :");
+                    Console.WriteLine(encoded);
 
                 }
                 else
