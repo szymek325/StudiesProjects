@@ -27,10 +27,14 @@ namespace SnmpAgent.BerDecoding.Implementation
                 {
                     return;
                 }
-                var bytes = StringToByteArrayFastest(formattedData);
-                var node = berDecoder.Decode(ref bytes);
-                node.ShowNode();
-                Console.ReadKey();
+                else if (formattedData.Length != default(int) && !formattedData.Equals(""))
+                {
+                    var bytes = StringToByteArrayFastest(formattedData);
+                    var node = berDecoder.Decode(ref bytes);
+                    node.ShowNode();
+                    Console.ReadKey();
+                }
+
             }
         }
 

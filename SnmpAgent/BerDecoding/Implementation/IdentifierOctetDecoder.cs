@@ -7,9 +7,10 @@ namespace SnmpAgent.BerDecoding.Implementation
 {
     internal class IdentifierOctetDecoder : IIdentifierOctetDecoder
     {
-        private readonly IdentifierOctet identifierOctet = new IdentifierOctet();
+        public IdentifierOctet IdentifierOctet { get; set; }
         public IdentifierOctet GetType(ref byte[] input)
         {
+            IdentifierOctet= new IdentifierOctet();
             var v = input[0];
             input = input.Skip(1).ToArray();
             var bits = Convert.ToString(v, 2);
@@ -23,46 +24,47 @@ namespace SnmpAgent.BerDecoding.Implementation
             var tagBits = bits.Substring(3, 5);
 
             GetClass(classBits);
-            if (!identifierOctet.Class.Equals("unidentified", StringComparison.OrdinalIgnoreCase))
+            if (!IdentifierOctet.Class.Equals("unidentified", StringComparison.OrdinalIgnoreCase))
             {
                 GetPc(pcBits);
                 GetTag(tagBits);
             }
-            return identifierOctet;
+                
+            return IdentifierOctet;
         }
 
         private void GetTag(string tagNumber)
         {
-            if (identifierOctet.Class.Equals("Universal"))
+            if (IdentifierOctet.Class.Equals("Universal"))
             {
                 var tagInInt = Convert.ToInt32(tagNumber, 2);
                 switch (tagInInt)
                 {
                     case 2:
-                        identifierOctet.Tag = "INTEGER";
+                        IdentifierOctet.Tag = "INTEGER";
                         break;
                     case 4:
-                        identifierOctet.Tag = "OCTET STRING";
+                        IdentifierOctet.Tag = "OCTET STRING";
                         break;
                     case 6:
-                        identifierOctet.Tag = "OBJECT IDENTIFIER";
+                        IdentifierOctet.Tag = "OBJECT IDENTIFIER";
                         break;
                     case 16:
-                        identifierOctet.Tag = "SEQUENCE/ SEQUENCE OF";
+                        IdentifierOctet.Tag = "SEQUENCE/ SEQUENCE OF";
                         break;
                     case 26:
-                        identifierOctet.Tag = "VisibleString";
+                        IdentifierOctet.Tag = "VisibleString";
                         break;
                     default:
-                        identifierOctet.Tag = "unidentified";
+                        IdentifierOctet.Tag = "unidentified";
                         Console.WriteLine($"Tag not found: {tagInInt}. Please try again");
                         break;
                 }
             }
-            else if (identifierOctet.Class.Equals("Application", StringComparison.OrdinalIgnoreCase))
+            else if (IdentifierOctet.Class.Equals("Application", StringComparison.OrdinalIgnoreCase))
             {
                 var tagInInt = Convert.ToInt32(tagNumber);
-                identifierOctet.Tag = $"APPLICATION {tagInInt}";
+                IdentifierOctet.Tag = $"APPLICATION {tagInInt}";
             }
         }
 
@@ -71,10 +73,10 @@ namespace SnmpAgent.BerDecoding.Implementation
             switch (pc)
             {
                 case "0":
-                    identifierOctet.PC = "Primitive";
+                    IdentifierOctet.PC = "Primitive";
                     break;
                 case "1":
-                    identifierOctet.PC = "Constructed";
+                    IdentifierOctet.PC = "Constructed";
                     break;
             }
         }
@@ -84,20 +86,21 @@ namespace SnmpAgent.BerDecoding.Implementation
             switch (classofTag)
             {
                 case "00":
-                    identifierOctet.Class = "Universal";
+                    IdentifierOctet.Class = "Universal";
                     break;
                 case "01":
-                    identifierOctet.Class = "Application";
+                    IdentifierOctet.Class = "Application";
                     break;
                 case "10":
-                    identifierOctet.Class = "Context-specific";
+                    IdentifierOctet.Class = "Context-specific";
                     break;
                 case "11":
-                    identifierOctet.Class = "Private";
+                    IdentifierOctet.Class = "Private";
                     break;
                 default:
-                    identifierOctet.Class = "unidentified";
+                    IdentifierOctet.Class = "unidentified";
                     Console.WriteLine($"Class not found: {classofTag}. Please try again");
+                    throw new Exception("Unidentified Type!!! in GetClass(string classofTag)");
                     break;
 
             }

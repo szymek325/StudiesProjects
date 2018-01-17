@@ -22,25 +22,9 @@ namespace SnmpAgent.BerDecoding.Implementation
         {
             var receivedData = new DecodedInformations();
 
-            //var data = identifierOctetDecoder.GetType(ref input);
-            //receivedData.Class = data.Class;
-            //receivedData.PC = data.PC;
-            //receivedData.Tag = data.Tag;
-            var identifier= identifierOctetDecoder.GetType(ref input);
-
-            receivedData.IdentifierOctet = identifier;
-            if (receivedData.IdentifierOctet.Class.Equals("unidentified"))
-            {
-                Console.WriteLine("UnidentifiedType");
-                throw new Exception("Unidentified Type!!!");
-            }
-
+            receivedData.IdentifierOctet= identifierOctetDecoder.GetType(ref input);
             receivedData.Length = lengthDecoder.GetLenght(ref input);
-            if (receivedData.Length>input.Length)
-            {
-                Console.WriteLine("Defined Length isn't equal number of value bytes");
-                //throw new Exception("Defined Length isn't equal number of value bytes");
-            }
+
 
 
             if (!receivedData.IdentifierOctet.Tag.Contains("SEQUENCE"))

@@ -11,7 +11,13 @@ namespace SnmpAgent.BerDecoding.Implementation
             var v = input[0];
             input = input.Skip(1).ToArray();
             var bits = Convert.ToString(v, 2);
-            return Convert.ToInt32(bits, 2);
+            var number = Convert.ToInt32(bits, 2);
+            if (number> input.Length)
+            {
+                Console.WriteLine("Defined Length isn't equal number of value bytes");
+                throw new Exception("Defined Length isn't equal number of value bytes");
+            }
+            return number;
         }
     }
 }
