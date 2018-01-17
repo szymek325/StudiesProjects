@@ -6,12 +6,7 @@ namespace SnmpAgent.MibParsing.Helpers.Implementation
 {
     public class NodeFinder : INodeFinder
     {
-        private readonly IBerEncoder berEncoder;
-
-        public NodeFinder(IBerEncoder berEncoder)
-        {
-            this.berEncoder = berEncoder;
-        }
+        public DependencyTreeNode FoundNode { get; set; }
 
         public void FindAndShowElement(DependencyTreeNode node, string name)
         {
@@ -41,10 +36,37 @@ namespace SnmpAgent.MibParsing.Helpers.Implementation
             }
         }
 
+        public void SetNeededElement(DependencyTreeNode node, string oid)
+        {
+            if (node.Oid.Equals(oid))
+            {
+                FoundNode = node;
+                return;
+            }
+
+            foreach (var child in node.ChildrenNodes)
+            {
+                SetNeededElement(child, oid);
+            }
+        }
+
+        public DependencyTreeNode GetFoundNode()
+        {
+            if (FoundNode == null)
+            {
+                FoundNode = new DependencyTreeNode
+                {
+                    Name = "not found"
+                };
+            }
+            return FoundNode;
+        }
+
+
+
         private void ShowParentAndChildrens(DependencyTreeNode node)
         {
             node.ShowNode();
-            berEncoder.Encode(node, "5");
             foreach (var child in node.ChildrenNodes)
             {
                 child.ShowNode();

@@ -2,8 +2,8 @@
 
 namespace SnmpAgent.BerEncoding.Interfaces
 {
-    public interface IBerEncoder
+    public interface IEncoderRunner
     {
-        string Encode(DependencyTreeNode node, string value);
+        void Run(DependencyTreeNode mibTree);
     }
 }

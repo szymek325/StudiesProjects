@@ -35,7 +35,7 @@ namespace SnmpAgent
                 .AddTransient<INodeFinder,NodeFinder>()
                 .AddTransient<IMibViewMenu,MibViewMenu>()
                 //BerEncoding
-                .AddTransient<IBerEncoder, BerEncoder>()
+                .AddTransient<IEncoderRunner, EncoderRunner>()
                 //BerDECODING
                 .AddTransient<IBerDecoder, BerDecoder>()
                 .AddTransient<IDecoderRunner, DecoderRunner>()

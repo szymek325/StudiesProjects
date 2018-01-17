@@ -6,5 +6,7 @@ namespace SnmpAgent.MibParsing.Helpers.Interface
     {
         void FindAndShowElement(DependencyTreeNode node, string name);
         void FindAndShowElementByOid(DependencyTreeNode node, string oid);
+        DependencyTreeNode GetFoundNode();
+        void SetNeededElement(DependencyTreeNode node, string oid);
     }
 }
