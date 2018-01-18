@@ -7,10 +7,12 @@ namespace SnmpAgent.BerEncoding.Implementation
     public class BerEncoder : IBerEncoder
     {
         private readonly IObjectIdentifierEncoder objectIdentifierEncoder;
+        private readonly IObjectEncoder objectEncoder;
 
-        public BerEncoder(IObjectIdentifierEncoder objectIdentifierEncoder)
+        public BerEncoder(IObjectIdentifierEncoder objectIdentifierEncoder, IObjectEncoder objectEncoder)
         {
             this.objectIdentifierEncoder = objectIdentifierEncoder;
+            this.objectEncoder = objectEncoder;
         }
 
         public string Encode(DependencyTreeNode node, string value)
@@ -20,18 +22,11 @@ namespace SnmpAgent.BerEncoding.Implementation
             {
                 return objectIdentifierEncoder.GetEncodedMessage(node);
             }
-
-
-
-            CheckIfValueCompliesWithObjectSyntax(); //TODO
-
-
-
-
-
-            
-
-            throw new NotImplementedException();
+            else
+            {
+                CheckIfValueCompliesWithObjectSyntax(); //TODO
+                return objectEncoder.GetEncodedObject(node);
+            }
         }
 
         private void CheckIfValueCompliesWithObjectSyntax()

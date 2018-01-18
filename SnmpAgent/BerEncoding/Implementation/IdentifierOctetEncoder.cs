@@ -14,31 +14,41 @@ namespace SnmpAgent.BerEncoding.Implementation
 
             if (syntax.Application != null)
             {
-                classType = "00";
+                classType = "01";
             }
             else
             {
-                classType = "01";
+                classType = "00";
             }
 
             if (syntax.Name.Contains("Sequence"))
             {
-                pc = "01";
+                pc = "1";
             }
             else
             {
-                pc = "00";
+                pc = "0";
             }
 
             if (classType == "00")
             {
+                tag = GetTag(syntax.Name);
             }
             else if (classType == "01")
             {
+                var applicaiton = syntax.Application;
+                var applicaitonNumber = int.Parse(applicaiton);
+
+                var tagString = Convert.ToString(applicaitonNumber, 2); //Convert to binary in a string
+
+                for (var i = 0; tagString.Length < 5; i++)
+                {
+                    tagString = "0" + tagString;
+                }
+
             }
 
-
-            throw new NotImplementedException();
+            return classType + pc + tag;
         }
 
         private string GetTag(string name)
