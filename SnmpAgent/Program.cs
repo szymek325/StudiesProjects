@@ -38,6 +38,8 @@ namespace SnmpAgent
                 .AddTransient<IValueOctetEncoder, ValueOctetEncoder>()
                 .AddTransient<IBerEncoder, BerEncoder>()
                 .AddTransient<IEncoderRunner, EncoderRunner>()
+                .AddTransient<IMessageLengthEncoder, MessageLengthEncoder>()
+                .AddTransient<IValueOctetEncoder, ValueOctetEncoder>()
                 //BerDECODING
                 .AddTransient<IBerDecoder, BerDecoder>()
                 .AddTransient<IDecoderRunner, DecoderRunner>()
