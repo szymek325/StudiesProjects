@@ -1,4 +1,5 @@
 ﻿using SnmpAgent.BerEncoding.Interfaces;
+using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.BerEncoding.Implementation
 {
@@ -13,10 +14,10 @@ namespace SnmpAgent.BerEncoding.Implementation
             this.messageLengthEncoder = messageLengthEncoder;
         }
 
-        public string GetEncodedMessage(string oid)
+        public string GetEncodedMessage(DependencyTreeNode node)
         {
             var tag = "06";
-            var codedValue = valueOctetEncoder.EncodeOid(oid);
+            var codedValue = valueOctetEncoder.EncodeOid(node.Oid);
             var length = messageLengthEncoder.GetEncodedLentgh(codedValue);
             return tag + length + codedValue;
         }

@@ -19,7 +19,7 @@ namespace SnmpAgent
         {
             //setup our DI
             var serviceProvider = new ServiceCollection()
-                
+
                 //MibParsing
                 .AddTransient<ICustomRegexRunner, CustomRegexRunner>()
                 .AddTransient<IDependencyTreeCreator, DependencyTreeCreator>()
@@ -30,16 +30,17 @@ namespace SnmpAgent
                 .AddTransient<IMibReader, MibReader>()
                 .AddTransient<IObjectTypesParser, ObjectTypesParser>()
                 .AddTransient<IMainObjectIdentifiersCreator, MainObjectIdentifiersCreator>()
-                    //mib viewing
+                //mib viewing
                 .AddTransient<IDependencyTreeViewer, DependencyTreeViewer>()
-                .AddTransient<INodeFinder,NodeFinder>()
-                .AddTransient<IMibViewMenu,MibViewMenu>()
+                .AddTransient<INodeFinder, NodeFinder>()
+                .AddTransient<IMibViewMenu, MibViewMenu>()
                 //BerEncoding
-                .AddTransient<IValueOctetEncoder, ValueOctetEncoder>()
+                .AddTransient<IObjectIdentifierEncoder, ObjectIdentifierEncoder>()
                 .AddTransient<IBerEncoder, BerEncoder>()
                 .AddTransient<IEncoderRunner, EncoderRunner>()
                 .AddTransient<IMessageLengthEncoder, MessageLengthEncoder>()
                 .AddTransient<IValueOctetEncoder, ValueOctetEncoder>()
+                .AddTransient<IIdentifierOctetEncoder, IdentifierOctetEncoder>()
                 //BerDECODING
                 .AddTransient<IBerDecoder, BerDecoder>()
                 .AddTransient<IDecoderRunner, DecoderRunner>()

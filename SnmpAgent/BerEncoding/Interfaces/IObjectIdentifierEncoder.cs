@@ -1,7 +1,9 @@
-﻿namespace SnmpAgent.BerEncoding.Interfaces
+﻿using SnmpAgent.MibParsing.Models;
+
+namespace SnmpAgent.BerEncoding.Interfaces
 {
     public interface IObjectIdentifierEncoder
     {
-        string GetEncodedMessage(string oid);
+        string GetEncodedMessage(DependencyTreeNode node);
     }
 }

@@ -18,8 +18,10 @@ namespace SnmpAgent.BerEncoding.Implementation
             //if object identifier then code OID, dont check value
             if (node.Status == null)
             {
-                return objectIdentifierEncoder.GetEncodedMessage(node.Oid);
+                return objectIdentifierEncoder.GetEncodedMessage(node);
             }
+
+
 
             CheckIfValueCompliesWithObjectSyntax(); //TODO
 
