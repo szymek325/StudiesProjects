@@ -41,10 +41,16 @@ namespace SnmpAgent.BerEncoding.Implementation
 
                     nodeFinder.SetNeededElement(mibTree,formattedData[0]);
                     var node = nodeFinder.GetFoundNode();
-                    var encoded=berEncoder.Encode(node, formattedData[1]);
-                    Console.Write("Encoded :");
-                    Console.WriteLine(encoded);
-
+                    if (!node.Name.Equals("not found"))
+                    {
+                        var encoded = berEncoder.Encode(node, formattedData[1]);
+                        Console.Write("Encoded :");
+                        Console.WriteLine(encoded);
+                    }
+                    else
+                    {
+                        Console.WriteLine("ElementNotFound");
+                    }
                 }
                 else
                 {

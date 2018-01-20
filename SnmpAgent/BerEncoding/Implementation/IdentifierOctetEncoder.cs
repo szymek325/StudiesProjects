@@ -32,7 +32,8 @@ namespace SnmpAgent.BerEncoding.Implementation
 
             if (classType == "00")
             {
-                tag = GetTag(syntax.Name);
+                var str = syntax.Name.Replace(" ", "").ToLower();
+                tag = GetTag(str);
             }
             else if (classType == "01")
             {
@@ -49,7 +50,7 @@ namespace SnmpAgent.BerEncoding.Implementation
             }
 
             var bitsMessageTag = classType + pc + tag;
-            var messageTag = Convert.ToInt32(bitsMessageTag, 2).ToString("X");
+            var messageTag = Convert.ToInt32(bitsMessageTag, 2).ToString("X2");
             return messageTag;
 
 
@@ -60,19 +61,22 @@ namespace SnmpAgent.BerEncoding.Implementation
             var tag=0;
             switch (name)
             {
-                case "INTEGER":
+                case "integer":
                     tag = 2;
                     break;
-                case "OCTET STRING":
+                case "octetstring":
                     tag = 4;
                     break;
                 //case 6:
                 //    .Tag = "OBJECT IDENTIFIER";
                 //    break;
-                case "SEQUENCE":
+                case "sequence":
                     tag = 16;
                     break;
-                case "DisplayString ":
+                case "sequenceof":
+                    tag = 16;
+                    break;
+                case "displaystring":
                     tag = 26;
                     break;
                 default:
