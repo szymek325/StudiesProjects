@@ -4,6 +4,6 @@ namespace SnmpAgent.BerEncoding.Interfaces
 {
     public interface IBerEncoder
     {
-        string Encode(DependencyTreeNode node, string value);
+        string Encode(DependencyTreeNode node, string input);
     }
 }
