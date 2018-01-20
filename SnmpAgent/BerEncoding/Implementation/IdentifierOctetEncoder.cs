@@ -48,7 +48,11 @@ namespace SnmpAgent.BerEncoding.Implementation
 
             }
 
-            return classType + pc + tag;
+            var bitsMessageTag = classType + pc + tag;
+            var messageTag = Convert.ToInt32(bitsMessageTag, 2).ToString("X");
+            return messageTag;
+
+
         }
 
         private string GetTag(string name)
@@ -68,7 +72,7 @@ namespace SnmpAgent.BerEncoding.Implementation
                 case "SEQUENCE":
                     tag = 16;
                     break;
-                case "DisplayString":
+                case "DisplayString ":
                     tag = 26;
                     break;
                 default:

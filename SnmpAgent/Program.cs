@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SnmpAgent.BerDecoding.Implementation;
 using SnmpAgent.BerDecoding.Interface;
+using SnmpAgent.BerEncoding;
 using SnmpAgent.BerEncoding.Implementation;
 using SnmpAgent.BerEncoding.Interfaces;
 using SnmpAgent.Helpers.View;
@@ -41,6 +42,7 @@ namespace SnmpAgent
                 .AddTransient<IMessageLengthEncoder, MessageLengthEncoder>()
                 .AddTransient<IValueOctetEncoder, ValueOctetEncoder>()
                 .AddTransient<IIdentifierOctetEncoder, IdentifierOctetEncoder>()
+                .AddTransient<IObjectEncoder, ObjectEncoder>()
                 //BerDECODING
                 .AddTransient<IBerDecoder, BerDecoder>()
                 .AddTransient<IDecoderRunner, DecoderRunner>()

@@ -1,12 +1,27 @@
 ﻿using System;
+using SnmpAgent.BerDecoding.Interface;
+using SnmpAgent.BerEncoding.Interfaces;
 using SnmpAgent.MibParsing.Models;
 
 namespace SnmpAgent.BerEncoding.Implementation
 {
     public class ObjectEncoder : IObjectEncoder
     {
+        private readonly IIdentifierOctetEncoder identifierOctetEncoder;
+        private readonly IMessageLengthEncoder messageLengthEncoder;
+        private readonly IValueOctetEncoder valueOctetEncoder;
+
+        public ObjectEncoder(IIdentifierOctetEncoder identifierOctetEncoder, IMessageLengthEncoder messageLengthEncoder, IValueOctetEncoder valueOctetEncoder)
+        {
+            this.identifierOctetEncoder = identifierOctetEncoder;
+            this.messageLengthEncoder = messageLengthEncoder;
+            this.valueOctetEncoder = valueOctetEncoder;
+        }
+
         public string GetEncodedObject(DependencyTreeNode node)
         {
+            var tag = identifierOctetEncoder.GetEncodedMessageTag(node.Syntax);
+
             throw new NotImplementedException();
         }
     }
