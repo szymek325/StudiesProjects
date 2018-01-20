@@ -26,7 +26,8 @@ namespace SnmpAgent.BerEncoding.Implementation
 
             var length = messageLengthEncoder.GetEncodedLentgh(encodedValue);
 
-            return tag + length + encodedValue;
+            var result= tag + length + encodedValue;
+            return result;
         }
     }
 }

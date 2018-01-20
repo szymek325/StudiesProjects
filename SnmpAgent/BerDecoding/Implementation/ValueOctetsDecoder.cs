@@ -10,7 +10,6 @@ namespace SnmpAgent.BerDecoding.Implementation
         private int valueLenght;
         public string GetValue(ref byte[] input, string tag, int length)
         {
-            
             inputBits = input;
             valueLenght = length;
             input = input.Skip(length).ToArray();
@@ -31,7 +30,6 @@ namespace SnmpAgent.BerDecoding.Implementation
             {
                 return GetObjectIdentifier();
             }
-
             return "not implemented Tag";
         }
 

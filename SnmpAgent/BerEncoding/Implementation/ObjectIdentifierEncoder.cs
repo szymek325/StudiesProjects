@@ -19,7 +19,9 @@ namespace SnmpAgent.BerEncoding.Implementation
             var tag = "06";
             var codedValue = valueOctetEncoder.EncodeOid(node.Oid);
             var length = messageLengthEncoder.GetEncodedLentgh(codedValue);
-            return tag + length + codedValue;
+
+            var result = tag + length + codedValue;
+            return result;
         }
     }
 }

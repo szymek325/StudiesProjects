@@ -13,19 +13,19 @@ namespace SnmpAgent.BerEncoding.Implementation
 
             if (trimmedSyntaxName.Contains("integer"))
             {
-                return GetInteger();
+                return EncodeInteger();
             }
             else if (trimmedSyntaxName.Contains("octetstring"))
             {
-                return GetOctetString();
+                return EncodeOctetString();
             }
             else if (trimmedSyntaxName.Contains("visiblestring"))
             {
-                return GetVisibleString();
+                return EncodeVisibleString();
             }
             else if (trimmedSyntaxName.Contains("displaystring"))
             {
-                return GetVisibleString();
+                return EncodeVisibleString();
             }
             throw new NotImplementedException();
         }
@@ -57,17 +57,28 @@ namespace SnmpAgent.BerEncoding.Implementation
             return output;
         }
 
-        private string GetVisibleString()
+        private string EncodeVisibleString()
         {
-            throw new NotImplementedException();
+            var message = "";
+            foreach (var character in messageValue)
+            {
+                var asciiValue = (int) character;
+                string hexValue = asciiValue.ToString("X2");
+                if (hexValue.Length % 2 != 0)
+                {
+                    hexValue = "0" + hexValue;
+                }
+                message += hexValue;
+            }
+            return message;
         }
 
-        private string GetOctetString()
+        private string EncodeOctetString()
         {
            throw new NotImplementedException();
         }
 
-        private string GetInteger()
+        private string EncodeInteger()
         {
             var inputInInt = int.Parse(messageValue);
             string hexValue = inputInInt.ToString("X2");
