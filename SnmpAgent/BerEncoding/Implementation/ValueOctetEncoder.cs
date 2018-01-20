@@ -35,7 +35,6 @@ namespace SnmpAgent.BerEncoding.Implementation
             var delimiter = '.';
             var numbersAsString = oid.Split(delimiter);
             var output = "";
-
             var firstNumber = int.Parse(numbersAsString[0]);
 
             for (var i = 1; i < numbersAsString.Length; i++)
@@ -53,7 +52,6 @@ namespace SnmpAgent.BerEncoding.Implementation
                     output += hexValue;
                 }
             }
-
             return output;
         }
 
@@ -75,7 +73,11 @@ namespace SnmpAgent.BerEncoding.Implementation
 
         private string EncodeOctetString()
         {
-           throw new NotImplementedException();
+            if (messageValue.Length % 2 != 0)
+            {
+                messageValue += "0" + messageValue;
+            }
+            return messageValue;
         }
 
         private string EncodeInteger()
@@ -88,7 +90,5 @@ namespace SnmpAgent.BerEncoding.Implementation
             }
             return hexValue;
         }
-
-
     }
 }
