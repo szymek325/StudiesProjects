@@ -96,7 +96,7 @@ namespace SnmpAgent.BerDecoding.Implementation
                 hex = hex + inputInString;
             }
 
-            return Convert.ToInt16(hex, 16).ToString();
+            return Convert.ToInt32(hex, 16).ToString();
         }
     }
 }
