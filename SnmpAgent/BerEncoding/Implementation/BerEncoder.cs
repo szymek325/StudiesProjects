@@ -17,21 +17,24 @@ namespace SnmpAgent.BerEncoding.Implementation
 
         public string Encode(DependencyTreeNode node, string value)
         {
-            //if object identifier then code OID, dont check value
             if (node.Status == null)
             {
                 return objectIdentifierEncoder.GetEncodedMessage(node);
             }
             else
             {
-                CheckIfValueCompliesWithObjectSyntax(); //TODO
-                return objectEncoder.GetEncodedObject(node,value);
+                if (CheckIfValueCompliesWithObjectSyntax())//TODO
+                {
+                    return objectEncoder.GetEncodedObject(node, value);
+                }
+
+                return "Input doesn't comply with syntax of object";
             }
         }
 
-        private void CheckIfValueCompliesWithObjectSyntax()
+        private bool CheckIfValueCompliesWithObjectSyntax()
         {
-
+            return true;
         }
     }
 }

@@ -24,7 +24,9 @@ namespace SnmpAgent.BerEncoding.Implementation
 
             var encodedValue = valueOctetEncoder.EncodeObjectValue(node.Syntax.Name, inputValue);
 
-            throw new NotImplementedException();
+            var length = messageLengthEncoder.GetEncodedLentgh(encodedValue);
+
+            return tag + length + encodedValue;
         }
     }
 }

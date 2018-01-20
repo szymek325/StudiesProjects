@@ -71,6 +71,10 @@ namespace SnmpAgent.BerEncoding.Implementation
         {
             var inputInInt = int.Parse(messageValue);
             string hexValue = inputInInt.ToString("X2");
+            if (hexValue.Length % 2 != 0)
+            {
+                hexValue = "0" + hexValue;
+            }
             return hexValue;
         }
 
