@@ -59,31 +59,60 @@ namespace SnmpAgent.BerEncoding.Implementation
         private string GetTag(string name)
         {
             var tag=0;
-            switch (name)
+
+            if (name.Contains("integer"))
             {
-                case "integer":
-                    tag = 2;
-                    break;
-                case "octetstring":
-                    tag = 4;
-                    break;
-                //case 6:
-                //    .Tag = "OBJECT IDENTIFIER";
-                //    break;
-                case "sequence":
-                    tag = 16;
-                    break;
-                case "sequenceof":
-                    tag = 16;
-                    break;
-                case "displaystring":
-                    tag = 26;
-                    break;
-                default:
-                    Console.WriteLine($"CLassName not found: {name}. Please try again");
-                    Console.ReadKey();
-                    break;
+                tag = 2;
             }
+            else if (name.Contains("octetstring"))
+            {
+                tag = 4;
+            }
+            else if (name.Contains("sequence"))
+            {
+                tag = 16;
+            }
+            else if (name.Contains("sequenceof"))
+            {
+                tag = 16;
+            }
+            else if (name.Contains("displaystring"))
+            {
+                tag = 26;
+            }
+            else
+            {
+                Console.WriteLine($"CLassName not found: {name}. Please try again");
+                Console.ReadKey();
+            }
+
+
+
+            //switch (name)
+            //{
+            //    case "integer":
+            //        tag = 2;
+            //        break;
+            //    case "octetstring":
+            //        tag = 4;
+            //        break;
+            //    //case 6:
+            //    //    .Tag = "OBJECT IDENTIFIER";
+            //    //    break;
+            //    case "sequence":
+            //        tag = 16;
+            //        break;
+            //    case "sequenceof":
+            //        tag = 16;
+            //        break;
+            //    case "displaystring":
+            //        tag = 26;
+            //        break;
+            //    default:
+            //        Console.WriteLine($"CLassName not found: {name}. Please try again");
+            //        Console.ReadKey();
+            //        break;
+            //}
 
             var tagString = Convert.ToString(tag, 2); //Convert to binary in a string
 

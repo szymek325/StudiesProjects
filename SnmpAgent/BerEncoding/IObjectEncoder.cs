@@ -4,6 +4,6 @@ namespace SnmpAgent.BerEncoding
 {
     public interface IObjectEncoder
     {
-        string GetEncodedObject(DependencyTreeNode node);
+        string GetEncodedObject(DependencyTreeNode node,string inputValue);
     }
 }

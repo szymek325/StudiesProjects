@@ -18,9 +18,11 @@ namespace SnmpAgent.BerEncoding.Implementation
             this.valueOctetEncoder = valueOctetEncoder;
         }
 
-        public string GetEncodedObject(DependencyTreeNode node)
+        public string GetEncodedObject(DependencyTreeNode node, string inputValue)
         {
             var tag = identifierOctetEncoder.GetEncodedMessageTag(node.Syntax);
+
+            var encodedValue = valueOctetEncoder.EncodeObjectValue(node.Syntax.Name, inputValue);
 
             throw new NotImplementedException();
         }

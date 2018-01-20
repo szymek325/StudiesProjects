@@ -25,7 +25,7 @@ namespace SnmpAgent.BerEncoding.Implementation
             else
             {
                 CheckIfValueCompliesWithObjectSyntax(); //TODO
-                return objectEncoder.GetEncodedObject(node);
+                return objectEncoder.GetEncodedObject(node,value);
             }
         }
 

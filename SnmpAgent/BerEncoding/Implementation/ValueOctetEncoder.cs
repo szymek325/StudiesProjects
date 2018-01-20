@@ -1,9 +1,35 @@
-﻿using SnmpAgent.BerEncoding.Interfaces;
+﻿using System;
+using SnmpAgent.BerEncoding.Interfaces;
 
 namespace SnmpAgent.BerEncoding.Implementation
 {
     public class ValueOctetEncoder : IValueOctetEncoder
     {
+        private string messageValue;
+        public string EncodeObjectValue(string syntaxName, string valueToEncode)
+        {
+            messageValue = valueToEncode;
+            var trimmedSyntaxName = syntaxName.Replace(" ", "").ToLower();
+
+            if (trimmedSyntaxName.Contains("integer"))
+            {
+                return GetInteger();
+            }
+            else if (trimmedSyntaxName.Contains("octetstring"))
+            {
+                return GetOctetString();
+            }
+            else if (trimmedSyntaxName.Contains("visiblestring"))
+            {
+                return GetVisibleString();
+            }
+            else if (trimmedSyntaxName.Contains("displaystring"))
+            {
+                return GetVisibleString();
+            }
+            throw new NotImplementedException();
+        }
+
         public string EncodeOid(string oid)
         {
             var delimiter = '.';
@@ -30,5 +56,24 @@ namespace SnmpAgent.BerEncoding.Implementation
 
             return output;
         }
+
+        private string GetVisibleString()
+        {
+            throw new NotImplementedException();
+        }
+
+        private string GetOctetString()
+        {
+           throw new NotImplementedException();
+        }
+
+        private string GetInteger()
+        {
+            var inputInInt = int.Parse(messageValue);
+            string hexValue = inputInInt.ToString("X2");
+            return hexValue;
+        }
+
+
     }
 }
