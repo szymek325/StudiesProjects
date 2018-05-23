@@ -2,14 +2,14 @@ import logging
 import datetime
 
 from configuration_global.config_reader import ConfigReader
-from domain.directory_manager import DirectoryManager
 from configuration_global.singleton import Singleton
+from core.directory_manager import DirectoryManager
 
 
 class LoggerFactory(metaclass=Singleton):
 
     def __init__(self):
-        self.logger = logging.getLogger('FaceRecognitionLogger')
+        self.logger = logging.getLogger('EyesDetection')
         self.directory = DirectoryManager()
         self.config = ConfigReader()
         self.logger_path = self.config.logs_path

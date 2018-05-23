@@ -24,3 +24,7 @@ class ConfigReader:
     @property
     def negative_binary_data_path(self):
         return os.path.join(self.project_directory, self.configuration["negative_binary_data_path"])
+
+    @property
+    def logs_path(self):
+        return os.path.join(self.project_directory, self.configuration["logs_path"])
