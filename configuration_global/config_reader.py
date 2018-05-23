@@ -28,3 +28,7 @@ class ConfigReader:
     @property
     def logs_path(self):
         return os.path.join(self.project_directory, self.configuration["logs_path"])
+
+    @property
+    def temporary_files_path(self):
+        return os.path.join(self.project_directory, self.configuration["temporary_files_path"])

@@ -3,6 +3,7 @@
   "positive_binary_data_path": "trainingData/positive/binary/",
   "negative_data_path": "trainingData/negative/",
   "negative_binary_data_path": "trainingData/negative/binary/",
-  "logs_path": "temp/logs"
+  "logs_path": "temp/logs",
+  "temporary_files_path": "temp/files/"
 }
 
