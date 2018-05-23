@@ -1,5 +1,5 @@
 import shutil
-from os import path, listdir, os
+import os
 
 from configuration_global.config_reader import ConfigReader
 from configuration_global.exception_handler import exception
@@ -18,11 +18,11 @@ class DirectoryManager():
     #     return image_paths
 
     def get_files_from_directory(self, source_path):
-        image_paths = [path.join(source_path, f) for f in listdir(source_path)]
+        image_paths = [os.path.join(source_path, f) for f in os.listdir(source_path)]
         return image_paths
 
     def get_filenames_from_directory(self, directory):
-        files = [f for f in listdir(directory)]
+        files = [f for f in os.listdir(directory)]
         return files
 
     @exception
@@ -31,6 +31,6 @@ class DirectoryManager():
             os.makedirs(directory)
 
     @exception
-    def clean_face_detection_requests(self, directory):
+    def clean_directory(self, directory):
         if os.path.exists(directory):
             shutil.rmtree(directory)
