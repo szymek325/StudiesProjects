@@ -20,16 +20,17 @@ class NeuralNetworkTester():
     def test_neural_network(self, nn_name="weights-classifier-cnn"):
         self.logger.info("Running neural network tests")
         classifier = self.__load_neural_network__(nn_name)
-        cats_path = os.path.join(self.config.test_data_path, "cat")
-        dogs_path = os.path.join(self.config.test_data_path, "dog")
-        cats = self.directoryManager.get_files_from_directory(cats_path)
-        dogs = self.directoryManager.get_files_from_directory(dogs_path)
-        for cat in cats:
-            result = self.__test__image__(cat, classifier, "cat")
-            self.resultInterpreter.compare_result(cat, result, "cat")
-        for dog in dogs:
-            result = self.__test__image__(dog, classifier, "dog")
-            self.resultInterpreter.compare_result(dog, result, "dog")
+        cats_path = os.path.join(self.config.test_data_path, "eye")
+        dogs_path = os.path.join(self.config.test_data_path, "other")
+        eyes = self.directoryManager.get_files_from_directory(cats_path)
+        others = self.directoryManager.get_files_from_directory(dogs_path)
+        for eye in eyes:
+            result = self.__test__image__(eye, classifier)
+            self.resultInterpreter.compare_result(eye, result, "eye")
+        for other in others:
+            result = self.__test__image__(other, classifier)
+            self.resultInterpreter.compare_result(other, result, "other")
+        self.resultInterpreter.get_final_result()
 
     def __test__image__(self, file_name, classifier):
         test_image = self.imagesProvider.get_image(file_name)
@@ -41,4 +42,3 @@ class NeuralNetworkTester():
         path_to_nn_weights = os.path.join(self.config.neural_networks_path, f"{nn_to_load}.hdf5")
         classifier.load_weights(path_to_nn_weights)
         return classifier
-
