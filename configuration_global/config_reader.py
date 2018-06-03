@@ -10,6 +10,14 @@ class ConfigReader:
         self.configuration = json.load(open(f"{self.dir_path}/config.json"))
 
     @property
+    def training_data_path(self):
+        return os.path.join(self.project_directory, self.configuration["training_data_path"])
+
+    @property
+    def test_data_path(self):
+        return os.path.join(self.project_directory, self.configuration["test_data_path"])
+
+    @property
     def positive_data_path(self):
         return os.path.join(self.project_directory, self.configuration["positive_data_path"])
 
@@ -17,13 +25,6 @@ class ConfigReader:
     def negative_data_path(self):
         return os.path.join(self.project_directory, self.configuration["negative_data_path"])
 
-    @property
-    def positive_binary_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["positive_binary_data_path"])
-
-    @property
-    def negative_binary_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["negative_binary_data_path"])
 
     @property
     def logs_path(self):
