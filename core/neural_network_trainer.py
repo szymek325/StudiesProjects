@@ -25,7 +25,8 @@ class NeuralNetworkTrainer():
                 self.__train_nn__(nn_name)
             else:
                 self.logger.error(
-                    f"Neural network called :{nn_name} already exists. Overwrite is not enabled in cofnig. Skipping training")
+                    f"Neural network called :{nn_name} already exists. "
+                    f"Overwrite is not enabled in cofnig. Skipping training")
         else:
             self.logger.info(f"Training neural network : {nn_name}")
             self.__train_nn__(nn_name)

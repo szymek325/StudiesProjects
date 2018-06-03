@@ -9,9 +9,9 @@ class ResultInterpreter():
 
     def compare_result(self, file_name, actual_result, expected_value):
         if actual_result[0][0] == 1:
-            prediction = 'other'
+            prediction = 'positive'
         else:
-            prediction = 'eye'
+            prediction = 'negative'
         is_answer_correct = prediction == expected_value
         if is_answer_correct:
             self.correct = self.correct + 1

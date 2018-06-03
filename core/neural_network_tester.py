@@ -20,16 +20,14 @@ class NeuralNetworkTester():
     def test_neural_network(self, nn_name="weights-classifier-cnn"):
         self.logger.info("Running neural network tests")
         classifier = self.__load_neural_network__(nn_name)
-        cats_path = os.path.join(self.config.test_data_path, "eye")
-        dogs_path = os.path.join(self.config.test_data_path, "other")
-        eyes = self.directoryManager.get_all_images_from_all_subdirectories(cats_path)
-        others = self.directoryManager.get_all_images_from_all_subdirectories(dogs_path)
-        for eye in eyes:
-            result = self.__test__image__(eye, classifier)
-            self.resultInterpreter.compare_result(eye, result, "eye")
-        for other in others:
-            result = self.__test__image__(other, classifier)
-            self.resultInterpreter.compare_result(other, result, "other")
+        positives = self.directoryManager.get_all_images_from_all_subdirectories(self.config.positive_data_path)
+        negatives = self.directoryManager.get_all_images_from_all_subdirectories(self.config.negative_data_path)
+        for positive in positives:
+            result = self.__test__image__(positive, classifier)
+            self.resultInterpreter.compare_result(positive, result, "positive")
+        for negative in negatives:
+            result = self.__test__image__(negative, classifier)
+            self.resultInterpreter.compare_result(negative, result, "negative")
         self.resultInterpreter.get_final_result()
 
     def __test__image__(self, file_name, classifier):
