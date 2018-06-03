@@ -35,10 +35,10 @@ class NeuralNetworkTrainer():
         training_set = self.dataProvider.get_training_data_set()
         test_set = self.dataProvider.get_test_data_set()
         classifier.fit_generator(training_set,
-                                 steps_per_epoch=1000,
-                                 epochs=2,
+                                 steps_per_epoch=8000,
+                                 epochs=5,
                                  validation_data=test_set,
-                                 validation_steps=1000)
+                                 validation_steps=2000)
 
         save_path = os.path.join(self.config.neural_networks_path, f"{new_nn_name}.hdf5")
         classifier.save_weights(save_path, overwrite=True)

@@ -22,8 +22,8 @@ class NeuralNetworkTester():
         classifier = self.__load_neural_network__(nn_name)
         cats_path = os.path.join(self.config.test_data_path, "eye")
         dogs_path = os.path.join(self.config.test_data_path, "other")
-        eyes = self.directoryManager.get_all_files_from_directory_and_subdirectories(cats_path)
-        others = self.directoryManager.get_all_files_from_directory_and_subdirectories(dogs_path)
+        eyes = self.directoryManager.get_all_images_from_all_subdirectories(cats_path)
+        others = self.directoryManager.get_all_images_from_all_subdirectories(dogs_path)
         for eye in eyes:
             result = self.__test__image__(eye, classifier)
             self.resultInterpreter.compare_result(eye, result, "eye")
