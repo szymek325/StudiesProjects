@@ -18,8 +18,13 @@ class NeuralNetworkTrainer():
         file_name = f"{nn_name}.hdf5"
         if file_name in nn_files:
             if self.config.overwrite_old_nn:
-                self.__train_nn__(nn_files)
+                self.logger.info(f"Overwriting neural network : {nn_name}")
+                self.__train_nn__(nn_name)
+            else:
+                self.logger.error(
+                    f"Neural network called :{nn_name} already exists. Overwrite is not enabled in cofnig. Skipping training")
         else:
+            self.logger.info(f"Training neural network : {nn_name}")
             self.__train_nn__(nn_name)
 
     def __train_nn__(self, new_nn_name):
