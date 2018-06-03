@@ -7,7 +7,7 @@ from keras.layers import Dense
 
 class CnnCreator():
 
-    def create_neural_network(self):
+    def get_neural_network(self):
         classifier = Sequential()
         # Step 1 - Convolution
         classifier.add(Conv2D(32, (3, 3), input_shape=(64, 64, 3), activation='relu'))

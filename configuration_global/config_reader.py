@@ -10,6 +10,14 @@ class ConfigReader:
         self.configuration = json.load(open(f"{self.dir_path}/config.json"))
 
     @property
+    def overwrite_old_nn(self):
+        return self.configuration["overwrite_old_nn"]
+
+    @property
+    def neural_networks_path(self):
+        return self.configuration["neural_networks_path"]
+
+    @property
     def training_data_path(self):
         return os.path.join(self.project_directory, self.configuration["training_data_path"])
 
@@ -25,7 +33,6 @@ class ConfigReader:
     def negative_data_path(self):
         return os.path.join(self.project_directory, self.configuration["negative_data_path"])
 
-
     @property
     def logs_path(self):
         return os.path.join(self.project_directory, self.configuration["logs_path"])
@@ -33,3 +40,7 @@ class ConfigReader:
     @property
     def temporary_files_path(self):
         return os.path.join(self.project_directory, self.configuration["temporary_files_path"])
+
+    @property
+    def pre_trained_neural_network_name(self):
+        return os.path.join(self.project_directory, self.configuration["pre_trained_neural_network_name"])
