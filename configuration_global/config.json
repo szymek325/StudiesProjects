@@ -1,8 +1,10 @@
 {
   "training_data_path": "dataSet/training_set",
   "test_data_path": "dataSet/test_set",
-  "positive_data_path": "dataSet/training_set/positive/",
-  "negative_data_path": "dataSet/training_set/negative/",
+  "positive_training_data_path": "dataSet/training_set/positive/",
+  "negative_training_data_path": "dataSet/training_set/negative/",
+  "positive_testing_data_path": "dataSet/test_set/positive/",
+  "negative_testing_data_path": "dataSet/test_set/negative/",
   "logs_path": "temp/logs",
   "temporary_files_path": "temp/files/",
   "neural_networks_path": "neural_networks/",

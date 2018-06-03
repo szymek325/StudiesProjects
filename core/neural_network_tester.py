@@ -20,8 +20,8 @@ class NeuralNetworkTester():
     def test_neural_network(self, nn_name="weights-classifier-cnn"):
         self.logger.info("Running neural network tests")
         classifier = self.__load_neural_network__(nn_name)
-        positives = self.directoryManager.get_all_images_from_all_subdirectories(self.config.positive_data_path)
-        negatives = self.directoryManager.get_all_images_from_all_subdirectories(self.config.negative_data_path)
+        positives = self.directoryManager.get_all_images_from_all_subdirectories(self.config.positive_testing_data_path)
+        negatives = self.directoryManager.get_all_images_from_all_subdirectories(self.config.negative_testing_data_path)
         for positive in positives:
             result = self.__test__image__(positive, classifier)
             self.resultInterpreter.compare_result(positive, result, "positive")

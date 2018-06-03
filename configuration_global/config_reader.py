@@ -26,12 +26,20 @@ class ConfigReader:
         return os.path.join(self.project_directory, self.configuration["test_data_path"])
 
     @property
-    def positive_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["positive_data_path"])
+    def positive_training_data_path(self):
+        return os.path.join(self.project_directory, self.configuration["positive_training_data_path"])
 
     @property
-    def negative_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["negative_data_path"])
+    def negative_training_data_path(self):
+        return os.path.join(self.project_directory, self.configuration["negative_training_data_path"])
+
+    @property
+    def positive_testing_data_path(self):
+        return os.path.join(self.project_directory, self.configuration["positive_testing_data_path"])
+
+    @property
+    def negative_testing_data_path(self):
+        return os.path.join(self.project_directory, self.configuration["negative_testing_data_path"])
 
     @property
     def logs_path(self):
