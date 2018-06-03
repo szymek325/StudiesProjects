@@ -5,6 +5,7 @@ from configuration_global.logger_factory import LoggerFactory
 from core.cnn_creator import CnnCreator
 from core.converted_image_provider import ConvertedImageProvider
 from core.directory_manager import DirectoryManager
+from core.result_interpreter import ResultInterpreter
 
 
 class NeuralNetworkTester():
@@ -14,6 +15,7 @@ class NeuralNetworkTester():
         self.cnnCreator = CnnCreator()
         self.imagesProvider = ConvertedImageProvider()
         self.directoryManager = DirectoryManager()
+        self.resultInterpreter = ResultInterpreter()
 
     def test_neural_network(self, nn_name="weights-classifier-cnn"):
         self.logger.info("Running neural network tests")
@@ -23,14 +25,16 @@ class NeuralNetworkTester():
         cats = self.directoryManager.get_files_from_directory(cats_path)
         dogs = self.directoryManager.get_files_from_directory(dogs_path)
         for cat in cats:
-            self.__test__image__(cat, classifier, "cat")
+            result = self.__test__image__(cat, classifier, "cat")
+            self.resultInterpreter.compare_result(cat, result, "cat")
         for dog in dogs:
-            self.__test__image__(dog, classifier, "dog")
+            result = self.__test__image__(dog, classifier, "dog")
+            self.resultInterpreter.compare_result(dog, result, "dog")
 
-    def __test__image__(self, cat, classifier, expected):
-        test_image = self.imagesProvider.get_image(cat)
+    def __test__image__(self, file_name, classifier):
+        test_image = self.imagesProvider.get_image(file_name)
         result = classifier.predict(test_image, verbose='0')
-        self.__compare_result__(result, expected)
+        return result
 
     def __load_neural_network__(self, nn_to_load):
         classifier = self.cnnCreator.get_neural_network()
@@ -38,12 +42,3 @@ class NeuralNetworkTester():
         classifier.load_weights(path_to_nn_weights)
         return classifier
 
-    def __compare_result__(self, nn_result, expected_value):
-        if nn_result[0][0] == 1:
-            prediction = 'dog'
-        else:
-            prediction = 'cat'
-        is_answer_correct = prediction == expected_value
-        self.logger.info(
-            f"Result value: {nn_result[0][0]} \nResult: {prediction} "
-            f"\nExpected: {expected_value} \nAnswer is {is_answer_correct} \n \n")

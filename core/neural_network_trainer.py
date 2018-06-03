@@ -1,3 +1,5 @@
+import os
+
 from configuration_global.config_reader import ConfigReader
 from configuration_global.logger_factory import LoggerFactory
 from core.cnn_creator import CnnCreator
@@ -32,10 +34,10 @@ class NeuralNetworkTrainer():
         training_set = self.dataProvider.get_training_data_set()
         test_set = self.dataProvider.get_test_data_set()
         classifier.fit_generator(training_set,
-                                 steps_per_epoch=8000,
+                                 steps_per_epoch=1000,
                                  epochs=2,
                                  validation_data=test_set,
-                                 validation_steps=2000)
+                                 validation_steps=1000)
 
-        fname = f"{new_nn_name}.hdf5"
-        classifier.save_weights(fname, overwrite=True)
+        save_path = os.path.join(self.config.neural_networks_path, f"{new_nn_name}.hdf5")
+        classifier.save_weights(save_path, overwrite=True)
