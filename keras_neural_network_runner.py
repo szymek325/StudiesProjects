@@ -11,6 +11,7 @@ class KerasNeuralNetworkRunner():
 
     def run(self):
         self.logger.info("Starting run")
+        self.nnTester.test_neural_network()
 
 
 if __name__ == "__main__":
