@@ -37,7 +37,7 @@ class NeuralNetworkTrainer():
         test_set = self.dataProvider.get_test_data_set()
         classifier.fit_generator(training_set,
                                  steps_per_epoch=1000,
-                                 epochs=5,
+                                 epochs=50,
                                  validation_data=test_set,
                                  validation_steps=250)
 

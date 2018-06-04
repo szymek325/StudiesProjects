@@ -11,8 +11,8 @@ class KerasNeuralNetworkRunner():
 
     def run(self):
         self.logger.info("Starting run")
-        self.nnTrainer.train_neural_network("test3")
-        self.nnTester.test_neural_network("test3")
+        self.nnTrainer.train_neural_network("test4")
+        self.nnTester.test_neural_network("test4")
 
 
 if __name__ == "__main__":
