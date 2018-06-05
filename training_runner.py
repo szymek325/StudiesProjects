@@ -1,20 +1,17 @@
 from configuration_global.logger_factory import LoggerFactory
-from core.neural_network_tester import NeuralNetworkTester
 from core.neural_network_trainer import NeuralNetworkTrainer
 
 
-class KerasNeuralNetworkRunner():
+class TrainingRunner():
     def __init__(self):
         self.logger = LoggerFactory()
         self.nnTrainer = NeuralNetworkTrainer()
-        self.nnTester = NeuralNetworkTester()
 
     def run(self):
-        self.logger.info("Starting run")
+        self.logger.info("Starting training process")
         self.nnTrainer.train_neural_network("test4")
-        self.nnTester.test_neural_network("test4")
 
 
 if __name__ == "__main__":
-    runner = KerasNeuralNetworkRunner()
+    runner = TrainingRunner()
     runner.run()

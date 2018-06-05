@@ -18,8 +18,9 @@ class NeuralNetworkTrainer():
     def train_neural_network(self, nn_name: "weights-classifier-cnn"):
         nn_files = self.directoryManager.get_files_from_directory(self.config.neural_networks_path)
         file_name = f"{nn_name}.hdf5"
-        file_names = [file.split('/')[-1] for file in nn_files]
-        if file_name in file_names:
+        existing_neural_networks = [file.split('/')[-1] for file in nn_files]
+        does_nn_with_this_name_exist = file_name in existing_neural_networks
+        if does_nn_with_this_name_exist:
             if self.config.overwrite_old_nn:
                 self.logger.info(f"Overwriting neural network : {nn_name}")
                 self.__train_nn__(nn_name)
@@ -37,7 +38,7 @@ class NeuralNetworkTrainer():
         test_set = self.dataProvider.get_test_data_set()
         classifier.fit_generator(training_set,
                                  steps_per_epoch=1000,
-                                 epochs=5,
+                                 epochs=50,
                                  validation_data=test_set,
                                  validation_steps=250)
 
