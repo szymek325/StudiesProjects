@@ -1,5 +1,6 @@
 import json
 import os
+import platform
 
 
 class ConfigReader:
@@ -15,40 +16,56 @@ class ConfigReader:
 
     @property
     def neural_networks_path(self):
-        return self.configuration["neural_networks_path"]
+        path = self.configuration["neural_networks_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def training_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["training_data_path"])
+        path = self.configuration["training_data_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def test_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["test_data_path"])
+        path = self.configuration["test_data_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def positive_training_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["positive_training_data_path"])
+        path = self.configuration["positive_training_data_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def negative_training_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["negative_training_data_path"])
+        path = self.configuration["negative_training_data_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def positive_testing_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["positive_testing_data_path"])
+        path = self.configuration["positive_testing_data_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def negative_testing_data_path(self):
-        return os.path.join(self.project_directory, self.configuration["negative_testing_data_path"])
+        path = self.configuration["negative_testing_data_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def logs_path(self):
-        return os.path.join(self.project_directory, self.configuration["logs_path"])
+        path = self.configuration["logs_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def temporary_files_path(self):
-        return os.path.join(self.project_directory, self.configuration["temporary_files_path"])
+        path = self.configuration["temporary_files_path"]
+        return self.__modify_accordingly_to_operating_system__(path)
 
     @property
     def pre_trained_neural_network_name(self):
-        return os.path.join(self.project_directory, self.configuration["pre_trained_neural_network_name"])
+        return self.configuration["pre_trained_neural_network_name"]
+
+    def __modify_accordingly_to_operating_system__(self, path):
+        if platform.system() == "Windows":
+            path = os.path.join(self.project_directory, path)
+        else:
+            path = './' + path
+        return path
