@@ -6,6 +6,7 @@ from core.cnn_creator import CnnCreator
 from core.converted_image_provider import ConvertedImageProvider
 from core.directory_manager import DirectoryManager
 from core.result_interpreter import ResultInterpreter
+import numpy as np
 
 
 class NeuralNetworkTester():
@@ -32,7 +33,19 @@ class NeuralNetworkTester():
 
     def __test__image__(self, file_name, classifier):
         test_image = self.imagesProvider.get_image(file_name)
-        result = classifier.predict(test_image, verbose='0')
+        height, width= test_image.shape[1:3]
+        print(height)
+        print(width)
+        for i in range(0, height-23):
+            for j in range(0, width-23):
+                subimage = test_image[:, i:i+24, j:j+24, :]
+                print(subimage)
+                result = classifier.predict(subimage, verbose='0')
+
+                print("step")
+
+
+
         return result
 
     def __load_neural_network__(self, nn_to_load):
