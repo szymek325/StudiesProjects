@@ -41,11 +41,10 @@ class NeuralNetworkTester():
                 subimage = test_image[:, i:i+24, j:j+24, :]
                 print(subimage)
                 result = classifier.predict(subimage, verbose='0')
-
-                print("step")
-
-
-
+                if result[0][0] == 1:
+                    print("Eye found. Location: {0} x {1}".format(i, j))
+                    return result
+        print("Eye not found")
         return result
 
     def __load_neural_network__(self, nn_to_load):
