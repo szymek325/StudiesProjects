@@ -39,7 +39,7 @@ class NeuralNetworkTester():
         for i in range(0, height-23):
             for j in range(0, width-23):
                 subimage = test_image[:, i:i+24, j:j+24, :]
-                print(subimage)
+
                 result = classifier.predict(subimage, verbose='0')
                 if result[0][0] == 1:
                     print("Eye found. Location: {0} x {1}".format(i, j))
