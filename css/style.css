@@ -1,0 +1,88 @@
+#view{
+    margin-right: 1%;
+    margin-left: 1%;
+    margin-top:1%;
+    margin-bottom:1%;
+    background-color: #e6e6e6;
+    border: solid 1px grey;
+}
+#content{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: #f2f2f2;
+}
+
+#tresc{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    /*background-color: #e6e6e6;*/
+}
+#menu{
+    padding-bottom:3%;
+}
+.header{
+    padding-top:1%;
+    padding-bottom:1.5%;
+}
+.row{
+    padding-bottom: 10px;
+}
+#slajder{
+    margin-right: 10%;
+    margin-left: 10%;
+}
+.suwak80{
+    margin-left:10%;
+}
+
+#panel{
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+.orange{
+	background-color:#ff9900;
+	color: white;
+}
+#but50{
+    width:50%;
+}
+#but40{
+    width:40%;
+}
+#but30{
+    width:30%;
+}
+
+
+
+input[type=range]{
+    -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: goldenrod;
+    margin-top: -4px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
