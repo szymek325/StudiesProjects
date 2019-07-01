@@ -1,0 +1,14 @@
+{
+  "training_data_path": "dataset/training_set",
+  "test_data_path": "dataset/test_set",
+  "positive_training_data_path": "dataset/training_set/positive/",
+  "negative_training_data_path": "dataset/training_set/negative/",
+  "positive_testing_data_path": "dataset/test_set/positive/",
+  "negative_testing_data_path": "dataset/test_set/negative/",
+  "logs_path": "temp/logs",
+  "temporary_files_path": "temp/files/",
+  "neural_networks_path": "neural_networks/",
+  "overwrite_old_nn": false,
+  "pre_trained_neural_network_name" :"weights-classifier-cnn.hdf5"
+}
+
